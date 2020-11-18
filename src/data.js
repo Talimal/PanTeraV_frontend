@@ -31,7 +31,20 @@ export default {
 			name: 'Turquoise',
 			textProps: {x: -25, y: 25},
 			color: 'turquoise',
-			children: []
+			children: [
+				{
+					name: 'Gentle blue',
+					textProps: {x: -25, y: 25},
+					color: 'aquamarine',
+					children: []
+				},
+				{
+					name: 'Hot blue',
+					textProps: {x: -25, y: 25},
+					color: 'aquamarine',
+					children: []
+				}
+			]
 		}]
 	}, {
 		name: 'Green',
@@ -88,5 +101,6 @@ export default {
 		textProps: {x: -25, y: 25},
 		color: 'yellow',
 		children: []
-	}]
+	}
+]
 }

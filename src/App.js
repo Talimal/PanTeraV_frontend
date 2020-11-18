@@ -1,40 +1,40 @@
-import React,  { useState } from 'react';
-import Tree from 'react-tree-graph';
+import React,  { Children, useState } from 'react';
 import 'react-tree-graph/dist/style.css';
 import data from './data';
 import './App.css';
+import Parent from './Parent';
 
 
 const App = (props) => {
 
-  const [root, setRoot] = useState(data.name);
-  const [children, setChildren] = useState(data.children);
+  const [root, setRoot] = useState(data);
+  const [children, setChildren] = useState(root.children);
+  let history={};
 
 
-  const handleClick = (event, node) => {
-    console.log('handle click ', event);
-    console.log('handle click node', node);
-    alert(`${node} got clicked`);
+  const addToHistory = (rootObject)=>{
+    console.log(rootObject.name);
+    console.log(rootObject.children);
+    history[rootObject.name]=rootObject.children;
+    console.log("history is: "+history.length);
   }
-  console.log(root);
-  console.log(children);
 
+  const getLastRoot = ()=>{
+    console.log("history on app : "+history)
+    let last = history[history.length-1];
+    console.log("root is: "+last);
+    // setRoot(last);
+    // setChildren(root.children);
+    return last;
+  }
 
   return (
-    <Tree
-      animated={true}
-      data={data}
-      nodeRadius={15}
-      margins={{ top: 20, bottom: 10, left: 20, right: 200 }}
-      gProps={{
-        className: 'node',
-        onClick: handleClick
-      }}
-      height={1100}
-      width={960}
-      // svgProps={{
-      //   transform: 'rotate(90)'}}
-      />
+    <Parent root={root}
+      children={children}
+      addToHistory={addToHistory}
+      getLastRoot={getLastRoot}
+    >
+    </Parent>
   );
 }
 
