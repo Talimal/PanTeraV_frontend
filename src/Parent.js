@@ -56,26 +56,13 @@ const Parent = (props) => {
   
    
     return (
-        <div>
-            <ul>
-                <li>
+        <div className="flex-container">
+            <div className="flex-container-nodes">
                     <div className="root">
                         <button>{root.name}</button>
                     </div>
-                </li>
                 <div className="children">Children:
-                    
-                        {/* {firstPresented!=null?
-                            firstPresented.map((item, index) => {
-                                return (
-                                    <li>
-                                        <div className="node" index={index}>
-                                            <button>{item.name}</button>
-                                        </div>
-                                    </li>
-                                );
-                            })
-                        : */}
+                    <ul>
                         {presented.map((item, index) => {
                             return (
                                 <li>
@@ -85,20 +72,14 @@ const Parent = (props) => {
                                 </li>
                             );
                         })}
-                        
-                        {/* {moreToShow?<li>
-                                    <div className="more">
-                                        <button onClick={handleClickMore}>more</button>
-                                    </div>
-                                </li>:null} */}
+                    </ul>
                 </div>
-
-            </ul>
-            <button onClick={handleClickPrevious}>Previous</button>
-            <button onClick={handleClickMore}>Show more</button>
-
+            </div>
+            <div className="flex-container-buttons">
+                <button onClick={handleClickPrevious}>Previous</button>
+                <button onClick={handleClickMore}>Show more</button>
+            </div>
         </div>
-
 
     );
   }

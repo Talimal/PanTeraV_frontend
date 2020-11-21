@@ -30,3 +30,18 @@
     height: 50px;
     border-radius: 50px;
 }
+
+.flex-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-container-nodes{
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-container-buttons{
+    display: flex;
+    flex-direction: row;
+}
