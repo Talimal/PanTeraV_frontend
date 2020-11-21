@@ -76,3 +76,18 @@ span {
 	stroke: purple;
 	stroke-width: 1.5px;
 }
+
+.nav{
+	height: 5em;
+	background-color: aqua;
+	display: flex;
+	flex-direction: row;
+}
+
+.nav a{
+	height: 2em;
+	font-size: x-large;
+	color: black;
+	margin-right: 5em;
+
+}

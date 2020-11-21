@@ -19,22 +19,41 @@ const App = (props) => {
     console.log("history is: "+history.length);
   }
 
-  const getLastRoot = ()=>{
-    console.log("history on app : "+history)
-    let last = history[history.length-1];
-    console.log("root is: "+last);
+  const findFather = (rootNode,data)=>{
+    data.children.forEach(node => {
+      let nodesChildren = node.children.map((child)=>child.name);
+      if (nodesChildren.includes(rootNode.name)) return node;
+      else
+        node.children.forEach(nodeChild=>{
+          findFather(rootNode,nodeChild);
+        })
+    });
+  }
+
+
+  const handleClickPrevious = (rootNode)=>{
+    return findFather(rootNode,data);
     // setRoot(last);
     // setChildren(root.children);
-    return last;
   }
 
   return (
-    <Parent root={root}
-      children={children}
-      addToHistory={addToHistory}
-      getLastRoot={getLastRoot}
-    >
-    </Parent>
+    <div className="mainPage">
+      <div className="nav">
+        <nav>
+          <a> upload data</a>
+          <a> entities </a>
+          <a> links</a>
+          <a> photos</a>
+        </nav>
+      </div>
+      <Parent root={root}
+        children={children}
+        addToHistory={addToHistory}
+        handleClickPrevious={handleClickPrevious}
+      >
+      </Parent>
+    </div>
   );
 }
 

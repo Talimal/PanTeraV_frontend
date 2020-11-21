@@ -1,7 +1,6 @@
 import React,  { useRef, useState } from 'react';
 import './Parent.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Col, Container, Row } from 'react-bootstrap';
 
 
 const Parent = (props) => {
@@ -31,10 +30,14 @@ const Parent = (props) => {
     }
 
     const handleClickPrevious =() => {
-        let prev = props.getLastRoot();
-        console.log("prev on parent: "+prev);
+        // let prev = props.getLastRoot();
+        // console.log("prev on parent: "+prev);
     //     setRoot(lastRoot);
     //     setChildren(lastRoot.children);
+
+    const father = props.handleClickPrevious(root);
+    setRoot(father);
+    setChildren(root.children);
     }
 
     const handleClickMore = (event) => {
@@ -63,10 +66,10 @@ const Parent = (props) => {
                     </div>
                 <div className="children">Children:
                     <ul>
-                        {presented.map((item, index) => {
+                        {presented.map((item,index) => {
                             return (
-                                <li>
-                                    <div className={item.children.length>0?"nodeComplex":"nodeSimple"}  key={index}>
+                                <li key={index}>
+                                    <div className={item.children.length>0?"nodeComplex":"nodeSimple"} >
                                         <button onClick={()=>handleClick(item)}>{item.name}</button>
                                     </div>
                                 </li>
