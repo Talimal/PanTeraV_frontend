@@ -19,42 +19,92 @@ const Parent = (props) => {
         presented=children;
     }
 
-
+    /* every moment, one root and it's children are presented.
+        this function gets a node and sets the root as the selected
+        node and updated the children to the selected node's children.
+    */
     const handleClick = (node) => {
-        console.log("root of parent is: "+root.name);
-        // let rootName=root.name;
-        // let rootChildren = root.children;
-        props.addToHistory(root);
         setRoot(node);
         setChildren(node.children);
     }
 
+    /* every moment, one root and it's children are presented.
+        this function needs to present the previous root
+         (the father of current root)
+    */
     const handleClickPrevious =() => {
-        // let prev = props.getLastRoot();
-        // console.log("prev on parent: "+prev);
-    //     setRoot(lastRoot);
-    //     setChildren(lastRoot.children);
-
-    const father = props.handleClickPrevious(root);
-    setRoot(father);
-    setChildren(root.children);
+        //getting father of current root
+        const father = props.handleClickPrevious(root);
+        if(father!=null){
+            setRoot(father);
+            setChildren(father.children);
+        }
+        else{
+            alert(root.name+" is the root");
+        }
     }
 
+    /* every moment, only 3 children max presented.
+        this function needs to present the children after those presented 
+        right now.
+    */
     const handleClickMore = (event) => {
+        //there are more children to present
         if(notPresented.current.length>0){
+            //there are more than 3 children to present next (>=4)
             if(notPresented.length>3){
                 let notPresentedCopy=notPresented.current;
+                //the next 3 children to present
                 presented=notPresented.current.slice(0,3);
+                //updating the not presented children after this iteration
                 notPresented.current=subtractTwoArrays(notPresentedCopy,presented);
                 setChildren(presented);
             }
             else{
+                //there are less then 3 more children to present (<=3)
                 presented=notPresented.current;
                 notPresented.current=[];
                 setChildren(presented);
             }
 
         }
+    }
+
+    /* every moment, only 3 children max presented.
+        this function needs to present the children before those presented 
+        right now.
+    */
+    const handleClickLess = (event)=>{
+        //first child right now
+        let firstPresent = presented[0];
+        //all children in this tree level
+        let childrenAll = props.getChildrenOfRoot(root);
+        //index of the first presented child in the array of all children
+        let lastIndex = childrenAll.indexOf(firstPresent);
+        //if there is no previous children
+        if(lastIndex===0){
+            alert(children[0].name+" is the first node");
+        }
+        //there are previous children
+        else{
+            //all the previous children
+            let needToPresent=childrenAll.slice(0,lastIndex);
+            //update the nodes that not present after this iteration
+            notPresented.current=childrenAll.slice(lastIndex,childrenAll.length);
+
+            //there are more than 3 (>=4) previous children
+            if (needToPresent.length>3){
+                //present the 3 closest children to the first current one
+                presented = needToPresent.slice(needToPresent.length-3,needToPresent.length);
+                setChildren(presented);
+            }
+            else{
+                //there is less than 3 (<=3) previoud children
+                presented = needToPresent;
+                setChildren(presented);
+            }
+        }
+
     }
   
    
@@ -81,7 +131,8 @@ const Parent = (props) => {
             <div className="flex-container-buttons">
                 <button onClick={handleClickPrevious}>Previous</button>
                 <button onClick={handleClickMore}>Show more</button>
-            </div>
+                <button onClick={handleClickLess}>Show less</button>
+           </div>
         </div>
 
     );

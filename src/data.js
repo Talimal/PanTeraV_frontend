@@ -1,5 +1,5 @@
 export default {
-	name: 'Colour',
+	name: 'Color',
 	pathProps: {},
 	textProps: {x: -25, y: 25},
 	children: [{

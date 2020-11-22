@@ -1,9 +1,23 @@
 .root{
-    background-color: rgb(231, 42, 42);
-    width: 7em;
+    background-color: rgb(243, 43, 216);
+    width: 5em;
     height: 5em;
-    margin-top: 10%;
-    margin-left: 5%;
+    border-radius: 50px;
+    margin-top: 2em;
+    font-size: large;
+    font-family: cursive;
+    border-right-color: rgb(157, 8, 194);
+    border-right-color: rgb(157, 8, 194);
+    border-width: thick;
+
+}
+
+.root button{
+    background-color: rgb(253, 253, 252);
+    border-radius:30px;
+    margin-top: 1.5em;
+    margin-left: 0.5em;
+
 }
 
 .nodeSimple{
@@ -11,6 +25,14 @@
     width: 5em;
     height: 5em;
     border-radius: 50px;
+}
+
+.nodeSimple button{
+    background-color: rgb(253, 253, 252);
+    border-radius:30px;
+    margin-top: 1.5em;
+    margin-left: 0.5em;
+
 }
 
 .nodeComplex{
@@ -21,7 +43,21 @@
     border-style: solid;
     border-right-color: rgb(16, 19, 5);
     border-left-color: rgb(16, 17, 10);
+    border-width: thick;
 
+}
+
+.nodeComplex button{
+    background-color: rgb(253, 253, 252);
+    border-radius:30px;
+    margin-top: 1.5em;
+    margin-left: 0.5em;
+
+}
+
+.children{
+    font-size: large;
+    font-family: cursive;
 }
 
 .more{
@@ -34,6 +70,8 @@
 .flex-container{
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .flex-container-nodes{
@@ -44,4 +82,21 @@
 .flex-container-buttons{
     display: flex;
     flex-direction: row;
+    margin-top: 3em;
+}
+
+.flex-container-buttons button{
+    margin-left: 1em;
+    margin-right: 1em;
+    background-color: rgb(255, 0, 140);
+    font-family: cursive;
+    font-size: 1.5em;
+}
+
+.root{
+    margin-right: 3em;
+}
+
+.children{
+    margin-left: 3em;
 }

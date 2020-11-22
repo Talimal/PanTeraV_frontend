@@ -1,4 +1,4 @@
-import React,  { Children, useState } from 'react';
+import React from 'react';
 import 'react-tree-graph/dist/style.css';
 import data from './data';
 import './App.css';
@@ -6,35 +6,43 @@ import Parent from './Parent';
 
 
 const App = (props) => {
+  const root=data;
+  const children=root.children;
+  let myMap=new Map();
 
-  const [root, setRoot] = useState(data);
-  const [children, setChildren] = useState(root.children);
-  let history={};
-
-
-  const addToHistory = (rootObject)=>{
-    console.log(rootObject.name);
-    console.log(rootObject.children);
-    history[rootObject.name]=rootObject.children;
-    console.log("history is: "+history.length);
+  const setMap = (node)=>{
+    myMap.set(node,node.children);
+    if (node.children.length>0){
+      node.children.map((child)=>setMap(child));
+    }
+    else
+      {myMap.set(node,[]);
+      }
   }
 
-  const findFather = (rootNode,data)=>{
-    data.children.forEach(node => {
-      let nodesChildren = node.children.map((child)=>child.name);
-      if (nodesChildren.includes(rootNode.name)) return node;
-      else
-        node.children.forEach(nodeChild=>{
-          findFather(rootNode,nodeChild);
-        })
-    });
+  setMap(root);
+ 
+  const findFather = (node)=>{
+    for (let [key, value] of myMap) {
+      if(value.includes(node)){
+         return key;
+      }
+    }
+    return null;
   }
 
 
-  const handleClickPrevious = (rootNode)=>{
-    return findFather(rootNode,data);
-    // setRoot(last);
-    // setChildren(root.children);
+  const handleClickPrevious = (node)=>{
+    let father = findFather(node);
+    return father;
+  }
+
+  const getChildrenOfRoot = (root)=>{
+    for (let [key, value] of myMap) {
+      if(root==key){
+         return value;
+      }
+    }
   }
 
   return (
@@ -49,9 +57,8 @@ const App = (props) => {
       </div>
       <Parent root={root}
         children={children}
-        addToHistory={addToHistory}
         handleClickPrevious={handleClickPrevious}
-      >
+        getChildrenOfRoot={getChildrenOfRoot}>
       </Parent>
     </div>
   );
