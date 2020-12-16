@@ -12,9 +12,14 @@
 
 }
 
+.input{
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
 .root button{
     background-color: rgb(253, 253, 252);
-    border-radius:30px;
+    border-radius:50px;
     margin-top: 1.5em;
     margin-left: 0.5em;
 

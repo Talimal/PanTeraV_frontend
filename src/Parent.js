@@ -2,7 +2,6 @@ import React,  { useRef, useState } from 'react';
 import './Parent.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
 const Parent = (props) => {
 
     const [root, setRoot] = useState(props.root);
@@ -10,7 +9,10 @@ const Parent = (props) => {
     let presented=[];
     const notPresented=useRef([]);
     const subtractTwoArrays = (arr1, arr2) => arr1.filter( el => !arr2.includes(el) )
+    const [search, setSearch] = useState("");
 
+
+    /* deciding on what children to present*/
     if(children.length>3){
         presented=children.slice(0,3);
         notPresented.current=subtractTwoArrays(children,presented);
@@ -106,25 +108,37 @@ const Parent = (props) => {
         }
 
     }
+/* filter and show only requested children*/
+    const filteredChildren = 
+        presented.filter(child => {
+            return child.name.includes(search)
+    })
   
    
     return (
         <div className="flex-container">
+        <input type="text" className="input" placeholder="Search" onChange={e=>setSearch(e.target.value)}/>
             <div className="flex-container-nodes">
                     <div className="root">
                         <button>{root.name}</button>
                     </div>
                 <div className="children">Children:
                     <ul>
-                        {presented.map((item,index) => {
+                        {search === "" ?presented.map((item,index) => {
                             return (
                                 <li key={index}>
                                     <div className={item.children.length>0?"nodeComplex":"nodeSimple"} >
                                         <button onClick={()=>handleClick(item)}>{item.name}</button>
                                     </div>
                                 </li>
-                            );
-                        })}
+                            )}):filteredChildren.map((item,index) => {
+                                return (
+                                    <li key={index}>
+                                        <div className={item.children.length>0?"nodeComplex":"nodeSimple"} >
+                                            <button onClick={()=>handleClick(item)}>{item.name}</button>
+                                        </div>
+                                    </li>
+                                )})}
                     </ul>
                 </div>
             </div>
