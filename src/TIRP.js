@@ -15,4 +15,12 @@ export  default class TIRP {
     getNumSupEnt= ()=> this.numSupportEntities;
     getMeanHorSup= ()=> this.meanHorSup;
     getOccurences= ()=> this.occurences;
+
+   toString = () =>{
+     return "size: "+this.size+", symbols: "
+     +this.symbols+", relations: "+this.relations
+     +", sup ent: "+this.numSupportEntities
+     +", mean hor: "+this.meanHorSup
+     +", occurences: "+this.occurences;
+   }
   }

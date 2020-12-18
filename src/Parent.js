@@ -27,7 +27,7 @@ const Parent = (props) => {
     */
     const handleClick = (node) => {
         setRoot(node);
-        setChildren(node.children);
+        setChildren(props.getChildrenOfRoot(node));
     }
 
     /* every moment, one root and it's children are presented.
@@ -39,10 +39,10 @@ const Parent = (props) => {
         const father = props.handleClickPrevious(root);
         if(father!=null){
             setRoot(father);
-            setChildren(father.children);
+            setChildren(props.getChildrenOfRoot(father));
         }
         else{
-            alert(root.name+" is the root");
+            alert("no previous level");
         }
     }
 
@@ -85,7 +85,7 @@ const Parent = (props) => {
         let lastIndex = childrenAll.indexOf(firstPresent);
         //if there is no previous children
         if(lastIndex===0){
-            alert(children[0].name+" is the first node");
+            alert(children[0].getSize()+" is the first node");
         }
         //there are previous children
         else{
@@ -109,34 +109,39 @@ const Parent = (props) => {
 
     }
 /* filter and show only requested children*/
-    const filteredChildren = 
-        presented.filter(child => {
-            return child.name.includes(search)
-    })
-  
+    const filteredChildren = {}
+    //     presented.filter(child => {
+    //         return child.name.includes(search)
+    // }
+
+const isComplexNode = (tirp)=> {
+    return props.isComplexNode(tirp);
+}
    
     return (
         <div className="flex-container">
         <input type="text" className="input" placeholder="Search" onChange={e=>setSearch(e.target.value)}/>
             <div className="flex-container-nodes">
                     <div className="root">
-                        <button>{root.name}</button>
+                        {/* channges to size */}
+                        <button>{root.getSymbols().length>0?
+                        root.getSymbols():"root"}</button>
                     </div>
                 <div className="children">Children:
                     <ul>
                         {search === "" ?presented.map((item,index) => {
                             return (
                                 <li key={index}>
-                                    <div className={item.children.length>0?"nodeComplex":"nodeSimple"} >
-                                        <button onClick={()=>handleClick(item)}>{item.name}</button>
+                                    <div className={isComplexNode(item)?"nodeComplex":"nodeSimple"} >
+                                        <button onClick={()=>handleClick(item)}>{item.getSymbols()}</button>
                                     </div>
                                 </li>
                             )}):filteredChildren.map((item,index) => {
                                 return (
                                     <li key={index}>
-                                        <div className={item.children.length>0?"nodeComplex":"nodeSimple"} >
+                                        {/* <div className={item.children.length>0?"nodeComplex":"nodeSimple"} >
                                             <button onClick={()=>handleClick(item)}>{item.name}</button>
-                                        </div>
+                                        </div> */}
                                     </li>
                                 )})}
                     </ul>

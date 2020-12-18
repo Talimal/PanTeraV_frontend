@@ -19,7 +19,7 @@
 
 .root button{
     background-color: rgb(253, 253, 252);
-    border-radius:50px;
+    border-radius:100px;
     margin-top: 1.5em;
     margin-left: 0.5em;
 
@@ -54,7 +54,7 @@
 
 .nodeComplex button{
     background-color: rgb(253, 253, 252);
-    border-radius:30px;
+    border-radius:100px;
     margin-top: 1.5em;
     margin-left: 0.5em;
 
