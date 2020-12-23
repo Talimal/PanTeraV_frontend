@@ -117,23 +117,16 @@ const Parent = (props) => {
 
     }
 /* filter and show only requested children*/
-    const filteredChildren = () =>{
-        // const filteredArr = children.filter(tirp => {
-        //     tirp.getSymbols().filter(symbol=> symbol.includes(search))
-        // });
-        // console.log("filtered: "+filteredArr);
-        // setPresentAndNotPresent(filteredArr);
-        // return presented;
-           
-    }
-
-    const setPresentAndNotPresent = (childrenAll)=>{
-        if(childrenAll.length>3){
-            presented=childrenAll.slice(0,3);
-            notPresented.current=subtractTwoArrays(childrenAll,presented);
+    const setFilter = (filterString)=>{
+        if(filterString===""){
+            setChildren(props.getChildrenOfRoot(root));
         }
         else{
-            presented=childrenAll;
+            const filteredArr = children.filter(child => {
+                return child.printSymbols().includes(filterString)
+            });
+
+            setChildren(filteredArr);
         }
     }
 
@@ -146,7 +139,7 @@ const Parent = (props) => {
         'width':'9em',
         'background' :'rgb(243, 43, 216)',
         'marginTop': '3em',
-        'fontSize': 'large',
+        'fontSize': '20px',
         'fontFamily': 'cursive',
         'cursor': 'pointer'
     }
@@ -158,7 +151,7 @@ const Parent = (props) => {
         'borderStyle': 'solid',
         'borderWidth': 'thick',
         'marginBottom': '5px',
-        'fontSize': 'large',
+        'fontSize': '20px',
         'fontFamily': 'cursive',
         'cursor': 'pointer'
     }
@@ -168,13 +161,13 @@ const Parent = (props) => {
         'width': '8em',
         'height': '8em',
         'marginBottom': '5px',
-        'fontSize': 'large',
+        'fontSize': '20px',
         'fontFamily': 'cursive'
     }
 
     return (
         <div className="flex-container">
-        <input type="text" className="input" placeholder="Search" onChange={e=>setSearch(e.target.value)}/>
+        <input type="text" className="input" placeholder="Search" onChange={(e)=>setFilter(e.target.value)}/>
             <div className="flex-container-nodes">
 
                 <Card style={rootStyle} hoverable="true">
@@ -219,16 +212,36 @@ const Parent = (props) => {
                                         <button onClick={()=>handleClick(child)}>{child.printSymbols()}</button>
                                     </div> */}
                                 </li>
-                                )}) :null
-                            // )}):filteredChildren().map((child,index)=>{
-                            //     return (
-                            //         <li key={index}>
-                            //         <div className={isComplexNode(child)?"nodeComplex":"nodeSimple"} >
-                            //             <button onClick={()=>handleClick(child)}>{child.getSymbols()}</button>
-                            //         </div>
-                            //     </li>
-                            //     )})
-                        }        
+                                )}) :
+                                null
+                            }
+                             {/* filteredChildren().map((child,index)=>{
+                                return (
+                                    <li key={index}>
+
+                                    <Card 
+                                        style={isComplexNode(child)?complexNode:notComplexNode}
+                                        onClick={isComplexNode(child)?()=>handleClick(child):null}
+                                        >                                        
+                                        <CardContent>
+                                            {child.getSymbols().length>0?
+                                            child.printSymbols():"child"}
+                                        </CardContent>
+                                        <CardContent>
+                                            {child.getRelations().length>0?
+                                            child.printRelations():""}
+                                        </CardContent>
+                                        <Button onClick={()=>handleClick(child)}> Learn More </Button>
+                                    </Card>
+
+                                    </li>
+
+                                    <li key={index}>
+                                    <div className={isComplexNode(child)?"nodeComplex":"nodeSimple"} >
+                                        <button onClick={()=>handleClick(child)}>{child.getSymbols()}</button>
+                                    </div>
+                                </li>
+                                )}) */}        
                     </ul>
                 </div>
             </div>
