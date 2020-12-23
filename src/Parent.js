@@ -1,6 +1,14 @@
 import React,  { useRef, useState } from 'react';
 import './Parent.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+// import { Card } from 'react-bootstrap';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import Button from '@material-ui/core/Button';
+import CardHeader from '@material-ui/core/CardHeader';
+import { color } from 'd3';
+
 
 const Parent = (props) => {
 
@@ -85,7 +93,7 @@ const Parent = (props) => {
         let lastIndex = childrenAll.indexOf(firstPresent);
         //if there is no previous children
         if(lastIndex===0){
-            alert(children[0].getSize()+" is the first node");
+            alert("There are no more children");
         }
         //there are previous children
         else{
@@ -109,41 +117,118 @@ const Parent = (props) => {
 
     }
 /* filter and show only requested children*/
-    const filteredChildren = {}
-    //     presented.filter(child => {
-    //         return child.name.includes(search)
-    // }
+    const filteredChildren = () =>{
+        // const filteredArr = children.filter(tirp => {
+        //     tirp.getSymbols().filter(symbol=> symbol.includes(search))
+        // });
+        // console.log("filtered: "+filteredArr);
+        // setPresentAndNotPresent(filteredArr);
+        // return presented;
+           
+    }
 
-const isComplexNode = (tirp)=> {
-    return props.isComplexNode(tirp);
-}
+    const setPresentAndNotPresent = (childrenAll)=>{
+        if(childrenAll.length>3){
+            presented=childrenAll.slice(0,3);
+            notPresented.current=subtractTwoArrays(childrenAll,presented);
+        }
+        else{
+            presented=childrenAll;
+        }
+    }
+
+    const isComplexNode = (tirp)=> {
+        return props.isComplexNode(tirp);
+    }
    
+    var rootStyle = {
+        'height': '9em',
+        'width':'9em',
+        'background' :'rgb(243, 43, 216)',
+        'marginTop': '3em',
+        'fontSize': 'large',
+        'fontFamily': 'cursive',
+        'cursor': 'pointer'
+    }
+
+    var complexNode={
+        'background': 'rgb(167, 33, 230)',
+        'width': '8em',
+        'height': '8em',
+        'borderStyle': 'solid',
+        'borderWidth': 'thick',
+        'marginBottom': '5px',
+        'fontSize': 'large',
+        'fontFamily': 'cursive',
+        'cursor': 'pointer'
+    }
+
+    var notComplexNode={
+        'background': 'rgb(167, 33, 230)',
+        'width': '8em',
+        'height': '8em',
+        'marginBottom': '5px',
+        'fontSize': 'large',
+        'fontFamily': 'cursive'
+    }
+
     return (
         <div className="flex-container">
         <input type="text" className="input" placeholder="Search" onChange={e=>setSearch(e.target.value)}/>
             <div className="flex-container-nodes">
-                    <div className="root">
-                        {/* channges to size */}
+
+                <Card style={rootStyle} hoverable="true">
+                    <CardContent>
+                        {root.getSymbols().length>0?
+                        root.printSymbols():"root"}
+                    </CardContent>
+                    <CardContent>
+                        {root.getRelations().length>0?
+                        root.printRelations():""}
+                    </CardContent>
+                    <Button> Learn More </Button>
+                </Card>
+
+                    {/* <div className="root">
                         <button>{root.getSymbols().length>0?
-                        root.getSymbols():"root"}</button>
-                    </div>
+                        root.printSymbols():"root"}</button>
+                        <h1>{root.printRelations()}</h1>
+                    </div> */}
                 <div className="children">Children:
                     <ul>
-                        {search === "" ?presented.map((item,index) => {
+                        {search === "" ?presented.map((child,index) => {
                             return (
                                 <li key={index}>
-                                    <div className={isComplexNode(item)?"nodeComplex":"nodeSimple"} >
-                                        <button onClick={()=>handleClick(item)}>{item.getSymbols()}</button>
-                                    </div>
+
+                                    <Card 
+                                        style={isComplexNode(child)?complexNode:notComplexNode}
+                                        onClick={isComplexNode(child)?()=>handleClick(child):null}
+                                        >                                        
+                                        <CardContent>
+                                            {child.getSymbols().length>0?
+                                            child.printSymbols():"child"}
+                                        </CardContent>
+                                        <CardContent>
+                                            {child.getRelations().length>0?
+                                            child.printRelations():""}
+                                        </CardContent>
+                                        <Button onClick={()=>handleClick(child)}> Learn More </Button>
+                                    </Card>
+
+                                    {/* <div className={isComplexNode(child)?"nodeComplex":"nodeSimple"} >
+                                        <button onClick={()=>handleClick(child)}>{child.printSymbols()}</button>
+                                    </div> */}
                                 </li>
-                            )}):filteredChildren.map((item,index) => {
-                                return (
-                                    <li key={index}>
-                                        {/* <div className={item.children.length>0?"nodeComplex":"nodeSimple"} >
-                                            <button onClick={()=>handleClick(item)}>{item.name}</button>
-                                        </div> */}
-                                    </li>
-                                )})}
+                                )}) :null
+                            // )}):filteredChildren().map((child,index)=>{
+                            //     return (
+                            //         <li key={index}>
+                            //         <div className={isComplexNode(child)?"nodeComplex":"nodeSimple"} >
+                            //             <button onClick={()=>handleClick(child)}>{child.getSymbols()}</button>
+                            //         </div>
+                            //     </li>
+                            //     )})
+                        }        
                     </ul>
                 </div>
             </div>

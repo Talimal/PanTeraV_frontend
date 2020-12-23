@@ -2,7 +2,7 @@
     background-color: rgb(243, 43, 216);
     width: 5em;
     height: 5em;
-    border-radius: 50px;
+    /* border-radius: 50px; */
     margin-top: 2em;
     font-size: large;
     font-family: cursive;
@@ -10,6 +10,10 @@
     border-right-color: rgb(157, 8, 194);
     border-width: thick;
 
+}
+
+.cardRoot{
+    background-color: rgb(243, 43, 216);
 }
 
 .input{
@@ -29,7 +33,8 @@
     background-color: rgb(167, 33, 230);
     width: 5em;
     height: 5em;
-    border-radius: 50px;
+    margin-bottom: 5px;
+    /* border-radius: 50px; */
 }
 
 .nodeSimple button{
@@ -44,11 +49,12 @@
     background-color: rgb(167, 33, 230);
     width: 5em;
     height: 5em;
-    border-radius: 50px;
+    /* border-radius: 50px; */
     border-style: solid;
     border-right-color: rgb(16, 19, 5);
     border-left-color: rgb(16, 17, 10);
     border-width: thick;
+    margin-bottom: 5px;
 
 }
 
