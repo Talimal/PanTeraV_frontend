@@ -105,8 +105,8 @@ const getFirstTreeLevel = () =>{
 
   return (
     <div className="mainPage">
-      <div className="nav">
-        <nav>
+      <div className="nav-bar">
+        <nav className="nav-bar-main">
             <a href="https://stackoverflow.com/questions/46224687/how-to-export-and-import-class-properly-in-javascript-es6"> upload data</a>
             <a href="https://stackoverflow.com/questions/46224687/how-to-export-and-import-class-properly-in-javascript-es6"> entities </a>
             <a href="https://stackoverflow.com/questions/46224687/how-to-export-and-import-class-properly-in-javascript-es6"> links</a>

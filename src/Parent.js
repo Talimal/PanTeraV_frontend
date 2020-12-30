@@ -1,13 +1,10 @@
 import React,  { useRef, useState } from 'react';
 import './Parent.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import { Card } from 'react-bootstrap';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
-import CardHeader from '@material-ui/core/CardHeader';
-import { color } from 'd3';
+import {rootStyle,complexNode,notComplexNode,placeHolderCard} from './cardStyle'
 
 
 const Parent = (props) => {
@@ -133,125 +130,91 @@ const Parent = (props) => {
     const isComplexNode = (tirp)=> {
         return props.isComplexNode(tirp);
     }
+
+    const setInvisibleChildren = () =>{
+        const a =  new Array(presented.length%3===0?0:3-(presented.length)%3).fill(0)
+        console.log("a is: "+a)
+        return a
+    }
    
-    var rootStyle = {
-        'height': '9em',
-        'width':'9em',
-        'background' :'rgb(243, 43, 216)',
-        'marginTop': '3em',
-        'fontSize': '20px',
-        'fontFamily': 'cursive',
-        'cursor': 'pointer'
-    }
-
-    var complexNode={
-        'background': 'rgb(167, 33, 230)',
-        'width': '8em',
-        'height': '8em',
-        'borderStyle': 'solid',
-        'borderWidth': 'thick',
-        'marginBottom': '5px',
-        'fontSize': '20px',
-        'fontFamily': 'cursive',
-        'cursor': 'pointer'
-    }
-
-    var notComplexNode={
-        'background': 'rgb(167, 33, 230)',
-        'width': '8em',
-        'height': '8em',
-        'marginBottom': '5px',
-        'fontSize': '20px',
-        'fontFamily': 'cursive'
-    }
 
     return (
-        <div className="flex-container">
-        <input type="text" className="input" placeholder="Search" onChange={(e)=>setFilter(e.target.value)}/>
-            <div className="flex-container-nodes">
+        <div className="flex-container-allPage">
+                <div className="flex-container-root-buttons">
+                        <Card style={rootStyle} hoverable="true">
+                            <CardContent>
+                                {root.getSymbols().length>0?
+                                root.printSymbols():"root"}
+                            </CardContent>
+                            <CardContent>
+                                {root.getRelations().length>0?
+                                root.printRelations():""}
+                            </CardContent>
+                            <CardContent>
+                                {root.getSymbols().length>0?
+                                root.printSupportingEnt():""}
+                            </CardContent>
+                            <CardContent>
+                                {root.getSymbols().length>0?
+                                root.printMeanHorSup():""}
+                            </CardContent>
+                            <Button> Learn More </Button>
+                        </Card>
 
-                <Card style={rootStyle} hoverable="true">
-                    <CardContent>
-                        {root.getSymbols().length>0?
-                        root.printSymbols():"root"}
-                    </CardContent>
-                    <CardContent>
-                        {root.getRelations().length>0?
-                        root.printRelations():""}
-                    </CardContent>
-                    <Button> Learn More </Button>
-                </Card>
-
-                    {/* <div className="root">
-                        <button>{root.getSymbols().length>0?
-                        root.printSymbols():"root"}</button>
-                        <h1>{root.printRelations()}</h1>
-                    </div> */}
-                <div className="children">Children:
-                    <ul>
-                        {search === "" ?presented.map((child,index) => {
-                            return (
-                                <li key={index}>
-
-                                    <Card 
-                                        style={isComplexNode(child)?complexNode:notComplexNode}
-                                        onClick={isComplexNode(child)?()=>handleClick(child):null}
-                                        >                                        
-                                        <CardContent>
-                                            {child.getSymbols().length>0?
-                                            child.printSymbols():"child"}
-                                        </CardContent>
-                                        <CardContent>
-                                            {child.getRelations().length>0?
-                                            child.printRelations():""}
-                                        </CardContent>
-                                        <Button onClick={()=>handleClick(child)}> Learn More </Button>
-                                    </Card>
-
-                                    {/* <div className={isComplexNode(child)?"nodeComplex":"nodeSimple"} >
-                                        <button onClick={()=>handleClick(child)}>{child.printSymbols()}</button>
-                                    </div> */}
-                                </li>
-                                )}) :
-                                null
-                            }
-                             {/* filteredChildren().map((child,index)=>{
-                                return (
-                                    <li key={index}>
-
-                                    <Card 
-                                        style={isComplexNode(child)?complexNode:notComplexNode}
-                                        onClick={isComplexNode(child)?()=>handleClick(child):null}
-                                        >                                        
-                                        <CardContent>
-                                            {child.getSymbols().length>0?
-                                            child.printSymbols():"child"}
-                                        </CardContent>
-                                        <CardContent>
-                                            {child.getRelations().length>0?
-                                            child.printRelations():""}
-                                        </CardContent>
-                                        <Button onClick={()=>handleClick(child)}> Learn More </Button>
-                                    </Card>
-
-                                    </li>
-
-                                    <li key={index}>
-                                    <div className={isComplexNode(child)?"nodeComplex":"nodeSimple"} >
-                                        <button onClick={()=>handleClick(child)}>{child.getSymbols()}</button>
-                                    </div>
-                                </li>
-                                )}) */}        
-                    </ul>
+                    <div className="flex-container-buttons">
+                        <div className="buttons">
+                            <button onClick={handleClickPrevious}>Previous</button>
+                            <button onClick={handleClickMore}>Show more</button>
+                            <button onClick={handleClickLess}>Show less</button>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div className="flex-container-buttons">
-                <button onClick={handleClickPrevious}>Previous</button>
-                <button onClick={handleClickMore}>Show more</button>
-                <button onClick={handleClickLess}>Show less</button>
-           </div>
+                <div className="flex-container-input-children">
+                    <input type="text" className="input" placeholder="Search" onChange={(e)=>setFilter(e.target.value)}/>
+                    <div className="children">Children:
+                        <ul className="list-of-children">
+                            {search === "" ?
+                                presented.map((child,index) => {
+                                    return (
+                                        <li key={index}>
+                                                <Card 
+                                                    style={isComplexNode(child)?complexNode:notComplexNode}
+                                                    onClick={isComplexNode(child)?()=>handleClick(child):null}
+                                                    >                                        
+                                                    <CardContent>
+                                                        {child.getSymbols().length>0?
+                                                        child.printSymbols():"child"}
+                                                    </CardContent>
+                                                    <CardContent>
+                                                        {child.getRelations().length>0?
+                                                        child.printRelations():""}
+                                                    </CardContent>
+                                                    <CardContent>
+                                                        {child.getSymbols().length>0?
+                                                        child.printSupportingEnt():""}
+                                                    </CardContent>
+                                                    <CardContent>
+                                                        {child.getSymbols().length>0?
+                                                        child.printMeanHorSup():""}
+                                                    </CardContent>
+                                                    <Button onClick={()=>handleClick(child)}> Learn More </Button>
+                                                </Card>
+                                        </li>
+                                        )}
+                                ,setInvisibleChildren().map((_,index)=>{
+                                    return (
+                                        <li key={index}>
+                                                <Card style={placeHolderCard}>
+                                                {console.log("hereeee2")}
+                                                </Card>
+                                        </li>
+                                    )
+                                })) : null   
+                            }
+                        </ul>
+                    </div>
+                </div>
         </div>
-
     );
   }
   

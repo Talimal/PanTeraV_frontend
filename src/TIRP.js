@@ -61,4 +61,12 @@ export  default class TIRP {
       }
       return toPrint.slice(0,-1);
     }
+
+    printSupportingEnt  = () =>{
+      return ("# supporting entities: "+this.numSupportEntities)
+    }
+
+    printMeanHorSup  = () =>{
+      return ("Mean horizontal support: "+this.meanHorSup)
+    }
   }
