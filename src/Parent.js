@@ -1,11 +1,9 @@
 import React,  { useRef, useState } from 'react';
 import './Parent.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
-import {rootStyle,complexNode,notComplexNode,placeHolderCard} from './cardStyle'
-
+import RootCard from './Components/RootCard'
+import ChildrenCards from './Components/ChildrenCards'
+import MainButtons from './Components/MainButtons'
 
 const Parent = (props) => {
 
@@ -14,7 +12,6 @@ const Parent = (props) => {
     let presented=[];
     const notPresented=useRef([]);
     const subtractTwoArrays = (arr1, arr2) => arr1.filter( el => !arr2.includes(el) )
-    const [search, setSearch] = useState("");
 
 
     /* deciding on what children to present*/
@@ -39,6 +36,15 @@ const Parent = (props) => {
         this function needs to present the previous root
          (the father of current root)
     */
+
+    const canShowPrevious = () =>{
+        const father = props.handleClickPrevious(root);
+        if(father!=null){
+            return true;
+        }
+        else
+        return false;
+    }
     const handleClickPrevious =() => {
         //getting father of current root
         const father = props.handleClickPrevious(root);
@@ -75,6 +81,21 @@ const Parent = (props) => {
             }
 
         }
+    }
+
+    const canShowPrevChildren = ()=>{
+         //first child right now
+         let firstPresent = presented[0];
+         //all children in this tree level
+         let childrenAll = props.getChildrenOfRoot(root);
+         //index of the first presented child in the array of all children
+         let lastIndex = childrenAll.indexOf(firstPresent);
+         //if there is no previous children
+         if(lastIndex===0){
+             return false;
+         }
+         else
+         return true;
     }
 
     /* every moment, only 3 children max presented.
@@ -133,83 +154,33 @@ const Parent = (props) => {
 
     const setInvisibleChildren = () =>{
         const a =  new Array(presented.length%3===0?0:3-(presented.length)%3).fill(0)
-        console.log("a is: "+a)
-        return a
+        return presented.concat(a)
     }
    
 
     return (
         <div className="flex-container-allPage">
                 <div className="flex-container-root-buttons">
-                        <Card style={rootStyle} hoverable="true">
-                            <CardContent>
-                                {root.getSymbols().length>0?
-                                root.printSymbols():"root"}
-                            </CardContent>
-                            <CardContent>
-                                {root.getRelations().length>0?
-                                root.printRelations():""}
-                            </CardContent>
-                            <CardContent>
-                                {root.getSymbols().length>0?
-                                root.printSupportingEnt():""}
-                            </CardContent>
-                            <CardContent>
-                                {root.getSymbols().length>0?
-                                root.printMeanHorSup():""}
-                            </CardContent>
-                            <Button> Learn More </Button>
-                        </Card>
+                        <RootCard root={root}/>
 
                     <div className="flex-container-buttons">
-                        <div className="buttons">
-                            <button onClick={handleClickPrevious}>Previous</button>
-                            <button onClick={handleClickMore}>Show more</button>
-                            <button onClick={handleClickLess}>Show less</button>
-                        </div>
+                        <MainButtons handleClickPrevious={handleClickPrevious}
+                                    canShowPrevious={canShowPrevious}
+                                    notPresented={notPresented}
+                                    canShowPrevChildren={canShowPrevChildren}
+                                    handleClickMore={handleClickMore}
+                                    handleClickLess={handleClickLess}/>
                     </div>
                 </div>
                 <div className="flex-container-input-children">
                     <input type="text" className="input" placeholder="Search" onChange={(e)=>setFilter(e.target.value)}/>
                     <div className="children">Children:
                         <ul className="list-of-children">
-                            {search === "" ?
-                                presented.map((child,index) => {
-                                    return (
-                                        <li key={index}>
-                                                <Card 
-                                                    style={isComplexNode(child)?complexNode:notComplexNode}
-                                                    onClick={isComplexNode(child)?()=>handleClick(child):null}
-                                                    >                                        
-                                                    <CardContent>
-                                                        {child.getSymbols().length>0?
-                                                        child.printSymbols():"child"}
-                                                    </CardContent>
-                                                    <CardContent>
-                                                        {child.getRelations().length>0?
-                                                        child.printRelations():""}
-                                                    </CardContent>
-                                                    <CardContent>
-                                                        {child.getSymbols().length>0?
-                                                        child.printSupportingEnt():""}
-                                                    </CardContent>
-                                                    <CardContent>
-                                                        {child.getSymbols().length>0?
-                                                        child.printMeanHorSup():""}
-                                                    </CardContent>
-                                                    <Button onClick={()=>handleClick(child)}> Learn More </Button>
-                                                </Card>
-                                        </li>
-                                        )}
-                                ,setInvisibleChildren().map((_,index)=>{
-                                    return (
-                                        <li key={index}>
-                                                <Card style={placeHolderCard}>
-                                                {console.log("hereeee2")}
-                                                </Card>
-                                        </li>
-                                    )
-                                })) : null   
+                            {
+                                <ChildrenCards handleClick={handleClick}
+                                                isComplexNode={isComplexNode}
+                                                toShow={setInvisibleChildren()}
+                                                />
                             }
                         </ul>
                     </div>
