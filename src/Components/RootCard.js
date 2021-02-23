@@ -11,9 +11,12 @@ import { useHistory } from "react-router-dom";
 const RootCard = (props) => {
 
     const root = props.root;
+    const toShow=props.toShow;
+
     const history = useHistory();
     let graphs = function(){
-        history.push("/graphs")
+        history.push({pathname: "/graphs",
+        state:{root:root,toShow:toShow}});
     };
 
     return (

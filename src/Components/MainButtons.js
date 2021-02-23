@@ -1,5 +1,5 @@
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import './MainButtons.css';
 
 
 const MainButtons = (props) => {
@@ -32,7 +32,7 @@ const MainButtons = (props) => {
     disabled={canShowPrevious()===false}>
         Previous
     </button>
-    <button onClick={handleClickMore} 
+    <button  onClick={handleClickMore} 
         disabled={notPresented.current.length===0}>
         Show more
     </button>
@@ -40,6 +40,7 @@ const MainButtons = (props) => {
         disabled={canShowPrevChildren()===false}>
         Show less
     </button>
+
 </div>
   );
 }

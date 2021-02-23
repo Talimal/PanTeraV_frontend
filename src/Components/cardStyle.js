@@ -1,13 +1,12 @@
 export var rootStyle = {
     'height': '18em',
     'width':'100%',
-    'background': 'rgb(77,233,176)',
     'background': 'linear-gradient(90deg, rgba(77,233,176,0.7147233893557423) 9%, rgba(131,238,227,0.5298494397759104) 56%, rgba(13,194,231,0.8099614845938375) 100%)',
     'marginTop': '30%',
     'fontSize': '20px',
     'fontFamily': 'cursive',
     'cursor': 'pointer',
-    'text-align': 'center'
+    'textAlign': 'center'
 
 }
 
@@ -21,7 +20,7 @@ export var complexNode={
     'fontSize': '18px',
     'fontFamily': 'cursive',
     'cursor': 'pointer',
-    'text-align': 'center'
+    'textAlign': 'center'
 
 }
 
@@ -32,7 +31,7 @@ export var notComplexNode={
     'marginBottom': '10%',
     'fontSize': '18px',
     'fontFamily': 'cursive',
-    'text-align': 'center'
+    'textAlign': 'center'
 
 }
 export var placeHolderCard={

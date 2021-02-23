@@ -1,4 +1,4 @@
-import React,  { useRef, useState } from 'react';
+import React,  { useEffect, useRef, useState } from 'react';
 import './Parent.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import RootCard from './Components/RootCard'
@@ -11,6 +11,7 @@ const Parent = (props) => {
     const [children, setChildren] = useState(props.children);
     let presented=[];
     const notPresented=useRef([]);
+    const tirpHistory=useRef([]);
     const subtractTwoArrays = (arr1, arr2) => arr1.filter( el => !arr2.includes(el) )
 
 
@@ -28,10 +29,22 @@ const Parent = (props) => {
         node and updated the children to the selected node's children.
     */
     const handleClick = (node) => {
+        tirpHistory.current=root.getSize()===0?
+                                        []:
+                                        tirpHistory.current.concat([root.getSymbols()])
+        console.log(tirpHistory);
         setRoot(node);
         setChildren(props.getChildrenOfRoot(node));
     }
 
+    // useEffect(()=>{
+    //     console.log(tirpHistory.current);
+    //     tirpHistory.current=root.getSize()===0?
+    //                                     []:
+    //                                     tirpHistory.current.concat([root.getSymbols()])
+    //     console.log(tirpHistory);
+
+    // },[root])
     /* every moment, one root and it's children are presented.
         this function needs to present the previous root
          (the father of current root)
@@ -165,7 +178,8 @@ const Parent = (props) => {
             </div>
             <div className="flex-container-root-buttons">
                     <div className="flex-container-root">
-                        <RootCard root={root}/>
+                        <RootCard root={root}
+                                toShow={presented}/>
                     </div>
 
                 <div className="flex-container-buttons">
