@@ -1,62 +1,59 @@
 
 .input{
-    margin-top: 1em;
-    margin-bottom: 1em;
+    margin-top: 3%;
+    margin-bottom: 5%;
+    width: 90%;
+    height: 80%;
 }
-
-.root button{
-    border-radius:100px;
-    margin-top: 1.5em;
-    margin-left: 0.5em;
-
-}
-
-
-
-.children{
-    font-size: large;
-    font-family: cursive;
-}
-
 
 .flex-container-allPage{
     border-width: 1;
-    display: flex;
+    display:flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin-left: 30em;
+    width: 100%;
 }
-.root{
-    margin-left: 8em;
-    margin-top: 3em;
+
+.flex-container-allPage div{
+    width: 100%;
 }
+
 .flex-container-root-buttons{
-    display: flex;
     flex-direction: column;
-    margin-left: 14em;
-    margin-top: 0.5%;
+    margin-left: 10%;
+    margin-right: 10%;
+    height: 100%;
+    width: 40%;
+}
+.flex-container-root{
     height: 100%;
 }
 
 .flex-container-input-children{
     display: flex;
     flex-direction: column;
+    margin-right: 0.5%;
+}
+
+.flex-container-input-children input{
+    height: 3em;
 }
 
 .flex-container-buttons{
     display: flex;
     flex-direction: row;
-    margin-top: 3em;
-    margin-left: 5em;
+    margin-top: 5%;
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
 }
 
 .flex-container-buttons button{
-    margin-left: 5px;
-    margin-right: 5px;
-    background-color: rgb(255, 0, 234);
+    background-color: rgb(235, 241, 149);
     font-family: cursive;
     font-size: 1.5em;
+    width: 100%;
 }
 
 .list-of-children{

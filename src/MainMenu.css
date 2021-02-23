@@ -1,4 +1,4 @@
-/* 
+
 .nav-bar-main{
 	height: 4em;
 	margin-top: 2em;
@@ -10,10 +10,12 @@
 	flex-direction: row;
 }
 .nav-bar-main a:hover{
-	background-color: ivory;
+	color: #cbfcf9;
+	background: none;
 }
-.nav-bar-main a:active{
-	background-color: purple;
+.nav-bar-main a .active a{
+	color: aqua;
+  	background-color: chartreuse;  
 }
 .nav-bar-main a{
 	height: 2em;
@@ -26,4 +28,4 @@
 
 }
 
- */
+

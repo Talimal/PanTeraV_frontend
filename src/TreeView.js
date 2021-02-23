@@ -3,6 +3,7 @@ import 'react-tree-graph/dist/style.css';
 import Parent from './Parent';
 import './TreeView.css';
 import TIRP from './TIRP'
+import { NavLink } from 'react-router-dom';
 
 
 const TreeView = (props) => {
@@ -105,14 +106,6 @@ const getFirstTreeLevel = () =>{
 
   return (
     <div className="mainPage">
-      <div className="nav-bar">
-        <nav className="nav-bar-main">
-            <a href="https://stackoverflow.com/questions/46224687/how-to-export-and-import-class-properly-in-javascript-es6"> upload data</a>
-            <a href="https://stackoverflow.com/questions/46224687/how-to-export-and-import-class-properly-in-javascript-es6"> entities </a>
-            <a href="https://stackoverflow.com/questions/46224687/how-to-export-and-import-class-properly-in-javascript-es6"> links</a>
-            <a href="https://stackoverflow.com/questions/46224687/how-to-export-and-import-class-properly-in-javascript-es6"> photos</a>
-        </nav>
-      </div>
       {isOK?
         <Parent root={root}
           children={children}

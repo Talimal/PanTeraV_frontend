@@ -2,13 +2,18 @@ import React from 'react';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
-import {complexNode,notComplexNode,placeHolderCard} from '../cardStyle'
+import {complexNode,notComplexNode,placeHolderCard} from './cardStyle'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useHistory } from "react-router-dom";
 
 
 const ChildrenCards = (props) => {
 
-    const childrenToShow=props.toShow
+    const childrenToShow=props.toShow;
+    const history = useHistory();
+    let graphs = function(){
+        history.push("/graphs")
+    };
 
     const handleClick = (child)=>{
         return props.handleClick(child)
@@ -42,7 +47,7 @@ const ChildrenCards = (props) => {
                         {child.getSymbols().length>0?
                         child.printMeanHorSup():""}
                     </CardContent>
-                    <Button onClick={()=>handleClick(child)}> Learn More </Button>
+                    <Button onClick={graphs}> Learn More </Button>
                 </Card>
                 :
                 <Card

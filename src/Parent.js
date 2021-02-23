@@ -160,31 +160,36 @@ const Parent = (props) => {
 
     return (
         <div className="flex-container-allPage">
-                <div className="flex-container-root-buttons">
+            <div className="childrenBefore">
+                {/* in te future */}
+            </div>
+            <div className="flex-container-root-buttons">
+                    <div className="flex-container-root">
                         <RootCard root={root}/>
+                    </div>
 
-                    <div className="flex-container-buttons">
-                        <MainButtons handleClickPrevious={handleClickPrevious}
-                                    canShowPrevious={canShowPrevious}
-                                    notPresented={notPresented}
-                                    canShowPrevChildren={canShowPrevChildren}
-                                    handleClickMore={handleClickMore}
-                                    handleClickLess={handleClickLess}/>
-                    </div>
+                <div className="flex-container-buttons">
+                    <MainButtons handleClickPrevious={handleClickPrevious}
+                                canShowPrevious={canShowPrevious}
+                                notPresented={notPresented}
+                                canShowPrevChildren={canShowPrevChildren}
+                                handleClickMore={handleClickMore}
+                                handleClickLess={handleClickLess}/>
                 </div>
-                <div className="flex-container-input-children">
-                    <input type="text" className="input" placeholder="Search" onChange={(e)=>setFilter(e.target.value)}/>
-                    <div className="children">Children:
-                        <ul className="list-of-children">
-                            {
-                                <ChildrenCards handleClick={handleClick}
-                                                isComplexNode={isComplexNode}
-                                                toShow={setInvisibleChildren()}
-                                                />
-                            }
-                        </ul>
-                    </div>
+            </div>
+            <div className="flex-container-input-children">
+                <input type="text" className="input" placeholder="Search" onChange={(e)=>setFilter(e.target.value)}/>
+                <div className="children">
+                    <ul className="list-of-children">
+                        {
+                            <ChildrenCards handleClick={handleClick}
+                                            isComplexNode={isComplexNode}
+                                            toShow={setInvisibleChildren()}
+                                            />
+                        }
+                    </ul>
                 </div>
+            </div>
         </div>
     );
   }
