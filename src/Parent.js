@@ -1,9 +1,10 @@
-import React,  { useEffect, useRef, useState } from 'react';
+import React,  {useRef, useState } from 'react';
 import './Parent.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import RootCard from './Components/RootCard'
-import ChildrenCards from './Components/ChildrenCards'
-import MainButtons from './Components/MainButtons'
+import RootCard from './Components/RootCard';
+import ChildrenCards from './Components/ChildrenCards';
+import MainButtons from './Components/MainButtons';
+import ArrowButtons from './Components/ArrowButtons';
 
 const Parent = (props) => {
 
@@ -37,18 +38,6 @@ const Parent = (props) => {
         setChildren(props.getChildrenOfRoot(node));
     }
 
-    // useEffect(()=>{
-    //     console.log(tirpHistory.current);
-    //     tirpHistory.current=root.getSize()===0?
-    //                                     []:
-    //                                     tirpHistory.current.concat([root.getSymbols()])
-    //     console.log(tirpHistory);
-
-    // },[root])
-    /* every moment, one root and it's children are presented.
-        this function needs to present the previous root
-         (the father of current root)
-    */
 
     const canShowPrevious = () =>{
         const father = props.handleClickPrevious(root);
@@ -110,6 +99,15 @@ const Parent = (props) => {
          else
          return true;
     }
+
+    const canShowMoreChildren = ()=>{
+        if (notPresented.current.length>0){
+            return true;
+        }
+        else{
+            return false;
+        }
+   }
 
     /* every moment, only 3 children max presented.
         this function needs to present the children before those presented 
@@ -190,6 +188,13 @@ const Parent = (props) => {
                                 handleClickMore={handleClickMore}
                                 handleClickLess={handleClickLess}/>
                 </div>
+            </div>
+            <div className="flex-container-arrow-buttons">
+                <ArrowButtons 
+                    canShowPrevChildren={canShowPrevChildren}
+                    canShowMoreChildren={canShowMoreChildren}
+                    handleClickMore={handleClickMore}
+                    handleClickLess={handleClickLess}/>
             </div>
             <div className="flex-container-input-children">
                 <input type="text" className="input" placeholder="Search" onChange={(e)=>setFilter(e.target.value)}/>

@@ -1,8 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './MainButtons.css';
+import up_not_hover from "../images/arrow-up.jpg";
+import up_hover from "../images/arrow-up-hover.jpg";
+import down_not_hover from "../images/arrow-down.png";
+import down_hover from "../images/arrow-down-hover.png";
+
 
 
 const MainButtons = (props) => {
+
+    const [hoverup,setHoverUp] = useState(false);
+    const [hoverdown,setHoverDown] = useState(false);
+
 
     const notPresented = props.notPresented
 
@@ -10,38 +19,20 @@ const MainButtons = (props) => {
         return props.handleClickPrevious()
     }
 
-    const canShowPrevChildren = ()=>{
-        return props.canShowPrevChildren()
-    }
 
     const canShowPrevious = ()=>{
         return props.canShowPrevious()
     }
 
-    const handleClickMore=()=>{
-        return props.handleClickMore()
-    }
-
-    const handleClickLess=()=>{
-        return props.handleClickLess()
-    }
 
   return (
-    <div className="buttons">
-    <button onClick={handleClickPrevious}
-    disabled={canShowPrevious()===false}>
-        Previous
-    </button>
-    <button  onClick={handleClickMore} 
-        disabled={notPresented.current.length===0}>
-        Show more
-    </button>
-    <button onClick={handleClickLess}
-        disabled={canShowPrevChildren()===false}>
-        Show less
-    </button>
-
-</div>
+        <div className="buttons">
+            <button 
+                onClick={handleClickPrevious}
+                disabled={canShowPrevious()===false}>
+                Previous
+            </button>
+        </div>
   );
 }
 

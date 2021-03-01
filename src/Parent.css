@@ -1,11 +1,4 @@
 
-.input{
-    margin-top: 3%;
-    margin-bottom: 5%;
-    width: 90%;
-    height: 80%;
-}
-
 .flex-container-allPage{
     border-width: 1;
     display:flex;
@@ -15,47 +8,41 @@
     width: 100%;
 }
 
-.flex-container-allPage div{
-    width: 100%;
+.childrenBefore{
+    width: 30%;
 }
 
 .flex-container-root-buttons{
     flex-direction: column;
-    margin-left: 10%;
-    margin-right: 10%;
     height: 100%;
-    width: 40%;
-}
-.flex-container-root{
-    height: 100%;
+    width: 20%;
 }
 
+
+/* arrows up and down */
+.flex-container-arrow-buttons{
+    display: flex;
+    flex-direction: column;
+    width: 7%;
+    margin-left: 3%;
+}
+
+
+/* children from right to the root and input filter field */
 .flex-container-input-children{
     display: flex;
     flex-direction: column;
-    margin-right: 0.5%;
+    width: 20%;
 }
-
+/* input field */
 .flex-container-input-children input{
-    height: 3em;
+    margin-top: 3%;
+    margin-bottom: 5%;
+    width: 90%;
+    height: 100%;
+    margin-left: 10%;
 }
-
-.flex-container-buttons{
-    display: flex;
-    flex-direction: row;
-    margin-top: 5%;
-    width: 100%;
-    table-layout: fixed;
-    border-collapse: collapse;
-}
-
-.flex-container-buttons button{
-    background-color: rgb(235, 241, 149);
-    font-family: cursive;
-    font-size: 1.5em;
-    width: 100%;
-}
-
+/* delete the mark beside the list of right children */
 .list-of-children{
     list-style-type: none;
 }
