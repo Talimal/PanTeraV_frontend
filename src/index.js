@@ -5,13 +5,13 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/css/bootstrap-theme.min.css';
+import MainMenu from './MainMenu'
 
 
 
 ReactDOM.render(
   <React.StrictMode>
-    <App>
-    </App>
+    <App/>
     
   </React.StrictMode>,
   document.getElementById('root')

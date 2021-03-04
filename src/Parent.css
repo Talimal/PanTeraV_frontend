@@ -8,9 +8,6 @@
     width: 100%;
 }
 
-.childrenBefore{
-    width: 30%;
-}
 
 .flex-container-root-buttons{
     flex-direction: column;

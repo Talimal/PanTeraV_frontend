@@ -35,8 +35,8 @@ export var notComplexNode={
 
 }
 export var placeHolderCard={
-    'width': '18em',
-    'height': '23.1em',
+    'width': '100%',
+    'height': '23em',
     'marginBottom': '10%',
     'visibility': 'hidden'
 }

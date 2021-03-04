@@ -13,8 +13,6 @@ const MainButtons = (props) => {
     const [hoverdown,setHoverDown] = useState(false);
 
 
-    const notPresented = props.notPresented
-
     const handleClickPrevious = ()=>{
         return props.handleClickPrevious()
     }
