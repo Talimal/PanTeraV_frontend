@@ -12,8 +12,12 @@ const App = (props) => {
   return (
       <Router>
           <Route path={["/","/UploadData"]} component={MainMenu}/>
-          <Route path="/TreeView" component={TreeView}/>
-          <Route path="/graphs" component={Graphs}/>
+          <Route path="/TreeView">
+            <TreeView/>
+          </Route>
+          <Route path="/graphs">
+            <Graphs/>
+          </Route>
       </Router>
   );
 }
