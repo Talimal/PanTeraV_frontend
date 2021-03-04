@@ -1,0 +1,46 @@
+
+.flex-container-allPage{
+    border-width: 1;
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+
+.flex-container-root-buttons{
+    flex-direction: column;
+    height: 100%;
+    width: 20%;
+}
+
+
+/* arrows up and down */
+.flex-container-arrow-buttons{
+    display: flex;
+    flex-direction: column;
+    width: 7%;
+    margin-left: 3%;
+}
+
+
+/* children from right to the root and input filter field */
+.flex-container-input-children{
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+}
+/* input field */
+.flex-container-input-children input{
+    margin-top: 3%;
+    margin-bottom: 5%;
+    width: 90%;
+    height: 3em;
+    margin-left: 10%;
+}
+/* delete the mark beside the list of right children */
+.list-of-children{
+    list-style-type: none;
+}
+
