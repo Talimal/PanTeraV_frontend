@@ -1,4 +1,7 @@
-
+.mainDiv{
+    display: flex;
+    flex-direction: column;
+}
 
 div.fileinputs {
 	position: relative;
@@ -19,4 +22,22 @@ input.file {
     margin-left: 50%;
     opacity: 0;
     z-index: 2;
+    filter: opacity(0);
+}
+.normalInput{
+    margin-top: 45%;
+    margin-left: 50%;
+}
+
+.uploadButtonNormal{
+    margin-top: 10%;
+    margin-left: 50%;
+    width: 20%;
+}
+
+.uploadButtonFake{
+    margin-top: 10%;
+    margin-left: 50%;
+    width: 20%;
+
 }
