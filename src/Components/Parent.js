@@ -1,11 +1,11 @@
 import React,  {useRef, useState } from 'react';
 import './Parent.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import RootCard from './Components/RootCard';
-import ChildrenAfter from './Components/ChildrenCards';
-import ChildrenBefore from './Components/ChildrenCards';
-import MainButtons from './Components/MainButtons';
-import ArrowButtons from './Components/ArrowButtons';
+import RootCard from './RootCard';
+import ChildrenAfter from './ChildrenCards';
+import ChildrenBefore from './ChildrenCards';
+import MainButtons from './MainButtons';
+import ArrowButtons from './ArrowButtons';
 
 const Parent = (props) => {
 

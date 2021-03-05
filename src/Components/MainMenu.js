@@ -1,10 +1,10 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import './MainMenu.css'
-import graphs from './images/graphs.jpg';
-import data from './images/data.png';
-import tree from './images/tree.png';
-import info from './images/info.png';
+import graphs from '../images/graphs.jpg';
+import data from '../images/data.png';
+import tree from '../images/tree.png';
+import info from '../images/info.png';
 
 const MainMenu = (props) => {
 

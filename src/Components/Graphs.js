@@ -1,14 +1,9 @@
 import React from 'react';
-import { useHistory } from "react-router-dom";
 import {Bar} from 'react-chartjs-2';
 
 
 
 const Graphs = (props) => {
-
-    let history=useHistory();
-    const handleClick = ()=>{
-    }
 
     const data={labels:['Tali','Sean','Ravid'],
                 datasets:[{

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import 'react-tree-graph/dist/style.css';
 import Parent from './Parent';
 import './TreeView.css';
-import TIRP from './TIRP'
+import TIRP from '../TIRP'
 import { NavLink } from 'react-router-dom';
 
 

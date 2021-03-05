@@ -1,0 +1,22 @@
+
+
+div.fileinputs {
+	position: relative;
+}
+
+div.fakefile {
+	position: absolute;
+    margin-top: 30%;
+    margin-left: 50%;
+	z-index: 1;
+}
+
+input.file {
+	position: absolute;
+	text-align: right;
+	-moz-opacity:0 ;
+    margin-top: 30%;
+    margin-left: 50%;
+    opacity: 0;
+    z-index: 2;
+}
