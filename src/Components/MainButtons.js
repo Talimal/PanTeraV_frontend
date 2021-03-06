@@ -6,7 +6,6 @@ import down_not_hover from "../images/arrow-down.png";
 import down_hover from "../images/arrow-down-hover.png";
 
 
-
 const MainButtons = (props) => {
 
     const [hoverup,setHoverUp] = useState(false);

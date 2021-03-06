@@ -9,7 +9,7 @@ const Graphs = (props) => {
                 datasets:[{
                             label:'population',
                             data:[
-                                45,44,60
+                                45,44,50
                             ],
                             backgroundColor:[
                                 'rgb(204, 153, 255)',
@@ -22,6 +22,8 @@ const Graphs = (props) => {
             <Bar
                 
                 data={data}
+                // responsive={true}
+                // maintainAspectRatio={true}
                 options={{
                     maintainAspectRatio:true,
                     scales: {
@@ -29,10 +31,10 @@ const Graphs = (props) => {
                             {
                                 ticks:{
                                     suggestedMin:30,
-                                    suggestedMax:70,
+                                    suggestedMax:60,
                                     fontColor:'#203',
                                     fontSize:20
-                                }
+                                },
 
                             }
                         ],
