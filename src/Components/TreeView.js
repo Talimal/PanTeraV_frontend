@@ -3,15 +3,16 @@ import 'react-tree-graph/dist/style.css';
 import Parent from './Parent';
 import './TreeView.css';
 import TIRP from '../TIRP'
-import { NavLink } from 'react-router-dom';
 
 
 const TreeView = (props) => {
 
 const [isOK,setisOK]=useState(false);
 const [root,setRoot]=useState();
-const [children,setChildren]=useState([]);
-const [startsWithMap,setMap] = useState(new Map());
+const [startChildren,setStartChildren]=useState([]);
+const [endChildren,setEndChildren]=useState([]);
+const [startsWithMap,setStartMap] = useState(new Map());
+const [endsWithMap,setEndMap] = useState(new Map());
 
 
   const desirializeTIRP = (entry) =>{
@@ -25,7 +26,7 @@ const [startsWithMap,setMap] = useState(new Map());
   }
 
   useEffect(() => {
-    fetch('http://127.0.0.1:5000/data')
+    fetch('http://127.0.0.1:5000/startData')
   .then(response => response.json())
   .then(res => {
     for (var entry in res){
@@ -40,12 +41,31 @@ const [startsWithMap,setMap] = useState(new Map());
         }
       }
       // startsWithMap.set(tirp,childrenArray);
-      setMap(new Map(startsWithMap.set(tirp,childrenArray)));
+      setStartMap(new Map(startsWithMap.set(tirp,childrenArray)));
   }
   setRoot(new TIRP(0,[],[],0,0,[]));
-  setChildren(getFirstTreeLevel());
-  setisOK(true);
-})
+  setStartChildren(getFirstTreeLevel());
+});
+ 
+
+fetch('http://127.0.0.1:5000/endData')
+  .then(response => response.json())
+  .then(res => {
+    for (var entry in res){
+      let childrenArray=[];
+      let tirp = desirializeTIRP(entry);
+      let value = res[entry];//array of TIRP children
+      for (var child in value){
+        // saving only the next level of the tree
+        let childTIRP = desirializeTIRP(value[child]);
+        childrenArray.push(childTIRP);
+        }
+      // endsWithMap.set(tirp,childrenArray);
+      setEndMap(new Map(endsWithMap.set(tirp,childrenArray)));
+    }
+      setEndChildren(getFirstEndTreelevel());
+      setisOK(true);
+  })
  
   },[]);
 
@@ -57,6 +77,16 @@ const getFirstTreeLevel = () =>{
     }
   }
  
+  return firstTreeLevel;
+}
+
+const getFirstEndTreelevel = () =>{
+  let firstTreeLevel=[];
+  for (const[tirp,endChildren] of endsWithMap){
+    if (endChildren.length===0){
+      firstTreeLevel.push(tirp);
+    }
+  }
   return firstTreeLevel;
 }
  
@@ -83,7 +113,7 @@ const getFirstTreeLevel = () =>{
 
   const getChildrenOfRoot = (rootNode)=>{
     if (rootNode.equalTirp(root)){
-      return children;
+      return startChildren;
     }
     else{
       for (const[tirp,value] of startsWithMap){
@@ -93,6 +123,19 @@ const getFirstTreeLevel = () =>{
       }
     }    
   }
+
+  const getChildrenEndInNode = (rootNode)=>{
+    if (rootNode.equalTirp(root)){
+      return endChildren;
+    }
+    else{
+      for (const[tirp,value] of endsWithMap){
+        if(tirp.equalTirp(rootNode)){
+          return value;
+        }
+      } 
+    }
+}
 
   const isComplexNode = (tirpNode)=>{
     for (const[tirp,children] of startsWithMap){
@@ -108,9 +151,11 @@ const getFirstTreeLevel = () =>{
     <div className="mainPage">
       {isOK?
         <Parent root={root}
-          children={children}
+          startChildren={startChildren}
+          endChildren={endChildren}
           handleClickPrevious={handleClickPrevious}
           getChildrenOfRoot={getChildrenOfRoot}
+          getChildrenEnd={getChildrenEndInNode}
           isComplexNode={isComplexNode}
           mapSize={mapSize}
           getRoot = {getRoot}>
