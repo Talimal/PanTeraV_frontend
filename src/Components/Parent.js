@@ -6,20 +6,22 @@ import ChildrenAfter from './ChildrenCards';
 import ChildrenBefore from './ChildrenCards';
 import MainButtons from './MainButtons';
 import ArrowButtons from './ArrowButtons';
+import ArrowAfter from './DataArrowsAfter';
+import ArrowBefore from './DataArrowsBefore';
 
-const Parent = (props) => {
+const Parent = ({propRoot,propStartChildren,propEndChildren,propHandleClickPrevious,getChildrenOfRoot,
+                getChildrenEnd,propIsComplexNode,getRoot,tirpSymbolName})=>{
 
-    const [root, setRoot] = useState(props.root);
-    const [children, setChildren] = useState(props.startChildren);
-    const [endChildren, setEndChildren] = useState(props.endChildren);
+    const [root, setRoot] = useState(propRoot);
+    const [children, setChildren] = useState(propStartChildren);
+    const [endChildren, setEndChildren] = useState(propEndChildren);
+    // const [isOK,setisOK]=useState(false);
     let presented=[];
     let presentedEndChildren=[];
     const notPresented=useRef([]);
     const notPresentedEndChildren=useRef([]);
     const tirpHistory=useRef([]);
     const subtractTwoArrays = (arr1, arr2) => arr1.filter( el => !arr2.includes(el) )
-
-
 
 
     const initialPresent = ()=>{
@@ -52,13 +54,13 @@ const Parent = (props) => {
                                         []:
                                         tirpHistory.current.concat([root.getSymbols()])
         setRoot(node);
-        setChildren(props.getChildrenOfRoot(node));
-        setEndChildren(props.getChildrenEnd(node));
+        setChildren(getChildrenOfRoot(node));
+        setEndChildren(getChildrenEnd(node));
     }
 
     /* is there a level before the current root?*/
     const canShowPrevious = () =>{
-        const father = props.handleClickPrevious(root);
+        const father = propHandleClickPrevious(root);
         if(father!=null){
             return true;
         }
@@ -68,11 +70,11 @@ const Parent = (props) => {
 
     const handleClickPrevious =() => {
         //getting father of current root
-        const father = props.handleClickPrevious(root);
+        const father = propHandleClickPrevious(root);
         if(father!=null){
             setRoot(father);
-            setChildren(props.getChildrenOfRoot(father));
-            setEndChildren(props.getChildrenEnd(father));
+            setChildren(getChildrenOfRoot(father));
+            setEndChildren(getChildrenEnd(father));
         }
         else{
             alert("no previous level");
@@ -122,59 +124,7 @@ const Parent = (props) => {
             }
         }
 
-    // const handleClickMore = (event) => {
-    //     //there are more children to present
-    //     if(notPresented.current.length>0){
-    //         //there are more than 3 children to present next (>=4)
-    //         if(notPresented.length>3){
-    //             let notPresentedCopy=notPresented.current;
-    //             //the next 3 children to present
-    //             presented=notPresented.current.slice(0,3);
-    //             //updating the not presented children after this iteration
-    //             notPresented.current=subtractTwoArrays(notPresentedCopy,presented);
-    //             setChildren(presented);
-    //         }
-    //         else{
-    //             //there are less then 3 more children to present (<=3)
-    //             presented=notPresented.current;
-    //             notPresented.current=[];
-    //             setChildren(presented);
-    //         }
-
-    //     }
-    //     else{
-    //         alert("There are no more children");
-    //     }
-    // }
-
-    // const handleClickMoreEnd = (event) => {
-    //     console.log("now")
-    //     //there are more children to present
-    //     if(notPresentedEndChildren.current.length>0){
-    //         //there are more than 3 children to present next (>=4)
-    //         if(notPresentedEndChildren.length>3){
-    //             let notPresentedCopy=notPresentedEndChildren.current;
-    //             //the next 3 children to present
-    //             presentedEndChildren=notPresentedEndChildren.current
-    //                                                 .slice(0,3);
-    //             //updating the not presented children after this iteration
-    //             notPresentedEndChildren.current=
-    //             subtractTwoArrays(notPresentedCopy,presentedEndChildren);
-    //             setEndChildren(presentedEndChildren);
-    //         }
-    //         else{
-    //             //there are less then 3 more children to present (<=3)
-    //             presentedEndChildren=notPresentedEndChildren.current;
-    //             notPresentedEndChildren.current=[];
-    //             setEndChildren(presentedEndChildren);
-    //         }
-
-    //     }
-    //     else{
-    //         alert("There are no more children");
-    //     }
-    // }
-
+    
     const canShowPrevChildrenGeneric = (isRegularChild)=>{
             let presentedTemp=null;
             let getChildrenFronUp=null;
@@ -182,11 +132,11 @@ const Parent = (props) => {
 
             if(isRegularChild===true){
                 presentedTemp=presented;
-                getChildrenFronUp=(root)=>props.getChildrenOfRoot(root)
+                getChildrenFronUp=(root)=>getChildrenOfRoot(root)
             }
             else{
                 presentedTemp=presentedEndChildren;
-                getChildrenFronUp=(root)=>props.getChildrenEnd(root)
+                getChildrenFronUp=(root)=>getChildrenEnd(root)
             }
 
 
@@ -203,34 +153,6 @@ const Parent = (props) => {
          else
          return true;
     }
-//     const canShowPrevChildren = ()=>{
-//          //first child right now
-//          let firstPresent = presented[0];
-//          //all children in this tree level
-//          let childrenAll = props.getChildrenOfRoot(root);
-//          //index of the first presented child in the array of all children
-//          let lastIndex = childrenAll.indexOf(firstPresent);
-//          //if there is no previous children
-//          if(lastIndex===0){
-//              return false;
-//          }
-//          else
-//          return true;
-//     }
-//     const canShowPrevChildrenEnd = ()=>{
-//         //first child right now
-//         let firstPresent = presentedEndChildren[0];
-//         //all children in this tree level
-//         let childrenAll = props.getChildrenEnd(root);
-//         //index of the first presented child in the array of all children
-//         let lastIndex = childrenAll.indexOf(firstPresent);
-//         //if there is no previous children
-//         if(lastIndex===0){
-//             return false;
-//         }
-//         else
-//         return true;
-//    }
 
     const canShowMoreChildrenGeneric = (isRegularChild)=>{
         let notPresentedTemp=null;
@@ -243,23 +165,6 @@ const Parent = (props) => {
             return false;
         }
     }
-//     const canShowMoreChildren = ()=>{
-//         if (notPresented.current.length>0){
-//             return true;
-//         }
-//         else{
-//             return false;
-//         }
-//    }
-
-//    const canShowMoreChildrenEnd = ()=>{
-//     if (notPresentedEndChildren.current.length>0){
-//         return true;
-//     }
-//     else{
-//         return false;
-//     }
-// }
 
     /* every moment, only 3 children max presented.
         this function needs to present the children before those presented 
@@ -276,12 +181,12 @@ const Parent = (props) => {
         if(isRegularChild===true){
             presentedTemp=presented;
             notPresentedTemp=notPresented;
-            getChildrenFronUp=(root)=>props.getChildrenOfRoot(root)
+            getChildrenFronUp=(root)=>getChildrenOfRoot(root)
         }
         else{
             presentedTemp=presentedEndChildren;
             notPresentedTemp=notPresentedEndChildren;
-            getChildrenFronUp=(root)=>props.getChildrenEnd(root)
+            getChildrenFronUp=(root)=>getChildrenEnd(root)
         }
 
 
@@ -317,91 +222,24 @@ const Parent = (props) => {
               }
           }
     }
-    // const handleClickLess = (event)=>{
-    //     //first child right now
-    //     let firstPresent = presented[0];
-    //     //all children in this tree level
-    //     let childrenAll = props.getChildrenOfRoot(root);
-    //     //index of the first presented child in the array of all children
-    //     let lastIndex = childrenAll.indexOf(firstPresent);
-    //     //if there is no previous children
-    //     if(lastIndex===0){
-    //         alert("There are no more children");
-    //     }
-    //     //there are previous children
-    //     else{
-    //         //all the previous children
-    //         let needToPresent=childrenAll.slice(0,lastIndex);
-    //         //update the nodes that not present after this iteration
-    //         notPresented.current=childrenAll.slice(lastIndex,childrenAll.length);
-
-    //         //there are more than 3 (>=4) previous children
-    //         if (needToPresent.length>3){
-    //             //present the 3 closest children to the first current one
-    //             presented = needToPresent.slice(needToPresent.length-3,needToPresent.length);
-    //             setChildren(presented);
-    //         }
-    //         else{
-    //             //there is less than 3 (<=3) previoud children
-    //             presented = needToPresent;
-    //             setChildren(presented);
-    //         }
-    //     }
-
-    // }
-    // const handleClickLessEnd = (event)=>{
-    //     //first child right now
-    //     let firstPresent = presentedEndChildren[0];
-    //     //all children in this tree level
-    //     let childrenAll = props.getChildrenEnd(root);
-    //     //index of the first presented child in the array of all children
-    //     let lastIndex = childrenAll.indexOf(firstPresent);
-    //     //if there is no previous children
-    //     if(lastIndex===0){
-    //         alert("There are no more children");
-    //     }
-    //     //there are previous children
-    //     else{
-    //         //all the previous children
-    //         let needToPresent=childrenAll.slice(0,lastIndex);
-    //         //update the nodes that not present after this iteration
-    //         notPresentedEndChildren.current=
-    //             childrenAll.slice(lastIndex,childrenAll.length);
-
-    //         //there are more than 3 (>=4) previous children
-    //         if (needToPresent.length>3){
-    //             //present the 3 closest children to the first current one
-    //             presentedEndChildren = 
-    //                 needToPresent.slice(needToPresent.length-3,
-    //                                 needToPresent.length);
-    //             setEndChildren(presentedEndChildren);
-    //         }
-    //         else{
-    //             //there is less than 3 (<=3) previoud children
-    //             presentedEndChildren = needToPresent;
-    //             setEndChildren(presentedEndChildren);
-    //         }
-    //     }
-
-    // }
+   
 /* filter and show only requested children*/
     const setFilterGeneric = (filterString,isRegularChild)=>{
         let getChildrenFronUp=null;
         let childrenTemp=null;
 
         if(isRegularChild===true){
-            getChildrenFronUp=(root)=>props.getChildrenOfRoot(root)
+            getChildrenFronUp=(root)=>getChildrenOfRoot(root)
             childrenTemp=children
         }
         else{
-            getChildrenFronUp=(root)=>props.getChildrenEnd(root)
+            getChildrenFronUp=(root)=>getChildrenEnd(root)
             childrenTemp=endChildren
         }
 
         if(filterString===""){
             isRegularChild?setChildren(getChildrenFronUp(root)):
                             setEndChildren(getChildrenFronUp(root))
-            // setChildren(props.getChildrenOfRoot(root));
         }
         else{
             const filteredArr = childrenTemp.filter(child => {
@@ -409,36 +247,11 @@ const Parent = (props) => {
             });
 
             isRegularChild?setChildren(filteredArr):setEndChildren(filteredArr)
-            // setChildren(filteredArr);
         }
     }
-    // const setFilter = (filterString)=>{
-    //     if(filterString===""){
-    //         setChildren(props.getChildrenOfRoot(root));
-    //     }
-    //     else{
-    //         const filteredArr = children.filter(child => {
-    //             return child.printSymbols().includes(filterString)
-    //         });
-
-    //         setChildren(filteredArr);
-    //     }
-    // }
-    // const setFilterEnd = (filterString)=>{
-    //     if(filterString===""){
-    //         setEndChildren(props.getChildrenEnd(root));
-    //     }
-    //     else{
-    //         const filteredArr = endChildren.filter(child => {
-    //             return child.printSymbols().includes(filterString)
-    //         });
-
-    //         setEndChildren(filteredArr);
-    //     }
-    // }
 
     const isComplexNode = (tirp)=> {
-        return props.isComplexNode(tirp);
+        return propIsComplexNode(tirp);
     }
 
     /*returns all the children to be presented + place holders for missing ones*/
@@ -451,34 +264,12 @@ const Parent = (props) => {
         return presentedTemp.concat(placeHolderArr)
     }
     
-    // const setInvisibleChildren = () =>{
-    //     const a =  new Array(presented.length%3===0?0:3-(presented.length)%3).fill(0)
-    //     return presented.concat(a)
-    // }
-
-    // const setInvisibleChildrenEnd = () =>{
-    //     const a =  new Array(presentedEndChildren.length%3===0?0:
-    //                     3-(presentedEndChildren.length)%3).fill(0)
-    //     return presentedEndChildren.concat(a)
-    // }
-   
 
     return (
+        
         <div className="flex-container-allPage">
-             <div className="flex-container-input-children">
-                <input type="text" className="input" placeholder="Search" onChange={(e)=>setFilterGeneric(e.target.value,false)}/>
-                <div className="childrenBefore">
-                    <ul className="list-of-children">
-                        {
-                            <ChildrenBefore handleClick={handleClick}
-                                            isComplexNode={isComplexNode}
-                                            toShow={setInvisibleChildrenGeneric(false)}
-                            />
-                        }
-                    </ul>
-                </div>
-            </div>
-            <div className="flex-container-arrow-buttons">
+            
+             <div className="flex-container-arrow-buttons-before">
                 <ArrowButtons 
                     canShowPrevChildren={()=>canShowPrevChildrenGeneric(false)}
                     canShowMoreChildren={()=>canShowMoreChildrenGeneric(false)}
@@ -486,10 +277,32 @@ const Parent = (props) => {
                     handleClickLess={()=>handleClickLessGeneric(false)}
                 />
             </div>
+
+             <div className="flex-container-input-children-before">
+                <input type="text" className="input" placeholder="Search" onChange={(e)=>setFilterGeneric(e.target.value,false)}/>
+                <div className="childrenBefore">
+                    <ul className="list-of-children">
+                        {
+                            <ChildrenBefore handleClick={handleClick}
+                                            isComplexNode={isComplexNode}
+                                            toShow={setInvisibleChildrenGeneric(false)}
+                                            isAfterChild={false}
+                                            tirpSymbolName={tirpSymbolName}
+                                            
+                            />
+                        }
+                    </ul>
+                </div>
+            </div>
+           <div className="dataArrows-before">
+              <ArrowBefore/>
+           </div>
             <div className="flex-container-root-buttons">
                     <div className="flex-container-root">
                         <RootCard root={root}
                                 toShow={presented}
+                                tirpSymbolName={tirpSymbolName}
+
                         />
                     </div>
 
@@ -499,26 +312,33 @@ const Parent = (props) => {
                     />
                 </div>
             </div>
-            <div className="flex-container-arrow-buttons">
+            <div className="dataArrows-after">
+            <ArrowAfter/>
+           </div>
+            <div className="flex-container-input-children-after">
+                <input type="text" className="input" placeholder="Search" onChange={(e)=>setFilterGeneric(e.target.value,true)}/>
+                <div className="childrenAfter">
+                    <ul className="list-of-children">
+                        {
+                            <ChildrenAfter 
+                                            handleClick={handleClick}
+                                            isComplexNode={isComplexNode}
+                                            toShow={setInvisibleChildrenGeneric(true)}
+                                            isAfterChild={true}
+                                            tirpSymbolName={tirpSymbolName}
+
+                            />
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div className="flex-container-arrow-buttons-after">
                 <ArrowButtons 
                     canShowPrevChildren={()=>canShowPrevChildrenGeneric(true)}
                     canShowMoreChildren={()=>canShowMoreChildrenGeneric(true)}
                     handleClickMore={()=>handleClickMoreGeneric(true)}
                     handleClickLess={()=>handleClickLessGeneric(true)}
                 />
-            </div>
-            <div className="flex-container-input-children">
-                <input type="text" className="input" placeholder="Search" onChange={(e)=>setFilterGeneric(e.target.value,true)}/>
-                <div className="childrenAfter">
-                    <ul className="list-of-children">
-                        {
-                            <ChildrenAfter handleClick={handleClick}
-                                            isComplexNode={isComplexNode}
-                                            toShow={setInvisibleChildrenGeneric(true)}
-                            />
-                        }
-                    </ul>
-                </div>
             </div>
         </div>
     );

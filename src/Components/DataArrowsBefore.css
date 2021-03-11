@@ -1,0 +1,22 @@
+.arrow-buttons-before{
+    display: flex;
+    flex-direction: column;
+}
+.arrow-buttons-before img{
+    width: 70%;
+}
+
+.arrow_before_1{
+    -webkit-transform: rotate(-160deg);
+    margin-top:-90%;
+}
+.arrow_before_2{
+    -webkit-transform: rotate(180deg);
+    margin-top:40%;
+    margin-bottom: 20%;
+}
+.arrow_before_3{
+    -webkit-transform: rotate(-200deg);
+    margin-top:30%;
+    margin-bottom: -100%;
+}

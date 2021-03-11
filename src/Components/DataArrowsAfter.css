@@ -1,0 +1,21 @@
+.arrow-buttons-after{
+    display: flex;
+    flex-direction: column;
+}
+.arrow-buttons-after img{
+    width: 70%;
+}
+
+.arrow_after_1{
+    -webkit-transform: rotate(-20deg);
+    margin-top:-90%;
+}
+.arrow_after_2{
+    margin-top:40%;
+    margin-bottom: 20%;
+}
+.arrow_after_3{
+    -webkit-transform: rotate(20deg);
+    margin-top:30%;
+    margin-bottom: -100%;
+}

@@ -12,34 +12,46 @@ import './RootCard.css'
 const RootCard = (props) => {
 
     const root = props.root;
-    const toShow=props.toShow;
 
     const history = useHistory();
     let graphs = function(){
         history.push({pathname: "/graphs",
-        state:{root:root,toShow:toShow}});
+                    state:{ tirpID: root.getID()}})
     };
 
+    const printName = (symbols)=>{
+        let toPrint="";
+        if(root.getSize()===1){
+            toPrint=props.tirpSymbolName[symbols].getName()+"-";
+        }
+        else{
+            toPrint=symbols.map((symbol)=>{
+                return props.tirpSymbolName[symbol].getLastName()
+            });
+            toPrint = toPrint.join("-")
+        }
+        return toPrint.slice(0,-1);
+    }
     return (
         <div className="RootCard">
             <Card style={rootStyle} hoverable="true">
                 <CardContent>
-                    {root.getSymbols().length>0?
-                    root.printSymbols():"root"}
+                    {root.getSize()>0?
+                    printName(root.getSymbols()):"root"}
                 </CardContent>
                 <CardContent>
                     {root.getRelations().length>0?
                     root.printRelations():""}
                 </CardContent>
                 <CardContent>
-                    {root.getSymbols().length>0?
+                    {root.getSize()>0?
                     root.printSupportingEnt():""}
                 </CardContent>
                 <CardContent>
-                    {root.getSymbols().length>0?
+                    {root.getSize()>0?
                     root.printMeanHorSup():""}
                 </CardContent>
-                <Button onClick={graphs}> Learn More </Button>
+                <Button style={{'color':'black'}} onClick={graphs}> Learn More </Button>
             </Card>
     </div>
     );

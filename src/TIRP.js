@@ -1,5 +1,5 @@
-export  default class TIRP {
-    constructor(size, symbols, relations, numSupportEntities,
+export  default class TIRP {  
+    constructor(id,size, symbols, relations, numSupportEntities,
         meanHorSup, occurences) {
       this.size = size;
       this.symbols = symbols;
@@ -7,14 +7,23 @@ export  default class TIRP {
       this.numSupportEntities = numSupportEntities;
       this.meanHorSup = meanHorSup;
       this.occurences = occurences;
+      this.id=id;
+      this.name=[];
     }
 
+    getID= ()=> this.id;
     getSize= ()=> this.size;
     getSymbols= ()=> this.symbols;
     getRelations= ()=> this.relations;
     getNumSupEnt= ()=> this.numSupportEntities;
     getMeanHorSup= ()=> this.meanHorSup;
     getOccurences= ()=> this.occurences;
+    getName = ()=>this.name;
+    getLastSymbol = ()=>this.symbols[this.symbols.length-1]
+    getFirstSymbol = ()=>this.symbols[0]
+    getLastName = ()=>this.name[this.name.length-1]
+    getFirstName = ()=>this.name[0]
+    setName = (symbolNames)=>this.name=symbolNames;
 
    toString = () =>{
      return "size: "+this.size+", symbols: "
@@ -33,6 +42,19 @@ export  default class TIRP {
      this.meanHorSup===other.getMeanHorSup() &&
      this.compareArrays (this.occurences, other.getOccurences()) 
 
+    createEntityOccurMap = ()=>{
+      let entityOccur = new Map();
+      for(var entry=0 ; entry<this.occurences.length - 1 ; entry+=2){
+        let entity = this.occurences[entry];
+        let occurence = this.occurences[entry+1];
+        entityOccur.has(entity)?
+                  entityOccur.set(entity,
+                          entityOccur.get(entity).concat(occurence))
+                          :
+                          entityOccur.set(entity,occurence);
+      }
+      return entityOccur;
+    }
   //  my function to compare 2 arrays - if all elements are equal
     compareArrays = (arr1,arr2) => {
        // compare lengths - can save a lot of time 
@@ -54,6 +76,13 @@ export  default class TIRP {
       }
       return toPrint.slice(0,-1);
     }
+    // printName = () =>{
+    //   let toPrint="";
+    //   for (var index in this.name.length){
+    //     toPrint=toPrint+this.name[index]+"-";
+    //   }
+    //   return toPrint.slice(0,-1);
+    // }
     printRelations = () =>{
       let toPrint="";
       for (var index in this.relations){
