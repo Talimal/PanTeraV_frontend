@@ -16,7 +16,8 @@ const RootCard = (props) => {
     const history = useHistory();
     let graphs = function(){
         history.push({pathname: "/graphs",
-                    state:{ tirpID: root.getID()}})
+                    state:{ tirpID: root.getID(),
+                            tirpName:printName(root.getSymbols())}})
     };
 
     const printName = (symbols)=>{
@@ -35,23 +36,33 @@ const RootCard = (props) => {
     return (
         <div className="RootCard">
             <Card style={rootStyle} hoverable="true">
-                <CardContent>
-                    {root.getSize()>0?
-                    printName(root.getSymbols()):"root"}
-                </CardContent>
-                <CardContent>
-                    {root.getRelations().length>0?
-                    root.printRelations():""}
-                </CardContent>
-                <CardContent>
-                    {root.getSize()>0?
-                    root.printSupportingEnt():""}
-                </CardContent>
-                <CardContent>
-                    {root.getSize()>0?
-                    root.printMeanHorSup():""}
-                </CardContent>
-                <Button style={{'color':'black'}} onClick={graphs}> Learn More </Button>
+                <div className="cardBody">                                        
+                    <CardContent>
+                        {root.getSize()>0?
+                        printName(root.getSymbols()):"root"}
+                    </CardContent>
+                
+                    <CardContent>
+                        {root.getRelations().length>0?
+                        "relations: "+root.printRelations():""}
+                    </CardContent>
+                    <CardContent>
+                        {root.getSize()>0?
+                        root.printSupportingEnt():""}
+                    </CardContent>
+                    <CardContent>
+                        {root.getSize()>0?
+                        root.printMeanHorSup():""}
+                    </CardContent>
+                </div>
+                <div className="buttonDiv">
+                    <Button className="cardButton" style={{
+                                        'color':'black',
+                                        'font-size':'large',
+                                        'border':'3px solid rgba(4, 150, 12, 0.671)'
+
+                                        }} onClick={graphs}> Learn More </Button>
+                </div>
             </Card>
     </div>
     );

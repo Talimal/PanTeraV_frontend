@@ -51,7 +51,7 @@ const App = (props) => {
   setRoot(new TIRP(0,0,[],[],0,0,[]));
   setStartChildren(getFirstTreeLevel());
   setIsStartData(true);
-});
+}).then(
  
 
 fetch('http://127.0.0.1:5000/endData')
@@ -71,7 +71,7 @@ fetch('http://127.0.0.1:5000/endData')
       setEndChildren(getFirstEndTreelevel());
       setIsEndData(true);
       
-  })
+  }).then(
   fetch('http://127.0.0.1:5000/states')
   .then(response => response.json())
   .then(res => {
@@ -89,7 +89,7 @@ fetch('http://127.0.0.1:5000/endData')
   })
     setIsNames(true);
   }
-  )},[]);
+)))},[]);
 
   const getFirstTreeLevel = () =>{
     let firstTreeLevel=[];

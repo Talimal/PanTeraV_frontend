@@ -1,20 +1,20 @@
-.rootCardButton{
+.cardButton{
     font-size: large;
-    border:3px solid rgba(4, 150, 12, 0.671);
+    border:3px solid rgba(24, 194, 33, 0.671);
 }
-.rootCardButton:hover{
+.cardButton:hover{
     font-weight: bold;
 	background: none;
 	text-decoration: none;
     transform: scale(1.2);
 }
-.rootCardButton.grow{
+.cardButton.grow{
     transition: all .2s ease-in-out;
 }
-.rootCardBody{
-    height: 60%;
+.titleDiv{
+    height: 50%;
 }
-.rootButtonDiv{
+.buttonDiv{
     position: relative;
-    margin-top: 20%;
+    margin-top: 15%;
 }

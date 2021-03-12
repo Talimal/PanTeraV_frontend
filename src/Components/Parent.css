@@ -32,23 +32,21 @@
 .flex-container-input-children-after{
     display: flex;
     flex-direction: column;
-    width: 20%;
+    width: 25%;
 }
 .flex-container-input-children-before{
     display: flex;
     flex-direction: column;
-    width: 20%;
+    width: 25%;
 }
 /* input field */
 .flex-container-input-children-before input{
-    margin-top: 3%;
     margin-bottom: 5%;
     width: 90%;
     height: 3em;
     margin-left: 10%;
 }
 .flex-container-input-children-after input{
-    margin-top: 3%;
     margin-bottom: 5%;
     width: 90%;
     height: 3em;

@@ -9,6 +9,7 @@ const Graphs = (props) => {
    
     const location = useLocation();
     const tirpID = location.state.tirpID;
+    const tirpName = location.state.tirpName;
     const tirp = props.getTirp(tirpID);
     const tirpSymbols = tirp.getSymbols();
     const entityOccurMap = tirp.createEntityOccurMap();
@@ -42,8 +43,10 @@ const Graphs = (props) => {
         data: {
             labels: [],
             datasets:[{}],
-            backgroundColor: "red",
-            strokeColor: "brown",
+            backgroundColor: 'rgba(134,159,152, 1)',
+            borderColor: 'rgba(134,159,152, 1)',
+            hoverBackgroundColor: 'rgba(230, 236, 235, 0.75)',
+            hoverBorderColor: 'rgba(230, 236, 235, 0.75)',
         },
         options: {
             legend: {
@@ -55,7 +58,9 @@ const Graphs = (props) => {
                 xAxes: [
                     {
                     ticks: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        fontColor:"#000000",
+                        fontSize:18
                     }
                     }
                 ],
@@ -69,8 +74,19 @@ const Graphs = (props) => {
             },
             title: {
                 display: true,
-                text: 'tirp: '+tirpSymbols,
-                fontSize:25
+                text: 'tirp: '+tirpName,
+                fontSize:25,
+                fontColor:'#0000FF'
+            },
+            tooltips: {
+                titleFontSize: 20,
+                bodyFontSize: 20
+                // callbacks: {
+                //     label: function(tooltipItem, data) {
+                //         var label = "";    
+                //         return label;
+                //     }
+                // }
             }
         }
     }
@@ -88,9 +104,10 @@ const Graphs = (props) => {
     
     const updateChart = (entityID,newData,newLabels)=>{
         chartInstance.data.datasets[0].data = newData;
+        chartInstance.data.datasets[0].backgroundColor = '#0000FF';
         chartInstance.data.labels= newLabels;
         chartInstance.options.title.text= 
-        'tirp: '+tirpSymbols+',entityID: '+entityID;
+        'tirp: '+tirpName+',entityID: '+entityID;
         chartInstance.update();
     }
    

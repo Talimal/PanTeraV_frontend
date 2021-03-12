@@ -279,7 +279,7 @@ const Parent = ({propRoot,propStartChildren,propEndChildren,propHandleClickPrevi
             </div>
 
              <div className="flex-container-input-children-before">
-                <input type="text" className="input" placeholder="Search" onChange={(e)=>setFilterGeneric(e.target.value,false)}/>
+                <input type="text" className="input" placeholder="Search" hidden={setInvisibleChildrenGeneric(false).length===0} onChange={(e)=>setFilterGeneric(e.target.value,false)}/>
                 <div className="childrenBefore">
                     <ul className="list-of-children">
                         {
@@ -316,7 +316,7 @@ const Parent = ({propRoot,propStartChildren,propEndChildren,propHandleClickPrevi
             <ArrowAfter/>
            </div>
             <div className="flex-container-input-children-after">
-                <input type="text" className="input" placeholder="Search" onChange={(e)=>setFilterGeneric(e.target.value,true)}/>
+                <input type="text" className="input" placeholder="Search" hidden={setInvisibleChildrenGeneric(true).length===0} onChange={(e)=>setFilterGeneric(e.target.value,true)}/>
                 <div className="childrenAfter">
                     <ul className="list-of-children">
                         {

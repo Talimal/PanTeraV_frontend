@@ -1,54 +1,52 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import './MainMenu.css'
-import graphs from '../images/graphs.jpg';
-import data from '../images/data.png';
-import tree from '../images/tree.png';
-import info from '../images/info.png';
+import './MainMenu.css';
 import {AiOutlineFileAdd} from 'react-icons/ai';
 import {FcTreeStructure} from 'react-icons/fc';
 import {GoGraph} from 'react-icons/go';
 import {BsFillInfoCircleFill} from 'react-icons/bs';
+import { useHistory } from "react-router-dom";
 
 const MainMenu = (props) => {
 
   const iconSize=90;
+  const history = useHistory();
+  let redirect = function(toWhere){
+      history.push({pathname: "/"+toWhere})
+  };
 
   return (
     <div className="mainPage">
         <nav className="nav-bar-main">
           <div className="nav-bar-div">
             <div className="UploadData">
-              <AiOutlineFileAdd size={iconSize}/>
+              <AiOutlineFileAdd size={iconSize} style={{"cursor":"pointer"}} onClick={()=>redirect("UploadData")}/>
               <NavLink to="/"> 
-                {/* <img src={data}/> */}
                 Upload Data 
               </NavLink>
             </div>
             <div className="TreeView">
-              <FcTreeStructure size={iconSize}/>
+              <FcTreeStructure size={iconSize} style={{"cursor":"pointer"}} onClick={()=>redirect("TreeView")}/>
               <NavLink to="/TreeView"> 
-                {/* <img src={tree}/> */}
                 Tree View 
               </NavLink>
             </div>
             <div className="graphs">
-              <GoGraph size={iconSize}/>
+              <GoGraph size={iconSize} style={{"cursor":"pointer"}} onClick={()=>alert("Choose TIRP first")}/>
               <NavLink to="/graphs"> 
-                {/* <img src={graphs}/> */}
                 Graphs 
               </NavLink>
             </div>
             <div className="info">
-              <BsFillInfoCircleFill size={iconSize}/>
+              <BsFillInfoCircleFill size={iconSize} style={{"cursor":"pointer"}} onClick={()=>redirect("TreeView")}/>
               <NavLink to="/TreeView">
-                {/* <img src={info}/> */}
                 Information 
               </NavLink>
             </div>
           </div>
         </nav>
      </div>
+  
   );
 }
 
