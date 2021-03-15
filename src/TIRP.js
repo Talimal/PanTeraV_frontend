@@ -1,5 +1,5 @@
 export  default class TIRP {  
-    constructor(id,size, symbols, relations, numSupportEntities,
+    constructor(size, symbols, relations, numSupportEntities,
         meanHorSup, occurences) {
       this.size = size;
       this.symbols = symbols;
@@ -7,11 +7,9 @@ export  default class TIRP {
       this.numSupportEntities = numSupportEntities;
       this.meanHorSup = meanHorSup;
       this.occurences = occurences;
-      this.id=id;
       this.name=[];
     }
 
-    getID= ()=> this.id;
     getSize= ()=> this.size;
     getSymbols= ()=> this.symbols;
     getRelations= ()=> this.relations;

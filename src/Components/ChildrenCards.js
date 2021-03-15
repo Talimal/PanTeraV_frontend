@@ -13,8 +13,10 @@ const ChildrenCards = ({handleClick,isComplexNode,toShow,isAfterChild,tirpSymbol
     const history = useHistory();
     let graphs = function(tirp){
         history.push({pathname: "/graphs",
-                    state:{ tirpID: tirp.getID(),
-                            tirpName:printName(tirp.getSymbols())}})
+                    state:{ 
+                            tirpName:printName(tirp.getSymbols()),
+                            tirpSymbols:tirp.getSymbols(),
+                            tirpRelations:tirp.getRelations()}})
     };
     const printName = (symbols)=>{
         let toPrint="";
@@ -42,14 +44,15 @@ const ChildrenCards = ({handleClick,isComplexNode,toShow,isAfterChild,tirpSymbol
                         >
                         <div className="titleDiv">                                        
                             <CardContent>
-                                {isAfterChild?(tirpSymbolName[child.getSymbols()]).getLastName():(tirpSymbolName[child.getSymbols()]).getLastName()}
+                                {child.getSymbols()}
+                                {/* {isAfterChild?(tirpSymbolName[child.getSymbols()]).getLastName():(tirpSymbolName[child.getSymbols()]).getFirstName()} */}
                             </CardContent>
                         </div>
                         <div className="buttonDiv">
                             <Button className="cardButton"
                             style={{
                                 'color':'black',
-                                'font-size':'large',
+                                'fontSize':'medium',
                                 'border':'3px solid rgba(4, 150, 12, 0.671)'
 
                                 }}

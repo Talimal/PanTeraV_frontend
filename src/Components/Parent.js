@@ -1,4 +1,4 @@
-import React,  {useRef, useState } from 'react';
+import React,  {useRef, useState,useEffect } from 'react';
 import './Parent.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import RootCard from './RootCard';
@@ -8,6 +8,7 @@ import MainButtons from './MainButtons';
 import ArrowButtons from './ArrowButtons';
 import ArrowAfter from './DataArrowsAfter';
 import ArrowBefore from './DataArrowsBefore';
+import Chartjs from 'chart.js';
 
 const Parent = ({propRoot,propStartChildren,propEndChildren,propHandleClickPrevious,getChildrenOfRoot,
                 getChildrenEnd,propIsComplexNode,getRoot,tirpSymbolName})=>{
@@ -263,82 +264,173 @@ const Parent = ({propRoot,propStartChildren,propEndChildren,propHandleClickPrevi
                                             3-(presentedTemp.length)%3).fill(0)
         return presentedTemp.concat(placeHolderArr)
     }
+    const initialChartConfig = {
+        type: "horizontalBar",
+        data: {
+            labels: [],
+            datasets:[{}],
+        },
+        options: {
+            responsive:true,
+            maintainAspectRatio: false,
+            legend: {
+                labels: {
+                    fontSize: 0
+                }
+            },
+            scales: {
+                xAxes: [
+                    {
+                    ticks: {
+                        // beginAtZero: true,
+                        // fontColor:"#000000",
+                        // fontSize:12
+                        display: true
+                    }
+                    }
+                ],
+                yAxes:[
+                    {
+                        ticks: {
+                            display: false
+                        }
+                    }
+                ]
+            },
+            title: {
+                display: true,
+                text: 'Time Line',
+                fontSize:20,
+                fontColor:'#0000FF'
+            },
+            tooltips: {
+                titleFontSize: 12,
+                bodyFontSize: 12
+            }
+        }
+    }
+      
+    const chartContainer = useRef(null);
+    const [chartInstance, setChartInstance] = useState(null);
+
+    useEffect(() => {
+        if (chartContainer && chartContainer.current) {
+        const newChartInstance = new Chartjs(chartContainer.current, initialChartConfig);
+        setChartInstance(newChartInstance);
+        }
+    }, [chartContainer]);
     
+    const updateChart = (newData,newLabels)=>{
+        chartInstance.data.datasets[0].data = newData;
+        chartInstance.data.labels= newLabels;
+        chartInstance.data.datasets[0].backgroundColor = '#0000FF';
+        chartInstance.update();
+    }
+
+    const clearChart = () => {
+        chartInstance.clear();
+    };
+
+    const updateTimeLine = ()=>{
+        if (root.getSize()==2){
+            if(JSON.stringify(root.getRelations())==="<"){
+                let newData=[[1,2],[3,4]];
+                clearChart();
+                updateChart(newData);
+            }
+            else{
+                let newData=[[3,4],[1,2]];
+                let newLabels=[root.getSymbols[0],root.getSymbols[1]]
+                clearChart();
+                updateChart(newData,newLabels);
+            }
+        }
+    }
 
     return (
-        
-        <div className="flex-container-allPage">
-            
-             <div className="flex-container-arrow-buttons-before">
-                <ArrowButtons 
-                    canShowPrevChildren={()=>canShowPrevChildrenGeneric(false)}
-                    canShowMoreChildren={()=>canShowMoreChildrenGeneric(false)}
-                    handleClickMore={()=>handleClickMoreGeneric(false)}
-                    handleClickLess={()=>handleClickLessGeneric(false)}
-                />
-            </div>
-
-             <div className="flex-container-input-children-before">
-                <input type="text" className="input" placeholder="Search" hidden={setInvisibleChildrenGeneric(false).length===0} onChange={(e)=>setFilterGeneric(e.target.value,false)}/>
-                <div className="childrenBefore">
-                    <ul className="list-of-children">
-                        {
-                            <ChildrenBefore handleClick={handleClick}
-                                            isComplexNode={isComplexNode}
-                                            toShow={setInvisibleChildrenGeneric(false)}
-                                            isAfterChild={false}
-                                            tirpSymbolName={tirpSymbolName}
-                                            
-                            />
-                        }
-                    </ul>
+        <div className="TreeView">
+            <div className="flex-container-tree-cards">
+                
+                <div className="flex-container-arrow-buttons-before">
+                    {presentedEndChildren.length>1?
+                    <ArrowButtons 
+                        canShowPrevChildren={()=>canShowPrevChildrenGeneric(false)}
+                        canShowMoreChildren={()=>canShowMoreChildrenGeneric(false)}
+                        handleClickMore={()=>handleClickMoreGeneric(false)}
+                        handleClickLess={()=>handleClickLessGeneric(false)}
+                    />
+                    :null}
                 </div>
-            </div>
-           <div className="dataArrows-before">
-              <ArrowBefore/>
-           </div>
-            <div className="flex-container-root-buttons">
-                    <div className="flex-container-root">
-                        <RootCard root={root}
-                                toShow={presented}
-                                tirpSymbolName={tirpSymbolName}
 
+                <div className="flex-container-input-children-before">
+                    <input type="text" className="input" placeholder="Search" hidden={setInvisibleChildrenGeneric(false).length===0} onChange={(e)=>setFilterGeneric(e.target.value,false)}/>
+                    <div className="childrenBefore">
+                        <ul className="list-of-children">
+                            {
+                                <ChildrenBefore handleClick={handleClick}
+                                                isComplexNode={isComplexNode}
+                                                toShow={setInvisibleChildrenGeneric(false)}
+                                                isAfterChild={false}
+                                                tirpSymbolName={tirpSymbolName}
+                                                
+                                />
+                            }
+                        </ul>
+                    </div>
+                </div>
+            {/* <div className="dataArrows-before">
+                <ArrowBefore/>
+            </div> */}
+                <div className="flex-container-root-buttons">
+                        <div className="flex-container-root">
+                            <RootCard root={root}
+                                    toShow={presented}
+                                    tirpSymbolName={tirpSymbolName}
+
+                            />
+                        </div>
+
+                    <div className="flex-container-buttons">
+                        <MainButtons handleClickPrevious={handleClickPrevious}
+                                    canShowPrevious={canShowPrevious}
                         />
                     </div>
+                </div>
+                {/* <div className="dataArrows-after">
+                <ArrowAfter/>
+            </div> */}
+                <div className="flex-container-input-children-after">
+                    <input type="text" className="input" placeholder="Search" hidden={setInvisibleChildrenGeneric(true).length===0} onChange={(e)=>setFilterGeneric(e.target.value,true)}/>
+                    <div className="childrenAfter">
+                        <ul className="list-of-children">
+                            {
+                                <ChildrenAfter 
+                                                handleClick={handleClick}
+                                                isComplexNode={isComplexNode}
+                                                toShow={setInvisibleChildrenGeneric(true)}
+                                                isAfterChild={true}
+                                                tirpSymbolName={tirpSymbolName}
 
-                <div className="flex-container-buttons">
-                    <MainButtons handleClickPrevious={handleClickPrevious}
-                                canShowPrevious={canShowPrevious}
+                                />
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div className="flex-container-arrow-buttons-after">
+                    {presented.length>1?
+                    <ArrowButtons 
+                        canShowPrevChildren={()=>canShowPrevChildrenGeneric(true)}
+                        canShowMoreChildren={()=>canShowMoreChildrenGeneric(true)}
+                        handleClickMore={()=>handleClickMoreGeneric(true)}
+                        handleClickLess={()=>handleClickLessGeneric(true)}
                     />
+                    :null}
                 </div>
+            
             </div>
-            <div className="dataArrows-after">
-            <ArrowAfter/>
-           </div>
-            <div className="flex-container-input-children-after">
-                <input type="text" className="input" placeholder="Search" hidden={setInvisibleChildrenGeneric(true).length===0} onChange={(e)=>setFilterGeneric(e.target.value,true)}/>
-                <div className="childrenAfter">
-                    <ul className="list-of-children">
-                        {
-                            <ChildrenAfter 
-                                            handleClick={handleClick}
-                                            isComplexNode={isComplexNode}
-                                            toShow={setInvisibleChildrenGeneric(true)}
-                                            isAfterChild={true}
-                                            tirpSymbolName={tirpSymbolName}
-
-                            />
-                        }
-                    </ul>
-                </div>
-            </div>
-            <div className="flex-container-arrow-buttons-after">
-                <ArrowButtons 
-                    canShowPrevChildren={()=>canShowPrevChildrenGeneric(true)}
-                    canShowMoreChildren={()=>canShowMoreChildrenGeneric(true)}
-                    handleClickMore={()=>handleClickMoreGeneric(true)}
-                    handleClickLess={()=>handleClickLessGeneric(true)}
-                />
+            <div className="tirpTimeLine">
+                {console.log("here"),updateTimeLine()}
+                <canvas className="canvas" ref={chartContainer} />
             </div>
         </div>
     );

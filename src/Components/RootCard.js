@@ -58,7 +58,7 @@ const RootCard = (props) => {
                 <div className="buttonDiv">
                     <Button className="cardButton" style={{
                                         'color':'black',
-                                        'font-size':'large',
+                                        'fontSize':'large',
                                         'border':'3px solid rgba(4, 150, 12, 0.671)'
 
                                         }} onClick={graphs}> Learn More </Button>

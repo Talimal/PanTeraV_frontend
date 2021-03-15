@@ -9,7 +9,7 @@ import { useHistory } from "react-router-dom";
 
 const MainMenu = (props) => {
 
-  const iconSize=90;
+  const iconSize=80;
   const history = useHistory();
   let redirect = function(toWhere){
       history.push({pathname: "/"+toWhere})

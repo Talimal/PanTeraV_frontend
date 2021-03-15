@@ -8,10 +8,10 @@ const Graphs = (props) => {
 
    
     const location = useLocation();
-    const tirpID = location.state.tirpID;
     const tirpName = location.state.tirpName;
-    const tirp = props.getTirp(tirpID);
-    const tirpSymbols = tirp.getSymbols();
+    const tirpSymbols = location.state.tirpSymbols;
+    const tirpRelations = location.state.tirpRelations;
+    const tirp = props.getTirp(tirpSymbols,tirpRelations);
     const entityOccurMap = tirp.createEntityOccurMap();
     const keysArray = Array.from(entityOccurMap.keys());
 
@@ -31,24 +31,37 @@ const Graphs = (props) => {
                 
             }
         }
+        let rawDataArr = props.getRawData(entityID,tirpSymbols);
+        const [intervals,labels] = parseIntervals(rawDataArr);
+
         clearChart();
         updateChart(entityID,newArrLimits,newLabelsArr);
-       
+        updateChartRaw(entityID,intervals,labels);
         
     }
   
+    const parseIntervals = (RawDataArr)=>{
+        let intervalArr=[];
+        let labelsArr=[];
+        for(var i=0; i<RawDataArr.length ; i++){
+            intervalArr.push([parseInt(RawDataArr[i].getStartTime()),
+                            parseInt(RawDataArr[i].getEndTime())])
+            labelsArr.push(RawDataArr[i].getSymbol())
+                
+        }
+        return [intervalArr,labelsArr];
+    }
+    
 
     const initialChartConfig = {
         type: "horizontalBar",
         data: {
             labels: [],
             datasets:[{}],
-            backgroundColor: 'rgba(134,159,152, 1)',
-            borderColor: 'rgba(134,159,152, 1)',
-            hoverBackgroundColor: 'rgba(230, 236, 235, 0.75)',
-            hoverBorderColor: 'rgba(230, 236, 235, 0.75)',
         },
         options: {
+            // responsive:true,
+            // maintainAspectRatio: false,
             legend: {
                 labels: {
                     fontSize: 0
@@ -67,7 +80,7 @@ const Graphs = (props) => {
                 yAxes:[
                     {
                         ticks: {
-                            display: false
+                            display: true
                         }
                     }
                 ]
@@ -81,38 +94,93 @@ const Graphs = (props) => {
             tooltips: {
                 titleFontSize: 20,
                 bodyFontSize: 20
-                // callbacks: {
-                //     label: function(tooltipItem, data) {
-                //         var label = "";    
-                //         return label;
-                //     }
-                // }
             }
         }
     }
 
+    const initialChartConfigRaw = {
+        type: "horizontalBar",
+        data: {
+            labels: [],
+            datasets:[{}],
+        },
+        options: {
+            // responsive:true,
+            // maintainAspectRatio: false,
+            legend: {
+                labels: {
+                    fontSize: 0
+                }
+            },
+            scales: {
+                xAxes: [
+                    {
+                    ticks: {
+                        beginAtZero: true,
+                        fontColor:"#000000",
+                        fontSize:18
+                    }
+                    }
+                ],
+                yAxes:[
+                    {
+                        ticks: {
+                            display: true
+                        }
+                    }
+                ]
+            },
+            title: {
+                display: true,
+                text: 'Raw data',
+                fontSize:25,
+                fontColor:'#0000FF'
+            },
+            tooltips: {
+                titleFontSize: 20,
+                bodyFontSize: 20
+            }
+        }
+    }
       
     const chartContainer = useRef(null);
     const [chartInstance, setChartInstance] = useState(null);
-    
+    const chartContainerRaw = useRef(null);
+    const [chartInstanceRaw, setChartInstanceRaw] = useState(null);
+
     useEffect(() => {
-        if (chartContainer && chartContainer.current) {
+        if (chartContainer && chartContainer.current &&
+            chartContainerRaw && chartContainerRaw.current) {
         const newChartInstance = new Chartjs(chartContainer.current, initialChartConfig);
+        const newChartInstanceRaw = new Chartjs(chartContainerRaw.current, initialChartConfigRaw);
+
         setChartInstance(newChartInstance);
+        setChartInstanceRaw(newChartInstanceRaw);
+
         }
-    }, [chartContainer]);
+    }, [chartContainer,chartContainerRaw]);
     
     const updateChart = (entityID,newData,newLabels)=>{
         chartInstance.data.datasets[0].data = newData;
         chartInstance.data.datasets[0].backgroundColor = '#0000FF';
         chartInstance.data.labels= newLabels;
         chartInstance.options.title.text= 
-        'tirp: '+tirpName+',entityID: '+entityID;
+        ['tirp: '+tirpName,'entityID: '+entityID,tirpRelations!==[]?'relations: '+tirpRelations:null];
         chartInstance.update();
+    }
+
+    const updateChartRaw = (entityID,newData,newLabels)=>{
+        chartInstanceRaw.data.datasets[0].data = newData;
+        chartInstanceRaw.data.datasets[0].backgroundColor = '#DC143C';
+        chartInstanceRaw.data.labels= newLabels;
+        // chartInstance.options.title.text= 
+        // ['tirp: '+tirpName,'entityID: '+entityID,tirpRelations!==[]?'relations: '+tirpRelations:null];
+        chartInstanceRaw.update();
     }
    
     const clearChart = () => {
         chartInstance.clear();
+        chartInstanceRaw.clear();
     };
      
       
@@ -127,7 +195,8 @@ const Graphs = (props) => {
                                          onChange={(e)=>handleDropDown(e)}>{entry}</option>
                  )})}
              </select>
-            <canvas ref={chartContainer} />
+            <canvas className="canvas" ref={chartContainer} />
+            <canvas className="canvas" ref={chartContainerRaw} />
       </div>
       );
  

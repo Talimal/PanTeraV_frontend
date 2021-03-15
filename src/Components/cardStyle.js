@@ -2,7 +2,7 @@ export var rootStyle = {
     'height': '18em',
     'width':'100%',
     'background': 'linear-gradient(90deg, rgba(77,233,176,0.7147233893557423) 9%, rgba(131,238,227,0.5298494397759104) 56%, rgba(13,194,231,0.8099614845938375) 100%)',
-    'marginTop': '30%',
+    'marginTop': '10%',
     'fontSize': '30px',
     'fontFamily': 'cursive',
     'fontWeight': 'bold',
@@ -14,7 +14,7 @@ export var rootStyle = {
 export var complexNode={
     'background': '#d1d1e0',
     'width': '100%',
-    'height': '7em',
+    'height': '5em',
     'borderStyle': 'solid',
     'borderWidth': 'thick',
     'marginBottom': '10%',
@@ -29,7 +29,7 @@ export var complexNode={
 export var notComplexNode={
     'background': '#d1d1e0',
     'width': '100%',
-    'height': '7em',
+    'height': '5em',
     'marginBottom': '10%',
     'fontWeight': 'bold',
     'fontSize': '40px',
@@ -39,7 +39,7 @@ export var notComplexNode={
 }
 export var placeHolderCard={
     'width': '100%',
-    'height': '20em',
+    'height': '14.3em',
     'marginBottom': '10%',
     'visibility': 'hidden'
 }
