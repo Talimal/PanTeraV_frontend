@@ -2,7 +2,7 @@ import React from 'react';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
-import {complexNode,notComplexNode,placeHolderCard} from './CardStyle'
+import {complexNode,notComplexNode,placeHolderCard,complexNodeBefore,notComplexNodeBefore,complexNodeAfter,notComplexNodeAfter} from './CardStyle'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useHistory } from "react-router-dom";
 import "./ChildrenCards.css";
@@ -38,14 +38,15 @@ const ChildrenCards = ({handleClick,isComplexNode,toShow,isAfterChild,tirpSymbol
             <div className="card">
                 {child!==0?
                     <Card 
-                        style={isComplexNode(child)?complexNode
-                            :notComplexNode}
+                        style={isAfterChild===false?isComplexNode(child)?complexNodeBefore:notComplexNodeBefore
+                                                :isComplexNode(child)?complexNodeAfter:notComplexNodeAfter
+                                }
                         onClick={isComplexNode(child)?()=>handleClick(child):null}
                         >
                         <div className="titleDiv">                                        
                             <CardContent>
-                                {child.getSymbols()}
-                                {/* {isAfterChild?(tirpSymbolName[child.getSymbols()]).getLastName():(tirpSymbolName[child.getSymbols()]).getFirstName()} */}
+                                {/* {child.getSymbols()} */}
+                                {isAfterChild?(tirpSymbolName[child.getSymbols()]).getLastName():(tirpSymbolName[child.getSymbols()]).getFirstName()}
                             </CardContent>
                         </div>
                         <div className="buttonDiv">
@@ -53,7 +54,7 @@ const ChildrenCards = ({handleClick,isComplexNode,toShow,isAfterChild,tirpSymbol
                             style={{
                                 'color':'black',
                                 'fontSize':'medium',
-                                'border':'3px solid rgba(4, 150, 12, 0.671)'
+                                'border':'3px solid rgb(236, 240, 236)'
 
                                 }}
                             onClick={()=>graphs(child)}> Learn More </Button>

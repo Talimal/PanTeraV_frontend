@@ -1,6 +1,6 @@
 .cardButton{
     font-size: large;
-    border:3px solid rgba(24, 194, 33, 0.671);
+    border:3px solid rgb(236, 240, 236);
 }
 .cardButton:hover{
     font-weight: bold;
@@ -16,5 +16,5 @@
 }
 .buttonDiv{
     position: relative;
-    margin-top: 4%;
+    margin-top: 7%;
 }

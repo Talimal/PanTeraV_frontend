@@ -21,7 +21,7 @@
 .flex-container-root-buttons{
     flex-direction: column;
     height: 100%;
-    width: 25%;
+    width: 30%;
     /* margin-right: 2%; */
     margin-left: 2%;
 }
@@ -79,7 +79,7 @@
     height: 20em;
     justify-content: center;
     align-items: center;
-    border:3px solid rgba(4, 150, 12, 0.671);
+    border:3px solid rgba(5, 9, 233, 0.671);
 }
 .canvas{
     /* width: 10em;

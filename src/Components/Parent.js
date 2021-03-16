@@ -318,7 +318,7 @@ const Parent = ({propRoot,propStartChildren,propEndChildren,propHandleClickPrevi
         const newChartInstance = new Chartjs(chartContainer.current, initialChartConfig);
         setChartInstance(newChartInstance);
         }
-    }, [chartContainer]);
+    }, [chartContainer,root]);
     
     const updateChart = (newData,newLabels)=>{
         chartInstance.data.datasets[0].data = newData;
@@ -332,7 +332,7 @@ const Parent = ({propRoot,propStartChildren,propEndChildren,propHandleClickPrevi
     };
 
     const updateTimeLine = ()=>{
-        if (root.getSize()==2){
+        if (root.getSize()===2){
             if(JSON.stringify(root.getRelations())==="<"){
                 let newData=[[1,2],[3,4]];
                 clearChart();
@@ -429,7 +429,7 @@ const Parent = ({propRoot,propStartChildren,propEndChildren,propHandleClickPrevi
             
             </div>
             <div className="tirpTimeLine">
-                {console.log("here"),updateTimeLine()}
+                {updateTimeLine()}
                 <canvas className="canvas" ref={chartContainer} />
             </div>
         </div>

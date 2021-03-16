@@ -96,4 +96,8 @@ export  default class TIRP {
     printMeanHorSup  = () =>{
       return ("Mean horizontal support: "+this.meanHorSup)
     }
+
+    getIntervalsRelations = ()=>{
+      
+    }
   }

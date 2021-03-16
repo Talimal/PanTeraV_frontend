@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import './MainMenu.css';
 import {AiOutlineFileAdd} from 'react-icons/ai';
-import {FcTreeStructure} from 'react-icons/fc';
+import {FcTreeStructure,FcBarChart,FcInfo} from 'react-icons/fc';
 import {GoGraph} from 'react-icons/go';
 import {BsFillInfoCircleFill} from 'react-icons/bs';
 import { useHistory } from "react-router-dom";
@@ -32,13 +32,13 @@ const MainMenu = (props) => {
               </NavLink>
             </div>
             <div className="graphs">
-              <GoGraph size={iconSize} style={{"cursor":"pointer"}} onClick={()=>alert("Choose TIRP first")}/>
+              <FcBarChart size={iconSize} style={{"cursor":"pointer"}} onClick={()=>alert("Choose TIRP first")}/>
               <NavLink to="/graphs"> 
                 Graphs 
               </NavLink>
             </div>
             <div className="info">
-              <BsFillInfoCircleFill size={iconSize} style={{"cursor":"pointer"}} onClick={()=>redirect("TreeView")}/>
+              <FcInfo size={iconSize} style={{"cursor":"pointer"}} onClick={()=>redirect("TreeView")}/>
               <NavLink to="/TreeView">
                 Information 
               </NavLink>

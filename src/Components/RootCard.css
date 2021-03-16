@@ -1,6 +1,6 @@
 .rootCardButton{
     font-size: large;
-    border:3px solid rgba(4, 150, 12, 0.671);
+    border:3px solid rgb(250, 255, 250);
 }
 .rootCardButton:hover{
     font-weight: bold;
@@ -17,4 +17,47 @@
 .rootButtonDiv{
     position: relative;
     margin-top: 30%;
+}
+.firstLine{
+    width: 50%;
+    margin-left: 0%;
+}
+.secondLine{
+    width: 50%;
+    margin-right: 0%;
+    margin-top: 0%;
+}
+/* h1 {
+    border-bottom: 4px solid #387ff7;
+  } */
+/* h1::before{
+    content: '';
+    display: block;
+    border-bottom: 4px solid #930dec;
+    margin-bottom: -2px;
+    max-width: 200px;
+} */
+/* h1:after {
+content: '';
+display: block;
+border-bottom: 4px solid #930dec;
+margin-bottom: -2px;
+max-width: 200px;
+} */
+.colorLines{
+    display: flex;
+    flex-direction: row;
+}
+.purple{
+    font-size: 0px;
+    display: block;
+    border-bottom: 4px solid #930dec;
+    content: '';
+    width: 50%;
+}
+.blue{
+    font-size: 0px;
+    display: block;
+    border-bottom: 4px solid #387ff7;
+    width: 50%;
 }
