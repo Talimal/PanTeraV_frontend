@@ -1,6 +1,6 @@
 .rootCardButton{
     font-size: large;
-    border:3px solid rgb(250, 255, 250);
+    border:3px solid rgb(0, 0, 0);
 }
 .rootCardButton:hover{
     font-weight: bold;
@@ -60,4 +60,14 @@ max-width: 200px;
     display: block;
     border-bottom: 4px solid #387ff7;
     width: 50%;
+}
+.buttonDivRoot{
+    position: relative;
+    margin-top: 15%;
+}
+.thead-dark{
+    background-color: rgb(135, 135, 201);
+}
+.data-table-row{
+    background-color: azure;
 }

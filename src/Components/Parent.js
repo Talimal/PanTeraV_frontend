@@ -22,6 +22,8 @@ const Parent = ({propRoot,propStartChildren,propEndChildren,propHandleClickPrevi
     const notPresented=useRef([]);
     const notPresentedEndChildren=useRef([]);
     const tirpHistory=useRef([]);
+    const inputBefore=useRef("");
+    const inputAfter=useRef("");
     const subtractTwoArrays = (arr1, arr2) => arr1.filter( el => !arr2.includes(el) )
 
 
@@ -232,10 +234,12 @@ const Parent = ({propRoot,propStartChildren,propEndChildren,propHandleClickPrevi
         if(isRegularChild===true){
             getChildrenFronUp=(root)=>getChildrenOfRoot(root)
             childrenTemp=children
+            inputAfter.current=filterString;
         }
         else{
             getChildrenFronUp=(root)=>getChildrenEnd(root)
             childrenTemp=endChildren
+            inputBefore.current=filterString;
         }
 
         if(filterString===""){
@@ -244,7 +248,8 @@ const Parent = ({propRoot,propStartChildren,propEndChildren,propHandleClickPrevi
         }
         else{
             const filteredArr = childrenTemp.filter(child => {
-                return child.printSymbols().includes(filterString)
+                return isRegularChild?child.getLastName().includes(filterString)
+                                    :child.getFirstName().includes(filterString)
             });
 
             isRegularChild?setChildren(filteredArr):setEndChildren(filteredArr)
@@ -363,7 +368,11 @@ const Parent = ({propRoot,propStartChildren,propEndChildren,propHandleClickPrevi
                 </div>
 
                 <div className="flex-container-input-children-before">
-                    <input type="text" className="input" placeholder="Search" hidden={setInvisibleChildrenGeneric(false).length===0} onChange={(e)=>setFilterGeneric(e.target.value,false)}/>
+                    <input type="text" className="input" 
+                        placeholder="Search" 
+                        hidden={setInvisibleChildrenGeneric(false).length===0&&inputBefore.current===""} 
+                        onChange={(e)=>setFilterGeneric(e.target.value,false)}
+                    />
                     <div className="childrenBefore">
                         <ul className="list-of-children">
                             {
@@ -400,7 +409,10 @@ const Parent = ({propRoot,propStartChildren,propEndChildren,propHandleClickPrevi
                 <ArrowAfter/>
             </div> */}
                 <div className="flex-container-input-children-after">
-                    <input type="text" className="input" placeholder="Search" hidden={setInvisibleChildrenGeneric(true).length===0} onChange={(e)=>setFilterGeneric(e.target.value,true)}/>
+                    <input type="text" className="input" 
+                    placeholder="Search" 
+                    // hidden={setInvisibleChildrenGeneric(true).length===0} 
+                    onChange={(e)=>setFilterGeneric(e.target.value,true)}/>
                     <div className="childrenAfter">
                         <ul className="list-of-children">
                             {

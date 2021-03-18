@@ -49,18 +49,32 @@
     flex-direction: column;
     width: 25%;
 }
+.childrenBefore{
+    margin-top: 2%;
+}
 /* input field */
 .flex-container-input-children-before input{
-    margin-bottom: 5%;
+    /* margin-bottom: 5%; */
     width: 90%;
-    height: 3em;
+    height: 4em;
     margin-left: 10%;
 }
+.flex-container-input-children-before input::placeholder{
+    color: black;
+    font-size: large;
+}
 .flex-container-input-children-after input{
-    margin-bottom: 5%;
+    /* margin-bottom: 5%; */
     width: 90%;
-    height: 3em;
+    height: 4em;
     margin-left: 10%;
+}
+.childrenAfter{
+    margin-top: 2%;
+}
+.flex-container-input-children-after input::placeholder{
+    color: black;
+    font-size: large;
 }
 /* delete the mark beside the list of right children */
 .list-of-children{

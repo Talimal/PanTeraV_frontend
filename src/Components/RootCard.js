@@ -66,28 +66,30 @@ const RootCard = (props) => {
                     </CardContent>
                 
                     <CardContent>
-                    <ReactBootstrap.Table style={{'background':'transparent'}} striped bordered hover>
-                        <thead>
-                            <tr>
-                                <th>Relations:</th>
-                                <th># Supporting Entites:</th>
-                                <th>Mean Horizontal Support:</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    {root.getRelations().length>0?root.printRelations():""}
-                                </td>
-                                <td>
-                                    {root.getSize()>0?root.printSupportingEnt():""}
-                                </td>
-                                <td>
-                                    {root.getSize()>0?root.printMeanHorSup():""}
-                                </td>
-                            </tr>
-                        </tbody>
-                </ReactBootstrap.Table>
+                        {root.getSize()>0?
+                        <ReactBootstrap.Table className="table table-bordered" style={{'background':'transparent'}} striped bordered hover>
+                            <thead className="thead-dark">
+                                <tr>
+                                    <th>Relations:</th>
+                                    <th># Supporting Entites:</th>
+                                    <th>Mean Horizontal Support:</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr className="data-table-row">
+                                    <td>
+                                        {root.getRelations().length>0?root.getRelations():""}
+                                    </td>
+                                    <td>
+                                        {root.getSize()>0?root.getNumSupEnt():""}
+                                    </td>
+                                    <td>
+                                        {root.getSize()>0?Number(root.getMeanHorSup()).toFixed(2):""}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </ReactBootstrap.Table>
+                        :null}
 
 
                         {/* {root.getRelations().length>0?
@@ -102,11 +104,11 @@ const RootCard = (props) => {
                         root.printMeanHorSup():""} */}
                     </CardContent>
                 </div>
-                <div className="buttonDiv">
+                <div className="buttonDivRoot">
                     <Button className="cardButton" style={{
                                         'color':'black',
                                         'fontSize':'large',
-                                        'border':'3px solid rgb(250, 255, 250)'
+                                        'border':'3px solid rgb(0, 0, 0)'
 
                                         }} onClick={graphs}> Learn More </Button>
                 </div>
