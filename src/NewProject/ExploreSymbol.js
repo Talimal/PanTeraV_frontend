@@ -47,9 +47,6 @@ const ExploreSymbol = (props) => {
             </div>
             <div className="symbols">
                 <div className="beforeSymbols">
-                    <button>
-                        Clear
-                    </button>
                     <SymbolRelationTable
                         symbols = {Object.keys(symbolRelPrefix)}
                         getRelationsOfSymbol={getRelationsOfSymbol}
@@ -82,9 +79,6 @@ const ExploreSymbol = (props) => {
                     </ReactBootstrap.Table>
                 </div>
                 <div className="afterSymbols">
-                    <button>
-                        Clear
-                    </button>
                     <SymbolRelationTable
                         symbols = {Object.keys(symbolRelNext)}
                         getRelationsOfSymbol={getRelationsOfSymbol}
