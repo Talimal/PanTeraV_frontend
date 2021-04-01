@@ -100,11 +100,10 @@ export  default class TIRP {
     getIntervalsRelations = ()=>{
       
     }
-
     getVectorInSize = (vectorSize)=>{
       let vectorSymbols = [];
-      sumRelationTillNow = 0;
-      indexSymbol = vectorSize;
+      let sumRelationTillNow = 0;
+      let indexSymbol = vectorSize;
       for(var index=0; index<indexSymbol; index++){
         vectorSymbols.push(this.relations[sumRelationTillNow+indexSymbol-index-1]);
         sumRelationTillNow+=indexSymbol-index;

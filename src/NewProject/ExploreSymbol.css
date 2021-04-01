@@ -1,0 +1,9 @@
+.symbols{
+    display: flex;
+    flex-direction: row;
+    margin-top: 40%;
+}
+
+.exploreScreen div{
+    width: 100%;
+}
