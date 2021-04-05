@@ -1,49 +1,40 @@
 import React, { useState } from 'react';
 import * as ReactBootstrap from 'react-bootstrap';
 import './SymbolRelationTable.css';
+import { ScrollView ,ScrollObserver} from "@cantonjs/react-scroll-view";
+import SymbolRelationComponent from './SymbolRelationComponent';
+
 
 const SymbolRelationTable = (props) => {
 
-    const [borderColor,setBorderColor] = useState({'border':'5px solid rgb(0, 0, 0))'});
-    const tableClicked = ()=>{
-        setBorderColor({'border':'5px solid rgb(30, 199, 53)'})
-    }
-    const resetTableBorder = ()=>{
-        setBorderColor({'border':'5px solid rgb(0, 0, 0)'})
+    const [markedSymbol,setMarkedSymbol] = useState(props.needToClear?null:props.default);
+
+    const handleSymbolClicked = (symbol,isPrefix)=>{
+        setMarkedSymbol(symbol);
+        props.symbolClicked(symbol,isPrefix)
     }
     return (
         <div>
-            <button onClick={resetTableBorder}>
-                Clear
-            </button>
-            {props.symbols.map((symbol,index) => {
-                return (
-                    
-                    <li key={index}>
-                        <div className="symbolRelationTable" style={borderColor} onClick={tableClicked}>
-                                <ReactBootstrap.Table className="table table-bordered" style={{'background':'transparent'}} striped bordered hover>
-                                        <thead className="thead-dark">
-                                            <tr>
-                                                <th>Symbol: {symbol}</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        {props.getRelationsOfSymbol(symbol,props.isPrefix).map((relation, i) => {
-                                            return [
-                                                <tr key={i}>
-                                                    <td>
-                                                        {relation}
-                                                    </td>
-                                                </tr>
-                                            ];
-                                        })}
-                                        </tbody>
-                                </ReactBootstrap.Table>
-                        </div>  
-                    </li>
-                    )
-                }
-            )} 
+            <ScrollView style={{ height: '500px' }}>
+                <ul className="list">
+                    {props.symbols.map((symbol,index) => {
+                        return (
+                                <li key={index}>
+                                <SymbolRelationComponent
+                                getRelationsOfSymbol={props.getRelationsOfSymbol}
+                                symbol={symbol}
+                                isPrefix={props.isPrefix}
+                                isMarked = {markedSymbol===symbol}
+                                symbolClicked={()=>handleSymbolClicked(symbol,props.isPrefix)}
+                                needToClear={props.needToClear}
+                                />
+                                </li>
+                            )
+                        }
+                    )}
+                </ul>
+            </ScrollView>
+ 
     </div>
     )     
 }

@@ -1,20 +1,20 @@
-import React from 'react';
-import * as ReactBootstrap from 'react-bootstrap';
+import React, {useState} from 'react';
 import './ExploreSymbol.css';
 import SymbolRelationTable from './SymbolRelationTable';
+import CenterSymbol from './CenterSymbol';
+import ArrowButtons from './ArrowButtons';
 
 const ExploreSymbol = (props) => {
    
-    const tirp = props.tirp;
-    const symbol = tirp.getSymbols()[1];
-    /**
-     * @todo ask for the boys to transfer me a tirp and a symbol 
-     * and it's relations to focus on.
-     */ 
-    // const symbolToFocus = props.symbolToFocus;
-    const symbolRelations = tirp.getVectorInSize(1);
-    const nextTirps = props.getNextVectorTirps(symbol,symbolRelations);
-    const prevTirps = props.getPrevVectorTirps(symbol,symbolRelations);
+    const [tirp,setTirp] = useState(props.tirp);
+    const [centerSymbol,setCenterSymbol] = useState(props.focusSymbol);
+    const [prefixSymbol,setPrefixSymbol] = useState(tirp.getSymbolInIndex(tirp.getIndexOfSymbol(centerSymbol)-1));
+    const [nextSymbol,setNextSymbol] = useState(tirp.getSymbolInIndex(tirp.getIndexOfSymbol(centerSymbol)+1));
+    const [isClearPrefix,setIsClearPrefix] = useState(false);
+    const [isClearNext,setIsClearNext] = useState(false);
+    const symbolRelations = tirp.getVectorInSize(tirp.getIndexOfSymbol(centerSymbol));
+    const nextTirps = props.getNextVectorTirps(centerSymbol,symbolRelations);
+    const prevTirps = props.getPrevVectorTirps(centerSymbol,symbolRelations);
 
 
     const getSymbolRelationsJson = (tirpsJson)=>{
@@ -36,7 +36,66 @@ const ExploreSymbol = (props) => {
         return isPrefix?symbolRelPrefix[symbol]:symbolRelNext[symbol];
     }
    
+    const arrowClicked = (isPrefix)=>{
+        if(isPrefix){
+            setNextSymbol(centerSymbol)
+            setCenterSymbol(prefixSymbol);
+            // assume the tirp is always updated
+            setPrefixSymbol(tirp.getSymbolInIndex(tirp.getIndexOfSymbol(centerSymbol)-1));
+        }
+        else{
+            setPrefixSymbol(centerSymbol);
+            setCenterSymbol(nextSymbol);
+            // assume the tirp is always updated
+            setNextSymbol(tirp.getSymbolInIndex(tirp.getIndexOfSymbol(centerSymbol)+1))
+        }
+    }
 
+    const symbolClicked = (symbol,isPrefix)=>{
+        const symbolRelations = getRelationsOfSymbol(symbol,isPrefix);
+        const vector = props.getSymbolVector(symbol,symbolRelations);
+        const prefixRelationSize = symbolRelations.length;
+
+        if(isPrefix){
+            if(isClearNext){
+                let tirpsArr = prevTirps["["+symbol+","+symbolRelations+"]"];
+                let nextSymbols = tirpsArr.map((tirp)=>tirp.getSymbolInIndex(prefixRelationSize+2))
+                let nextRelations = tirpsArr.map((tirp)=>tirp.getVectorInSize(prefixRelationSize+2))
+                for(var index=0; index<nextSymbols.length;index++){
+                    symbolRelPrefix[nextSymbols[index]] = nextRelations[index];
+                }
+                setPrefixSymbol(vector);
+                setTirp(tirpsArr[0]);
+                setIsClearPrefix(false);
+            }
+
+        }
+        else{
+            if(isClearPrefix){
+                let tirpsArr = nextTirps["["+symbol+","+symbolRelations+"]"];
+                let prevSymbols = tirpsArr.map((tirp)=>tirp.getSymbolInIndex(prefixRelationSize-2))
+                let prevRelations = tirpsArr.map((tirp)=>tirp.getVectorInSize(prefixRelationSize-2))
+                for(var index=0; index<prevSymbols.length;index++){
+                    symbolRelNext[prevSymbols[index]] = prevRelations[index];
+                }
+                setNextSymbol(vector);
+                setTirp(tirpsArr[0]);
+                setIsClearNext(false);
+            }
+        }
+    }
+
+    const handleClearClick = (isPrefix)=>{
+        if(isPrefix){
+            setPrefixSymbol(null);
+            setIsClearPrefix(true);
+
+        }
+        else{
+            setNextSymbol(null);
+            setIsClearNext(true);
+        }
+    }
 
     return (
         <div>
@@ -46,43 +105,48 @@ const ExploreSymbol = (props) => {
                 <h1>{tirp.printRelations()}</h1>
             </div>
             <div className="symbols">
+               
                 <div className="beforeSymbols">
+                    
+                    <ArrowButtons
+                    isPrefix={true}
+                    arrowClicked={()=>arrowClicked(true)}
+                    />
+                    <button onClick={()=>handleClearClick(true)}>
+                        Clear All
+                    </button>
                     <SymbolRelationTable
                         symbols = {Object.keys(symbolRelPrefix)}
                         getRelationsOfSymbol={getRelationsOfSymbol}
                         isPrefix={true}
+                        // default={prefixSymbol}
+                        symbolClicked={symbolClicked}
+                        needToClear={isClearPrefix}
                     />
                     
                 </div>
                 <div className="centerSymbol">
-                    <ReactBootstrap.Table className="table table-bordered" style={{'background':'transparent'}} striped bordered hover>
-                        <thead className="thead-dark">
-                            <tr>
-                                 {/** 
-                                     * @todo: should be chosen vector
-                                     * 
-                                    */}
-                                <th>Symbol: {symbol}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr className="data-table-row">
-                                <td>
-                                    {/** 
-                                     * @todo: should be chosen vector
-                                     * 
-                                    */}
-                                    {tirp.getVectorInSize(1)}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </ReactBootstrap.Table>
+                    <CenterSymbol
+                        symbol={centerSymbol}
+                        relationsVector={tirp.getRelationsOfSymbol(centerSymbol)}
+                    />
                 </div>
                 <div className="afterSymbols">
+                       
+                    <ArrowButtons
+                    isPrefix={false}
+                    arrowClicked={()=>arrowClicked(false)}
+                    />
+                     <button onClick={()=>handleClearClick(false)}>
+                        Clear All
+                    </button>
                     <SymbolRelationTable
                         symbols = {Object.keys(symbolRelNext)}
                         getRelationsOfSymbol={getRelationsOfSymbol}
                         isPrefix={false}
+                        // default={nextSymbol}
+                        symbolClicked={symbolClicked}
+                        needToClear={isClearNext}
                     />
                 </div>
             </div>

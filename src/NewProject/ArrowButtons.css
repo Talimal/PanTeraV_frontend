@@ -1,0 +1,28 @@
+.prefixArrow > img{
+    max-width: 100%;
+    max-height: 50%;
+    transform: rotate(180deg);
+    cursor: pointer;
+    margin-top: 5%;
+    margin-left: 20%;
+}
+
+.prefixArrow > img:hover{
+    box-shadow: 0 0 0 3px #00d10a;
+    transition: .5s ease;
+}
+
+.nextArrow > img{
+    max-width: 100%;
+    max-height: 50%;
+    transform: rotate(0deg);
+    cursor: pointer;
+    margin-top: 5%;
+    margin-left: 20%;
+}
+
+
+.nextArrow > img:hover{
+    box-shadow: 0 0 0 3px #d10e00;
+    transition: .5s ease;
+}

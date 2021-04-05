@@ -110,4 +110,17 @@ export  default class TIRP {
       }
       return vectorSymbols;
     }
+    getSymbolInIndex = (symbolIndex)=>{
+      if(symbolIndex<0 || symbolIndex>=this.symbols.length){
+        return null;
+      }
+      return this.symbols[symbolIndex];
+    }
+    getIndexOfSymbol = (symbol)=>{
+      return this.symbols.indexOf(symbol);
+    }
+    getRelationsOfSymbol = (symbol)=>{
+      const vectorSize = this.getIndexOfSymbol(symbol);
+      return this.getVectorInSize(vectorSize);
+    }
   }

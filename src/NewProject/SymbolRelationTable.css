@@ -3,3 +3,12 @@
     margin-top: 5%;
     cursor: pointer;
 }
+
+.buttonSymbolTable{
+    font-size: 20px;
+    background-color: aqua;
+}
+
+.list{
+    list-style-type: none;
+}
