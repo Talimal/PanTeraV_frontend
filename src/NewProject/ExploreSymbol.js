@@ -16,6 +16,7 @@ const ExploreSymbol = (props) => {
     const nextTirps = props.getNextVectorTirps(centerSymbol,symbolRelations);
     const prevTirps = props.getPrevVectorTirps(centerSymbol,symbolRelations);
 
+   
 
     const getSymbolRelationsJson = (tirpsJson)=>{
         let symbolRelationsJson = {};
@@ -33,8 +34,10 @@ const ExploreSymbol = (props) => {
 
 
     const getRelationsOfSymbol = (symbol,isPrefix)=>{
-        return isPrefix?symbolRelPrefix[symbol]:symbolRelNext[symbol];
+        const relations = isPrefix?symbolRelPrefix[symbol]:symbolRelNext[symbol];
+        return relations;
     }
+    
    
     const arrowClicked = (isPrefix)=>{
         if(isPrefix){
@@ -128,7 +131,7 @@ const ExploreSymbol = (props) => {
                 <div className="centerSymbol">
                     <CenterSymbol
                         symbol={centerSymbol}
-                        relationsVector={tirp.getRelationsOfSymbol(centerSymbol)}
+                        relationsVector={symbolRelations}
                     />
                 </div>
                 <div className="afterSymbols">

@@ -2,6 +2,8 @@ import React ,{useEffect, useState, useRef} from 'react';
 import Chartjs from 'chart.js';
 import {useLocation} from 'react-router-dom';
 import ExploreSymbol from './ExploreSymbol';
+import './ChooseTirpSymbol.css';
+
 
 const ChooseTirpSymbol = (props) => {
 
@@ -28,20 +30,24 @@ const ChooseTirpSymbol = (props) => {
    
     return (
         <div>
-            <select onChange={handleDropDownTirps} className="select">
+            <select className="tirpSelect" onChange={handleDropDownTirps}>
                  {tirps.map((tirp,index)=>{
                      return (<option key={index} 
                                          value={tirp.printSymbols()}
-                                         onChange={(e)=>handleDropDownTirps(e)}>{tirp.printSymbols()}</option>
+                                         onChange={(e)=>handleDropDownTirps(e)}
+                                         onClick={(e)=>handleDropDownTirps(e)}
+                                         >{tirp.printSymbols()}</option>
                  )})}
              </select>
 
              {tirpChosen?
-             <select onChange={handleDropDownSymbols} className="select">
+             <select className="symbolSelect" onChange={handleDropDownSymbols} >
                  {symbols.map((symbol,index)=>{
                      return (<option key={index} 
                                          value={symbol}
-                                         onChange={(e)=>handleDropDownSymbols(e)}>{symbol}</option>
+                                         onChange={(e)=>handleDropDownSymbols(e)}
+                                         onClick={(e)=>handleDropDownSymbols(e)}
+                                         >{symbol}</option>
                  )})}
              </select>
             :null}

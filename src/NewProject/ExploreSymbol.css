@@ -1,7 +1,6 @@
 .symbols{
     display: flex;
     flex-direction: row;
-    margin-top: 5%;
 }
 
 .symbols div{
@@ -28,6 +27,6 @@
     align-items: center;
 }
 .centerSymbol{
-    margin-top: 36%;
+    margin-top: 20%;
     margin-left: 3%;
 }

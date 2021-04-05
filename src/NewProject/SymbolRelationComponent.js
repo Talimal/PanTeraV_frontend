@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import * as ReactBootstrap from 'react-bootstrap';
+import Table from 'react-bootstrap/Table';
 
 const SymbolRelationComponent = (props) => {
+    const relationsJson = {
+        '<':'before (<)',
+        'c':'contains (c)',
+        'm':'meet (m)'
+    }
+
 
     const needToClear = props.needToClear;
 
@@ -22,9 +29,9 @@ const SymbolRelationComponent = (props) => {
     return (
         <div className="symbolRelationTable" 
             style={needToClear?{'border':'5px solid rgb(0, 0, 0)'}:getBorderColor()}>
-                <ReactBootstrap.Table 
+                <ReactBootstrap.Table
                     className="table table-bordered" 
-                    style={{'fontSize':'large'}}
+                    style={{'fontSize':'large','background':'#e6ffff'}}
                     onClick={props.symbolClicked}
                     >
                         <thead className="thead-dark">
@@ -37,7 +44,7 @@ const SymbolRelationComponent = (props) => {
                             return [
                                 <tr key={i}>
                                     <td>
-                                        {relation}
+                                        {relationsJson[relation]}
                                     </td>
                                 </tr>
                             ];

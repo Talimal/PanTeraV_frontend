@@ -3,9 +3,19 @@ import * as ReactBootstrap from 'react-bootstrap';
 
 
 const CenterSymbol = (props) => {
+    const relationsJson = {
+        '<':'before (<)',
+        'c':'contains (c)',
+        'm':'meet (m)'
+    }
 
     return (
-        <ReactBootstrap.Table className="table table-bordered" style={{'fontSize':'large'}}>
+        <ReactBootstrap.Table 
+            className="table table-bordered" 
+            style={
+                {'fontSize':'large',
+                'background':'#ff99ff'}
+            }>
              <thead className="thead-dark">
                 <tr>
                 <th>Symbol: {props.symbol}</th>
@@ -16,7 +26,7 @@ const CenterSymbol = (props) => {
                     return [
                         <tr key={i}>
                             <td>
-                                {relation}
+                                {relationsJson[relation]}
                             </td>
                         </tr>
                     ];
