@@ -60,31 +60,45 @@ const ExploreSymbol = (props) => {
         const prefixRelationSize = symbolRelations.length;
 
         if(isPrefix){
+            let tirpsArr = prevTirps["["+symbol+","+symbolRelations+"]"];
             if(isClearNext){
-                let tirpsArr = prevTirps["["+symbol+","+symbolRelations+"]"];
                 let nextSymbols = tirpsArr.map((tirp)=>tirp.getSymbolInIndex(prefixRelationSize+2))
                 let nextRelations = tirpsArr.map((tirp)=>tirp.getVectorInSize(prefixRelationSize+2))
                 for(var index=0; index<nextSymbols.length;index++){
                     symbolRelPrefix[nextSymbols[index]] = nextRelations[index];
                 }
-                setPrefixSymbol(vector);
                 setTirp(tirpsArr[0]);
-                setIsClearPrefix(false);
             }
-
+            else{
+                for(var index=0; index<tirpsArr.length;index++){
+                    if(tirpsArr[index].getSymbolInIndex(prefixRelationSize+2)===nextSymbol.symbol){
+                        setTirp(tirpsArr[index]);
+                    }
+                }
+            }
+            setPrefixSymbol(vector);
+            setIsClearPrefix(false);
         }
         else{
+            let tirpsArr = nextTirps["["+symbol+","+symbolRelations+"]"];
             if(isClearPrefix){
-                let tirpsArr = nextTirps["["+symbol+","+symbolRelations+"]"];
                 let prevSymbols = tirpsArr.map((tirp)=>tirp.getSymbolInIndex(prefixRelationSize-2))
                 let prevRelations = tirpsArr.map((tirp)=>tirp.getVectorInSize(prefixRelationSize-2))
                 for(var index=0; index<prevSymbols.length;index++){
                     symbolRelNext[prevSymbols[index]] = prevRelations[index];
                 }
-                setNextSymbol(vector);
                 setTirp(tirpsArr[0]);
-                setIsClearNext(false);
             }
+            else{
+                console.log(tirpsArr);
+                for(var index=0; index<tirpsArr.length;index++){
+                    if(tirpsArr[index].getSymbolInIndex(prefixRelationSize-2)===prefixSymbol.getSymbol()){
+                        setTirp(tirpsArr[index]);
+                    }
+                }
+            }
+            setNextSymbol(vector);
+            setIsClearNext(false);
         }
     }
 

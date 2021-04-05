@@ -15,20 +15,20 @@ const SymbolRelationComponent = (props) => {
     const getBorderColor = ()=>{
         if(props.isMarked){
             if(props.isPrefix){
-                return {'border':'5px solid rgb(30, 199, 53)'};
+                return {'border':'8px solid rgb(30, 199, 53)'};
             }
             else{
-                return {'border':'5px solid rgb(216, 35, 35)'};
+                return {'border':'8px solid rgb(216, 35, 35)'};
             }
         }
         else{
-            return {'border':'5px solid rgb(0, 0, 0)'};
+            return {'border':'3px solid rgb(0, 0, 0)'};
         }
     }
 
     return (
         <div className="symbolRelationTable" 
-            style={needToClear?{'border':'5px solid rgb(0, 0, 0)'}:getBorderColor()}>
+            style={needToClear?{'border':'3px solid rgb(0, 0, 0)'}:getBorderColor()}>
                 <ReactBootstrap.Table
                     className="table table-bordered" 
                     style={{'fontSize':'large','background':'#e6ffff'}}
