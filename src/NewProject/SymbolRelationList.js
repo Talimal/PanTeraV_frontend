@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import * as ReactBootstrap from 'react-bootstrap';
-import './SymbolRelationTable.css';
+import './SymbolRelationList.css';
 import { ScrollView ,ScrollObserver} from "@cantonjs/react-scroll-view";
 import SymbolRelationComponent from './SymbolRelationComponent';
 
 
-const SymbolRelationTable = (props) => {
+const SymbolRelationList = (props) => {
 
+    // marked symbol is the component that pressed at the moment
     const [markedSymbol,setMarkedSymbol] = useState(props.needToClear?null:props.default);
 
+    // component from the component's list was pressed
     const handleSymbolClicked = (symbol,isPrefix)=>{
         setMarkedSymbol(symbol);
         props.symbolClicked(symbol,isPrefix)
@@ -39,4 +41,4 @@ const SymbolRelationTable = (props) => {
     )     
 }
 
-export default SymbolRelationTable;
+export default SymbolRelationList;

@@ -3,6 +3,8 @@ import * as ReactBootstrap from 'react-bootstrap';
 import Table from 'react-bootstrap/Table';
 
 const SymbolRelationComponent = (props) => {
+
+    // Allen's relations json for casting from symbols to meaningful names
     const relationsJson = {
         '<':'before (<)',
         'c':'contains (c)',
@@ -12,6 +14,8 @@ const SymbolRelationComponent = (props) => {
 
     const needToClear = props.needToClear;
 
+    // method that returns the border color of a component according
+    // to it's internal state
     const getBorderColor = ()=>{
         if(props.isMarked){
             if(props.isPrefix){
