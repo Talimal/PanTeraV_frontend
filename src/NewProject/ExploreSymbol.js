@@ -3,14 +3,17 @@ import './ExploreSymbol.css';
 import SymbolRelationList from './SymbolRelationList';
 import CenterSymbol from './CenterSymbol';
 import ArrowButtons from './ArrowButtons';
+import TirpMatrix from './TirpMatrix';
 
 const ExploreSymbol = (props) => {
    
     // all fields are strings,jsons and primitives - not objects!
     const [tirp,setTirp] = useState(props.tirp);
+    // these are strings of symbols, not objects!
     const [centerSymbol,setCenterSymbol] = useState(props.focusSymbol);
     const [prefixSymbol,setPrefixSymbol] = useState(tirp.getSymbolInIndex(tirp.getIndexOfSymbol(centerSymbol)-1));
     const [nextSymbol,setNextSymbol] = useState(tirp.getSymbolInIndex(tirp.getIndexOfSymbol(centerSymbol)+1));
+    
     const [isClearPrefix,setIsClearPrefix] = useState(true);
     const [isClearNext,setIsClearNext] = useState(true);
     const symbolRelations = tirp.getVectorInSize(tirp.getIndexOfSymbol(centerSymbol));
@@ -72,7 +75,7 @@ const ExploreSymbol = (props) => {
     // are pressed
     const symbolClicked = (symbol,isPrefix)=>{
         const symbolRelations = getRelationsOfSymbol(symbol,isPrefix);
-        const vector = props.getSymbolVector(symbol,symbolRelations);
+        // const vector = props.getSymbolVector(symbol,symbolRelations);
         const relationsLength = symbolRelations.length;
 
         
@@ -98,8 +101,8 @@ const ExploreSymbol = (props) => {
                 // we need to update the tirp object to be the first
                 // tirp (default) that contains both pressed symbols
                 // and center symbol
-                for(var index=0; index<tirpsArr.length;index++){
-                    if(tirpsArr[index].getSymbolInIndex(relationsLength+2)===nextSymbol.symbol){
+                for(index=0; index<tirpsArr.length;index++){
+                    if(tirpsArr[index].getSymbolInIndex(relationsLength+2)===nextSymbol){
                         setTirp(tirpsArr[index]);
                     }
                 }
@@ -120,7 +123,7 @@ const ExploreSymbol = (props) => {
                 // that contains the next symbol was pressed
                 let prevSymbols = tirpsArr.map((tirp)=>tirp.getSymbolInIndex(relationsLength-2))
                 let prevRelations = tirpsArr.map((tirp)=>tirp.getVectorInSize(relationsLength-2))
-                for(var index=0; index<prevSymbols.length;index++){
+                for(index=0; index<prevSymbols.length;index++){
                     symbolRelPrefix[prevSymbols[index]] = prevRelations[index];
                 }
                 setTirp(tirpsArr[0]);
@@ -131,13 +134,14 @@ const ExploreSymbol = (props) => {
                 // we need to update the tirp object to be the first
                 // tirp (default) that contains both pressed symbols
                 // and center symbol
-                for(var index=0; index<tirpsArr.length;index++){
-                    if(tirpsArr[index].getSymbolInIndex(relationsLength-2)===prefixSymbol.getSymbol()){
+                for(index=0; index<tirpsArr.length;index++){
+                    console.log(prefixSymbol);
+                    if(tirpsArr[index].getSymbolInIndex(relationsLength-2)===prefixSymbol){
                         setTirp(tirpsArr[index]);
                     }
                 }
             }
-            setNextSymbol(vector.symbol);
+            setNextSymbol(symbol);
             // next is pressed and no longer clear
             setIsClearNext(false);
         }
@@ -161,8 +165,8 @@ const ExploreSymbol = (props) => {
         <div>
         <div className="exploreScreen">
             <div className="TIRP">
-                <h1>{tirp.printSymbols()}</h1>
-                <h1>{tirp.printRelations()}</h1>
+                <h1>Tirp: {tirp.printSymbols()}</h1>
+                <h1>Relations: {tirp.printRelations()}</h1>
             </div>
             <div className="symbols">
                
@@ -210,6 +214,9 @@ const ExploreSymbol = (props) => {
                     />
                 </div>
             </div>
+            <TirpMatrix
+            tirp={tirp}
+            />
         </div>
         </div>
     );
