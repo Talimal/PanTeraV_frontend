@@ -26,6 +26,12 @@ const ChooseTirpSymbol = (props) => {
         setSymbolFocus(focusSymbol);
 
     }
+
+    const handleClick = ()=>{
+        setSymbols(symbols);
+        setTirpFocus(props.getTirpBySymbols(symbols));
+        setTirpChosen(true);
+    }
   
    
     return (
@@ -52,6 +58,7 @@ const ChooseTirpSymbol = (props) => {
              </select>
             :null}
 
+            <button onClick={handleClick}>Click</button>
             {tirpFocus!==null && symbolFocus!==null?
              <ExploreSymbol 
                 tirp={tirpFocus} 

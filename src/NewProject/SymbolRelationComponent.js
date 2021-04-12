@@ -8,7 +8,11 @@ const SymbolRelationComponent = (props) => {
     const relationsJson = {
         '<':'before (<)',
         'c':'contains (c)',
-        'm':'meet (m)'
+        'm':'meet (m)',
+        's':'starts(s)',
+        'o':'overlap(o)',
+        'f':'finished-by(f)',
+        '=':'equal(=)'
     }
 
 
@@ -32,7 +36,9 @@ const SymbolRelationComponent = (props) => {
 
     return (
         <div className="symbolRelationTable" 
-            style={needToClear?{'border':'3px solid rgb(0, 0, 0)'}:getBorderColor()}>
+            style={
+                needToClear?{'border':'3px solid rgb(0, 0, 0)'}
+                :getBorderColor()}>
                 <ReactBootstrap.Table
                     className="table table-bordered" 
                     style={{'fontSize':'large','background':'#e6ffff'}}
@@ -44,7 +50,7 @@ const SymbolRelationComponent = (props) => {
                             </tr>
                         </thead>
                         <tbody>
-                        {props.getRelationsOfSymbol(props.symbol,props.isPrefix).map((relation, i) => {
+                        {props.relations.map((relation, i) => {
                             return [
                                 <tr key={i}>
                                     <td>

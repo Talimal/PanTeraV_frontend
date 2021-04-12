@@ -1,4 +1,4 @@
-import React from 'react';
+import React ,{useRef, useState} from 'react';
 import * as ReactBootstrap from 'react-bootstrap';
 import './TirpMatrix.css';
 
@@ -7,7 +7,11 @@ const TirpMatrix = (props) => {
     const relationsJson = {
         '<':'before (<)',
         'c':'contains (c)',
-        'm':'meet (m)'
+        'm':'meet (m)',
+        's':'starts(s)',
+        'o':'overlap(o)',
+        'f':'finished-by(f)',
+        '=':'equal(=)'
     }
     const tirp = props.tirp;
     const symbols = tirp.getSymbols();
@@ -15,11 +19,23 @@ const TirpMatrix = (props) => {
     const matrixRowsIndexes = new Array(symbols.length-1).fill(0);
     const matrixColumnsIndexes = new Array(symbols.length).fill(0);
   
+    // this method keeps track of the next relation to be presented
+    // in the half matrix : 
+    // every call the index theat points to the next relation grows.
+    let relationIndex = 0;
+    const get_approprite_relation = ()=>{
+        relationIndex++;
+        return relations[relationIndex - 1];
+    }
+
     return (
         <div className="tirpMatrix" >
                 <ReactBootstrap.Table
                     className="table table-bordered" 
-                    style={{'fontSize':'large','background':'#4ddbff'}}
+                    style={{'fontSize':'large',
+                    'background':'#4ddbff',
+                    'width':'50%',
+                    'height':'50%'}}
                     >
                         <thead 
                             style={{'fontWeight': 'bold'}}>
@@ -46,14 +62,9 @@ const TirpMatrix = (props) => {
                                              >
                                                  {j===0?symbols[i]:
                                                 //  half matrix is empty
-                                                i>0 && i===j?
+                                                i>0 && i>=j?
                                                  null:
-                                                // symbols.length-1 = # symbols every row
-                                                // (i-1) = because i=0 is the symbols row
-                                                // (j-1) = because j=0 is the symbols column
-                                                // -(i-1) = all the symbols in same row that was
-                                                // deleted due to the condition above (half matrix)
-                                                relationsJson[relations[(symbols.length-1)*(i)+(j-1)-(i)]]
+                                                relationsJson[get_approprite_relation()]
                                                 }
                                              </td>
                                         ];

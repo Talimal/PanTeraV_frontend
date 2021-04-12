@@ -27,6 +27,15 @@
     align-items: center;
 }
 .centerSymbol{
-    margin-top: 20%;
+    margin-top: 10%;
     margin-left: 3%;
+}
+
+
+.matrix{
+    margin-left: 40%;
+    margin-top: 3%;
+}
+.arrows{
+    height: 25%;
 }

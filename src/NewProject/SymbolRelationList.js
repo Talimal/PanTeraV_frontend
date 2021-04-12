@@ -8,32 +8,38 @@ import SymbolRelationComponent from './SymbolRelationComponent';
 const SymbolRelationList = (props) => {
 
     // marked symbol is the component that pressed at the moment
-    const [markedSymbol,setMarkedSymbol] = useState(props.needToClear?null:props.default);
+    const [markedSymbol,setMarkedSymbol] = useState(props.needToClear?null:props.defaultSymbol);
+    const [markedRelations,setMarkedRelations] = useState(props.needToClear?null:props.defaultRelations);
+
 
     // component from the component's list was pressed
-    const handleSymbolClicked = (symbol,isPrefix)=>{
+    const handleSymbolClicked = (symbol,relations,isPrefix)=>{
         setMarkedSymbol(symbol);
-        props.symbolClicked(symbol,isPrefix)
+        setMarkedRelations(relations)
+        props.symbolClicked(symbol,relations,isPrefix)
     }
     return (
         <div>
             <ScrollView style={{ height: '500px' }}>
                 <ul className="list">
-                    {props.symbols.map((symbol,index) => {
+                    {Object.keys(props.symbolRelations).map((symbol,i) => {
                         return (
-                                <li key={index}>
-                                <SymbolRelationComponent
-                                getRelationsOfSymbol={props.getRelationsOfSymbol}
-                                symbol={symbol}
-                                isPrefix={props.isPrefix}
-                                isMarked = {markedSymbol===symbol}
-                                symbolClicked={()=>handleSymbolClicked(symbol,props.isPrefix)}
-                                needToClear={props.needToClear}
-                                />
-                                </li>
-                            )
+                            props.symbolRelations[symbol].map((relations,j) => {
+                            return (
+                                    <li key={i,j}>
+                                    <SymbolRelationComponent
+                                    getRelationsOfSymbol={props.getRelationsOfSymbol}
+                                    symbol={symbol}
+                                    relations={relations}
+                                    isPrefix={props.isPrefix}
+                                    isMarked = {markedSymbol===symbol && markedRelations.toString()===relations.toString()}
+                                    symbolClicked={()=>handleSymbolClicked(symbol,relations,props.isPrefix)}
+                                    needToClear={props.needToClear}
+                                    />
+                                    </li>
+                                )
                         }
-                    )}
+                    ))})}
                 </ul>
             </ScrollView>
  
