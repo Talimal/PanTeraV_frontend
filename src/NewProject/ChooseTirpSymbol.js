@@ -1,8 +1,9 @@
-import React ,{useEffect, useState, useRef} from 'react';
-import Chartjs from 'chart.js';
-import {useLocation} from 'react-router-dom';
+import React ,{ useState} from 'react';
 import ExploreSymbol from './ExploreSymbol';
 import './ChooseTirpSymbol.css';
+import * as ReactBootstrap from 'react-bootstrap';
+import Select from "react-dropdown-select";
+
 
 
 const ChooseTirpSymbol = (props) => {
@@ -13,16 +14,28 @@ const ChooseTirpSymbol = (props) => {
     const [tirpFocus,setTirpFocus] = useState(null);
     const [symbolFocus,setSymbolFocus] = useState(null);
 
+    const createOptionSymbols = (symbols)=>{
+        let optionsSymbols = [];
+        for(var index in symbols){
+            optionsSymbols.push({
+                value:
+                    symbols[index],
+                label:
+                    symbols[index]})
+        }
+    return optionsSymbols;
+    }
+
     const handleDropDownTirps = (e)=>{
-        const tirpSymbols = e.target.value;
+        const tirpSymbols = e[0].label;
         let symbols = tirpSymbols.split(/[-]+/);
-        setSymbols(symbols);
+        setSymbols(createOptionSymbols(symbols));
         setTirpFocus(props.getTirpBySymbols(symbols));
         setTirpChosen(true);
 
     }
     const handleDropDownSymbols = (e)=>{
-        const focusSymbol = e.target.value;
+        const focusSymbol = e[0].value;
         setSymbolFocus(focusSymbol);
 
     }
@@ -32,33 +45,34 @@ const ChooseTirpSymbol = (props) => {
         setTirpFocus(props.getTirpBySymbols(symbols));
         setTirpChosen(true);
     }
-  
+
+    let optionsTirps = [];
+    for(var index in tirps){
+        optionsTirps.push({
+            value:
+                tirps[index].printSymbols()+" : "+tirps[index].printRelations(),
+            label:
+                tirps[index].printSymbols()})
+    }
+
+    
    
     return (
         <div>
-            <select className="tirpSelect" onChange={handleDropDownTirps}>
-                 {tirps.map((tirp,index)=>{
-                     return (<option key={index} 
-                                         value={tirp.printSymbols()}
-                                         onChange={(e)=>handleDropDownTirps(e)}
-                                         onClick={(e)=>handleDropDownTirps(e)}
-                                         >{tirp.printSymbols()}</option>
-                 )})}
-             </select>
+            <Select 
+                className="tirpSelect"
+                onChange={(e)=>handleDropDownTirps(e)}
+                options={optionsTirps}
+            />
 
-             {tirpChosen?
-             <select className="symbolSelect" onChange={handleDropDownSymbols} >
-                 {symbols.map((symbol,index)=>{
-                     return (<option key={index} 
-                                         value={symbol}
-                                         onChange={(e)=>handleDropDownSymbols(e)}
-                                         onClick={(e)=>handleDropDownSymbols(e)}
-                                         >{symbol}</option>
-                 )})}
-             </select>
-            :null}
+            {tirpChosen?
+                <Select 
+                className="symbolSelect"
+                onChange={(e)=>handleDropDownSymbols(e)}
+                options={symbols}
+                />
+            :null} 
 
-            <button onClick={handleClick}>Click</button>
             {tirpFocus!==null && symbolFocus!==null?
              <ExploreSymbol 
                 tirp={tirpFocus} 
