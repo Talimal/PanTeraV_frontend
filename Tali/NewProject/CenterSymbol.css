@@ -1,0 +1,7 @@
+.centerComponentTable thead{
+    background-color: rgb(28, 195, 224);
+    font-size: large;
+}
+.centerComponentTable tbody{
+    font-size: medium;
+}
