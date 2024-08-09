@@ -1,219 +1,207 @@
-// import React ,{useEffect, useRef, useState}from 'react';
-// import './App.css';
-// import TIRP from './TIRP';
-// import TreeView from './Components/TreeView';
-// import {BrowserRouter as Router,Route} from 'react-router-dom'
-// import MainMenu from './Components/MainMenu';
-// import Graphs from './Components/Graphs';
-// import UploadData from './Components/UploadData';
-// import RawDataInterval from './RawDataInterval';
+import React, { useEffect, useRef, useState } from 'react';
+import Axios from 'axios';
+import TIRP from './DataStructures/TIRP';
+import { CircularProgress } from '@material-ui/core';
+import ExploreTree from './TreeView_master/ExploreTreeController';
+import './TreeView_master/index.css';
 
-// const App = (props) => {
+const App = (props) => {
+	const [tirpsJson, setTirpsJson] = useState({});
+	const [tirpsReady, setTirpsReady] = useState(false);
+	const [readyToExplore, setReadyToExplore] = useState(false);
+	const symbolsToNames = useRef({});
+	const [symbolsToTirps, setSymbolsToTirps] = useState({});
 
-//     const [isStartData,setIsStartData]=useState(false);
-//     const [isEndData,setIsEndData]=useState(false);
-//     const [isNames,setIsNames]=useState(false);
-//     const [isRawData,setRawData]=useState(false);
-//     const [root,setRoot]=useState();
-//     const [startChildren,setStartChildren]=useState([]);
-//     const [endChildren,setEndChildren]=useState([]);
-//     const [startsWithMap,setStartMap] = useState(new Map());
-//     const [endsWithMap,setEndMap] = useState(new Map());
-//     const tirpSymbolName = useRef({});
-//     const allTirps = useRef({});
-//     const [rawDataMap,setRawMap] = useState(new Map());
+	const castTirpToJson = (tirpObject) => {
+		return {
+			size: tirpObject.getSize(),
+			symbols: tirpObject.getSymbols(),
+			symbols_names: tirpObject.getSymbolsNames(),
+			relations: tirpObject.getRelations(),
+			build_supporting_instances_0: tirpObject.getSupInstances0(),
+			build_supporting_instances_1: tirpObject.getSupInstances1(),
+			exist_in_class_0: tirpObject.getExistInClass0(),
+			exist_in_class_1: tirpObject.getExistInClass1(),
+			num_support_entities_0: tirpObject.getNumSupEnt_0(),
+			num_support_entities_1: tirpObject.getNumSupEnt_1(),
+			mean_horizontal_support_0: tirpObject.getMeanHorSup_0(),
+			mean_horizontal_support_1: tirpObject.getMeanHorSup_1(),
+			vertical_support_0: tirpObject.getVericalSup_0(),
+			vertical_support_1: tirpObject.getVericalSup_1(),
+			mean_duration_0: tirpObject.getMeanDur_0(),
+			mean_duration_1: tirpObject.getMeanDur_1(),
+			occurences_0: tirpObject.getOccurences_0(),
+			occurences_1: tirpObject.getOccurences_1(),
+			mean_of_first_interval_0: tirpObject.get_mean_of_first_interval_0(),
+			mean_of_first_interval_1: tirpObject.get_mean_of_first_interval_1(),
+			mean_offset_from_first_symbol_0: tirpObject.get_mean_offset_from_first_symbol_0(),
+			mean_offset_from_first_symbol_1: tirpObject.get_mean_offset_from_first_symbol_1(),
+			supporting_entities_properties_0: tirpObject.get_supporting_entities_properties_0(),
+			supporting_entities_properties_1: tirpObject.get_supporting_entities_properties_1(),
+		};
+	};
+	const findSymbolFromProps = () => {
+		let symbol = Object.keys(symbolsToNames.current)[0];
+		// let symbolFromProps = JSON.parse(sessionStorage['ExploreSymbol']);
+		// for (var i = 0; i < Object.keys(symbolsToNames.current).length; i++) {
+		// 	let symbol = Object.keys(symbolsToNames.current)[i];
+		// 	let name = symbolsToNames.current[symbol];
+		// 	if (name === symbolFromProps) {
+		// 		return symbol;
+		// 	}
+		// }
+		return symbol;
+	};
 
-//     const entityRawData = new Map();
+	const desirializeTIRP = (tirp) => {
+		const size = tirp['size'];
+		const symbols = tirp['symbols'];
+		const symbolsNames = tirp['symbols_names'];
+		const relations = tirp['relations'];
+		const supInstances_0 = tirp['build_supporting_instances_0'];
+		const supInstances_1 = tirp['build_supporting_instances_1'];
+		const existClass0 = tirp['exist_in_class0'];
+		const existClass1 = tirp['exist_in_class1'];
+		const numSupEnt_0 = tirp['num_supporting_entities_0'];
+		const numSupEnt_1 = tirp['num_supporting_entities_1'];
+		const meanHorSup_0 = tirp['mean_horizontal_support_0'];
+		const meanHorSup_1 = tirp['mean_horizontal_support_1'];
+		const verticalSupport_0 = tirp['vertical_support_0'];
+		const verticalSupport_1 = tirp['vertical_support_1'];
+		const meanDuration_0 = tirp['mean_duration_0'];
+		const meanDuration_1 = tirp['mean_duration_1'];
+		const occurences_0 = tirp['occurences_0'];
+		const occurences_1 = tirp['occurences_1'];
+		const mean_of_first_interval_0 = tirp['mean_of_first_interval_0'];
+		const mean_of_first_interval_1 = tirp['mean_of_first_interval_1'];
+		const mean_offset_from_first_symbol_0 = tirp['mean_offset_from_first_symbol_0'];
+		const mean_offset_from_first_symbol_1 = tirp['mean_offset_from_first_symbol_1'];
+		const supporting_entities_properties_0 = tirp['supporting_entities_properties_0'];
+		const supporting_entities_properties_1 = tirp['supporting_entities_properties_1'];
 
-//     const myMap = useRef(new Map());
+		const newTirp = new TIRP(
+			size,
+			symbols,
+			symbolsNames,
+			relations,
+			supInstances_0,
+			supInstances_1,
+			existClass0,
+			existClass1,
+			numSupEnt_0,
+			numSupEnt_1,
+			meanHorSup_0,
+			meanHorSup_1,
+			verticalSupport_0,
+			verticalSupport_1,
+			meanDuration_0,
+			meanDuration_1,
+			occurences_0,
+			occurences_1,
+			mean_of_first_interval_0,
+			mean_of_first_interval_1,
+			mean_offset_from_first_symbol_0,
+			mean_offset_from_first_symbol_1,
+			supporting_entities_properties_0,
+			supporting_entities_properties_1
+		);
 
-//     const desirializeTIRP = (entry) =>{
-//     const size = JSON.parse(entry).size;
-//     const symbols = JSON.parse(entry).symbols;
-//     const relations = JSON.parse(entry).relations;
-//     const numSupEnt = JSON.parse(entry).num_supporting_entities;
-//     const meanHorSup = JSON.parse(entry).mean_horizontal_support;
-//     const occurences = JSON.parse(entry).occurences;
-//     const newTirp = new TIRP(size,symbols,relations,numSupEnt,meanHorSup,occurences);
-//     tirpSymbolName.current[symbols]=newTirp;
-//     allTirps.current[symbols]=newTirp;
-//     return newTirp;
-//     }
+		for (var i = 0; i < symbolsNames.length; i++) {
+			symbolsToNames.current[symbols[i]] = symbolsNames[i];
+		}
+		return newTirp;
+	};
 
-//     const desirializeInterval = (interval) =>{
-//       const symbol =  JSON.parse(interval).symbol;
-//       const startTime =  JSON.parse(interval).start_time;
-//       const endTime =  JSON.parse(interval).end_time;
-//       const newInterval = new RawDataInterval(symbol,startTime,endTime);
-//       return newInterval;
-//       }
+	const compareArrays = (arr1, arr2) => {
+		// compare lengths - can save a lot of time
+		if (arr1.length !== arr2.length) return false;
 
-//   useEffect(() => {
-//     fetch('http://127.0.0.1:5000/startData')
-//   .then(response => response.json())
-//   .then(res => {
-//     for (var entry in res){
-//       let childrenArray=[];
-//       let tirp = desirializeTIRP(entry);
-//       let value = res[entry];//array of TIRP children
-//       for (var child in value){
-//           let childTIRP = desirializeTIRP(value[child]);
-//           childrenArray.push(childTIRP);
-//       }
-//       if (startsWithMap.get(tirp)===undefined){
-//       setStartMap(new Map(startsWithMap.set(tirp,childrenArray)))
-//       }
-//   }
-//   setRoot(new TIRP(0,0,[],[],0,0,[]));
-//   setStartChildren(getFirstTreeLevel());
-//   setIsStartData(true);
-// }).then(
- 
+		for (var i = 0, l = arr1.length; i < l; i++) {
+			if (arr1[i] !== arr2[i]) return false;
+		}
 
-// fetch('http://127.0.0.1:5000/endData')
-//   .then(response => response.json())
-//   .then(res => {
-//     for (var entry in res){
-//       let childrenArray=[];
-//       let tirp = desirializeTIRP(entry);
-//       let value = res[entry];//array of TIRP children
-//       for (var child in value){
-//         // saving only the next level of the tree
-//         let childTIRP = desirializeTIRP(value[child]);
-//         childrenArray.push(childTIRP);
-//         }
-//       setEndMap(new Map(endsWithMap.set(tirp,childrenArray)));
-//     }
-//       setEndChildren(getFirstEndTreelevel());
-//       setIsEndData(true);
-      
-//   }).then(
-//   fetch('http://127.0.0.1:5000/states')
-//   .then(response => response.json())
-//   .then(res => {
-//     for(var i = 0; i < Object.keys(res).length; i++) {
-//       let stringSymbol = Object.keys(res)[i];
-//       let tirpName = Object.values(res)[i];
-//       tirpSymbolName.current[stringSymbol]=tirpName;
-//       allTirps.current[stringSymbol].setName([tirpName]);
-//   }
-//   let filtered = Object.values(allTirps.current).filter((tirp)=>tirp.getSize()>1);
-//   filtered.map((tirp)=>{
-//     tirp.setName(tirp.getSymbols().map((symbol)=>{
-//       return tirpSymbolName.current[symbol]
-//     }))
-//   })
-//     setIsNames(true);
-//   }).
-// then(
-//   fetch('http://127.0.0.1:5000/rawData')
-//   .then(response => response.json())
-//   .then(res => {
-//     for(var i = 0; i < Object.keys(res).length; i++) {
-//       let entityID = JSON.parse(Object.keys(res)[i]);
-//       let symbolIntervals = Object.values(res)[i];
-//       for(var index in symbolIntervals){
-//         let rawData = desirializeInterval(symbolIntervals[index]);
-//         if (rawDataMap.get(entityID)===undefined){
-//           setRawMap(new Map(rawDataMap.set(entityID,[rawData])))
-//           }
-//         else{
-//           setRawMap(new Map(rawDataMap.set(entityID,Array.from(rawDataMap.get(entityID)).concat([rawData]))))
-//         }
-//         // if (entityRawData.get(entityID)===undefined){
-//         //   entityRawData.set(entityID,[rawData]);
-//         // }
-//         // else{
-//         //   // let arr = Array.from((rawMy.get(entityID))).push(rawData);
-//         //   // rawMy.set(entityID,arr);
-//         //   entityRawData.get(entityID).push(rawData)
-//         // }
-//         // if(myMap.current.get(entityID)===undefined){
-//         //   console.log("hi")
-//         //   myMap.current.set(entityID,[rawData]);
-//         // }
-//         // else{
-//         //   console.log("hhh")
-//         //   myMap.current.set(entityID,Array.from(myMap.current.get(entityID)).push(rawData));
-//         // }
-//       }
-//   }
-//   setRawData(true);
-//   }
-// ))))},[]);
+		return true;
+	};
 
-//   const getFirstTreeLevel = () =>{
-//     let firstTreeLevel=[];
-//     for (const[tirp,] of startsWithMap){
-//       if (tirp.getSize()===1){
-//         firstTreeLevel.push(tirp);
-//       }
-//     }
-   
-//     return firstTreeLevel;
-//   }
-  
-//   const getFirstEndTreelevel = () =>{
-//     let firstTreeLevel=[];
-//     for (const[tirp,endChildren] of endsWithMap){
-//       if (endChildren.length===0){
-//         firstTreeLevel.push(tirp);
-//       }
-//     }
-//     return firstTreeLevel;
-//   }
+	const deserializeSymbolTirps = (serializedJson) => {
+		return serializedJson;
+	};
 
-//   const getTirp = (symbols,relations)=>{
-//     for (const[tirp,] of startsWithMap){
-//       if (JSON.stringify(tirp.getSymbols())===JSON.stringify(symbols) 
-//       && JSON.stringify(tirp.getRelations())===JSON.stringify(relations)){
-//         return tirp
-//       }
-//     }
-//   }
+	const dserializeTirpsJson = (tirpsJsonData) => {
+		Object.entries(tirpsJsonData).forEach(([tirpName, tirpJson]) =>{
+			let symbols = tirpJson['symbols'];
+			let symbolsNames = tirpJson['symbols_names'];
+			symbols.forEach((symbol, index)=>{
+				if (!symbolsToNames.current.hasOwnProperty(symbol)) {
+					symbolsToNames.current[symbol] = symbolsNames[index];
+				}
+			})
+		})
+		return tirpsJsonData;
+	};
 
-//   const getRawData = (entityID,symbols)=>{
-//     let rawDataArr=[];
-//     let entityIntervals = rawDataMap.get(entityID.toString());
-//     for(var interval in entityIntervals){
-//         if(symbols.includes(entityIntervals[interval].getSymbol())){
-//           rawDataArr.push(entityIntervals[interval]);
-//         }
-//     }
-//     return rawDataArr;
-//   }
- 
-//   return (
-//       <div>
-//         {isStartData&&isEndData&&isNames&&isRawData?
-//         <Router>
-//             <Route path={["/","/UploadData"]} exact>
-//                 <MainMenu/>
-//                 <UploadData/>
-//             </Route>
-//             <Route path="/TreeView" exact>
-//             <MainMenu/>
-//             <TreeView 
-//                 startsWithMap={startsWithMap}
-//                 endsWithMap={endsWithMap}
-//                 root={root}
-//                 startChildren={startChildren}
-//                 endChildren={endChildren}
-//                 tirpSymbolName={allTirps.current}
-//                 />
-//             </Route>
-//             <Route path="/graphs" exact>
-//             <MainMenu/>
-//             <Graphs
-//                 getTirp={(symbols,relations)=>getTirp(symbols,relations)}
-//                 getRawData={(entityID,symbols)=>getRawData(entityID,symbols)}
-//                 />
-//             </Route>
-//         </Router>
-//         :
-//         null}
-//       </div>
-//   );
-// }
+	useEffect(() => {
+		let url = `${window.base_url}/initialize_tali`;
+		Axios.post(url, {
+			params: {
+				datasetName: sessionStorage['datasetReadyName'],
+				visualization_id: sessionStorage.getItem('visualizationId'),
+			},
+		}).then((_) => {
+			url = `${window.base_url}/tirpsJson`;
+			Axios.get(url, {
+				params: {
+					datasetName: sessionStorage['datasetReadyName'],
+					visualization_id: sessionStorage.getItem('visualizationId'),
+				},
+			}).then((tirpsJson) => {
+					let tirpsJsonData = tirpsJson.data;
+					setTirpsJson(dserializeTirpsJson(tirpsJsonData));
+					setTirpsReady(true);
+					
+					url = `${window.base_url}/get_symbol_TIRPs`;
+					Axios.get(url, {
+						params: {
+							datasetName: sessionStorage['datasetReadyName'],
+							visualization_id: sessionStorage.getItem('visualizationId'),
+						},
+					}).then((symbolsTirpsData) => {
+						let symbolsTirpsTemp = symbolsTirpsData.data;
+						setSymbolsToTirps(deserializeSymbolTirps(symbolsTirpsTemp));
 
-// export default App;
+						url = `${window.base_url}/symbols_to_names`;
+						Axios.get(url, {
+							params: {
+								datasetName: sessionStorage['datasetReadyName'],
+								visualization_id: sessionStorage.getItem('visualizationId'),
+							},
+						}).then((symbolsNames) => {
+								let symbolsToNamesJson = symbolsNames.data;
+								symbolsToNames.current = symbolsToNamesJson
+								setReadyToExplore(true)
+							})
+						});
+			
+				})
+		})}, []);
+
+	return (
+		<div>
+			{tirpsReady && readyToExplore ? (
+				<ExploreTree
+					focusSymbol={Object.keys(symbolsToNames.current)[0]}
+					symbolsToNames={symbolsToNames.current}
+					symbolTirpsJson={symbolsToTirps}
+					type={"BTirps"}
+					tirpsJson={tirpsJson}
+				/>
+			) : (
+				<CircularProgress
+					style={{ color: 'purple', marginLeft: '45%', marginTop: '20%', width: 150 }}
+				/>
+			)}
+		</div>
+	);
+};
+
+export default App;
