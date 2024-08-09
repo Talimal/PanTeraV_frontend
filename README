@@ -1,1 +1,6 @@
-this is my project :)
+This is the client side for PanTeraV project.
+In order to run the client, please follow these stages:
+* Make sure you have npm installed on your PC. 
+If not, please download it in the website: https://nodejs.org/en/download/package-manager.
+* Install using npm, all the packages in the package.json file.
+* run react client side by executing the command: "npm start".
