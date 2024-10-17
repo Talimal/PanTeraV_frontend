@@ -7,7 +7,7 @@ platforms. In order to submit the system application by itself, we made a standa
 version of the PanTeraV’s server and client. Both of these can be explored and executed
 using the supplied links in this document.
 In order to execute the whole system of PanTeraV, which includes both a server side and
-a client side, please follow the instructions:
+a client side, please follow the instructions.
 
 This is the client side for PanTeraV project.
 In order to run the client, please follow these stages:
@@ -15,5 +15,15 @@ In order to run the client, please follow these stages:
 If not, please download it in the website: https://nodejs.org/en/download/package-manager.
 * Install using npm, all the packages in the package.json file.
 * run react client side by executing the command: "npm start".
+
+A few features you can explore with using PanTeraV:
+1. The table in the center shows some default event (STI) from the dataset. Under its name, it shows the metrics of the 1-sized TIRP that contains only this STI.
+You can switch this default event by changing the event in the dropdown menu on the top center of the screen (in dark blue) above the clear button in gray.
+2. On the bottom of the screen, on the right you can see the mean representation of the chosen STIs (TIRP) after averaging all the supporting entities of the pattern. On the left, you can see the distribution of all non-temporal properties of the supporting entities of the chosen pattern.
+3. After selecting a starting STI, the tables on the sides show the continuing/preceding events to the center STI (from right and left respectively). You can select a row (STI) from right or left and the interface will "set" the current explored events to the sequence <center STI, selected STI>. Accordingly, the mean presentation and the pie chart below the tables, will change.
+4. If you have selected a continuing STI (on the right), the "Next" button on the top right corner will be enabled and you could move to the right, and see all the contuniung STIs after fixing the center and the selected STI on the right. Similarly, the "Back" button on the top left corner is enabled after selecting a preceding STI.
+5. Another visualization is enabled, which presents the same STIs, only using a bubble chart. You can move to this interface clicking the "Graph" button (under the clear button on the center of the screen). Every bubble represents a TIRP. You can hover on the bubbles with the mouse and see the name of the next/previous STI. the bubbles are located accoridng to the metrics shown on the axes. You can switch the axes using the buttons under the graph.
+6. The default presentation of the bubble chart is Vertical Support (X-axis) and Mean Horizontal Support (y-axis). This way, it is relatively easy to locate the most frequent patterns (the right-most ones because the Vertical Support os the highest).
+7. This interface also allows you to select a continuing/preceding event (clicking bubbles) and move "Next" or "Back".
 
 For any further information, please contact us talimal@post.bgu.ac.il. 
