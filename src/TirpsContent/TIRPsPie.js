@@ -111,6 +111,7 @@ class TIRPsPie extends Component {
 						bold: true,
 						italic: false,
 					},
+					colors: ['#e88e33', '#26d5f0', '#071ff7', '#e746f2', '#7cf79b']
 				}}
 			/>
 		);

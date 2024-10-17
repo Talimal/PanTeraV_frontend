@@ -29,7 +29,7 @@ class TIRPTimeLine extends Component {
 		const colorsFromSymbols = () =>
 			this.symbols.map((symbol, idx) => {
 				const colorsPerSymbol = {
-					[this.props.prefixSymbol]: 'red',
+					[this.props.prefixSymbol]: '#605d70',
 					[this.props.nextSymbol]: 'green',
 					[this.props.centerSymbol]: 'rgb(44, 64, 100)',
 				};
