@@ -509,8 +509,8 @@ input {
 	border-color: rgba(0,128,0,0.14902);
 }
 .marked-tirp.suffix {
-	background-color: rgba(0,128,0,0.47451);
-	border-color: rgba(0,128,0,0.47451);
+	background-color: rgba(189, 79, 240, 0.662);
+	border-color: rgba(169, 112, 239, 0.783);
 }
 .selected-symbol-tirp {
 	border: 5px solid yellow;

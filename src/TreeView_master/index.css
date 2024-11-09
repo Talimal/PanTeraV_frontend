@@ -505,12 +505,12 @@ input {
 	border-color: rgba(0, 0, 0, 0.149);
 }
 .side-symbols-table tbody tr.suffix:hover:not(.marked-tirp) {
-	background-color: rgba(0,128,0,0.14902);
-	border-color: rgba(0,128,0,0.14902);
+	background-color: rgba(183, 129, 231, 0.489);
+	border-color: rgba(190, 129, 248, 0.475);
 }
 .marked-tirp.suffix {
-	background-color: rgba(0,128,0,0.47451);
-	border-color: rgba(0,128,0,0.47451);
+	background-color: rgb(171, 95, 237);
+	border-color: rgb(185, 117, 245);
 }
 .selected-symbol-tirp {
 	border: 5px solid yellow;
