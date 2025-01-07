@@ -46,10 +46,11 @@ const ExploreTree = (props) => {
 	const handlePrefixClicked = (symbol, tirp) => {
 		setPrefixSymbol(symbol);
 		setIsClearPrefix(false);
+		setTirp(tirp);
 		if (prevNext === '') {
-			// no pripority set yet
+			// no pripority set yet, the first prefix click
 			setPrevNext('prev'); //priority to prev
-			setPath([symbol, centerSymbol]); //prefix is clicked and center exists
+			setPath([symbol, centerSymbol]); //set symbols path given the selected prefix symbol
 			let tirpsConnectedPrefix = symbolTirpsJson.current[centerSymbol]['prefix'][symbol]; //tirps that connect center symbol and prefix symbol
 			let originalNextSymbols = symbolTirpsJson.current[centerSymbol]['next']; //when new prefix is clicked, we give everybody a chance
 			let newNextSymbols = HelperFunctions.getNextSymbolsConstrains(
@@ -65,7 +66,6 @@ const ExploreTree = (props) => {
 				tirpsConnectedPrefix
 			); //currnet path is prefixSymbol->center, so adjust the path
 			setPathTirps(newMatchTirps);
-			setTirp(tirp);
 			let centerIndex = tirp['symbols'].indexOf(centerSymbol);
 			setNextSymbol(
 				//if there is a next symbol in the TIRP that was selected then mark it, else do nothing
@@ -77,13 +77,7 @@ const ExploreTree = (props) => {
 			//PrevNext === "prev" - priority to prev
 			let oldPath = path;
 			let centerIndexPath = oldPath.indexOf(centerSymbol);
-			if (centerIndexPath === 0) {
-				//if the center symbol used to be the first in the path, add the clicked symbol before it
-				oldPath = [symbol].concat(oldPath);
-			} else {
-				//just replace the old prefix symbol with the current clicked one
-				oldPath[centerIndexPath - 1] = symbol;
-			}
+			oldPath[centerIndexPath - 1] = symbol; // must be centerIndexPath - 1 because prevNext === 'prev'
 			setPath(oldPath);
 			let tirpsConnectedPrefix = symbolTirpsJson.current[centerSymbol]['prefix'][symbol]; //tirps that connect center symbol and prefix symbol
 			let newMatchTirps = HelperFunctions.getPathTirps(oldPath, tirpsConnectedPrefix);
@@ -94,13 +88,13 @@ const ExploreTree = (props) => {
 				true
 			);
 			setNextSymbols(newNextSymbols); //set next symbols that come after the clicked symbol and center symbol only
-			setTirp(tirp);
 			let centerIndex = tirp['symbols'].indexOf(centerSymbol);
 			setNextSymbol(
 				centerIndex === tirp['symbols'].length - 1 ? null : tirp['symbols'][centerIndex + 1]
 			);
 			setIsClearNext(centerIndex === tirp['symbols'].length - 1 ? true : false);
-		} else {
+		} else {//prevNext === 'next' (priority)
+			let centerIndex = tirp['symbols'].indexOf(centerSymbol);
 			let oldPath = path;
 			let centerIndexPath = oldPath.indexOf(centerSymbol);
 			if (centerIndexPath === 0) {
@@ -111,6 +105,7 @@ const ExploreTree = (props) => {
 				oldPath[centerIndexPath - 1] = symbol;
 			}
 			setPath(oldPath);
+
 			let tirpsConnectedPrefix = symbolTirpsJson.current[centerSymbol]['prefix'][symbol]; //tirps that connect center symbol and prefix symbol
 			let newMatchTirps = HelperFunctions.getPathTirps(oldPath, tirpsConnectedPrefix);
 			setPathTirps(newMatchTirps); //setting the new TIRPS according to the symbol that was pressed
@@ -120,8 +115,6 @@ const ExploreTree = (props) => {
 				true
 			);
 			setNextSymbols(newNextSymbols); //set next symbols that come after the clicked symbol and center symbol only
-			setTirp(tirp);
-			let centerIndex = tirp['symbols'].indexOf(centerSymbol);
 			setNextSymbol(
 				centerIndex === tirp['symbols'].length - 1 ? null : tirp['symbols'][centerIndex + 1]
 			);
@@ -134,6 +127,7 @@ const ExploreTree = (props) => {
 	const handleNextClicked = (symbol, tirp) => {
 		setNextSymbol(symbol);
 		setIsClearNext(false);
+		setTirp(tirp);
 		if (prevNext === '') {
 			setPrevNext('next'); //priority to next
 			setPath([centerSymbol, symbol]); // the current path is the symbol in the center and the one on the right that was just clicked
@@ -151,18 +145,13 @@ const ExploreTree = (props) => {
 				tirpsConnectedNext
 			);
 			setPathTirps(newMatchTirps);//setting all possible additional tirps to explore afterwards
-			setTirp(tirp);
 			let centerIndex = tirp['symbols'].indexOf(centerSymbol);
 			setPrefixSymbol(centerIndex === 0 ? null : tirp['symbols'][centerIndex - 1]);
 			setIsClearPrefix(centerIndex === 0 ? true : false);
 		} else if (prevNext === 'next') {//if the priority was next, and a new next symbol pressed just replace the symbol in the path instead of the current next
 			let oldPath = path;
 			let centerIndexPath = oldPath.indexOf(centerSymbol);
-			if (centerIndexPath === oldPath.length - 1) {
-				oldPath = oldPath.concat([symbol]);
-			} else {
-				oldPath[centerIndexPath + 1] = symbol;
-			}
+			oldPath[centerIndexPath + 1] = symbol; // must be centerIndexPath + 1 because prevNext === 'next'
 			setPath(oldPath);
 			let tirpsConnectedNext = symbolTirpsJson.current[centerSymbol]['next'][symbol];
 			let newMatchTirps = HelperFunctions.getPathTirps(oldPath, tirpsConnectedNext);//update new tirps according to the new pressed symbol
@@ -173,11 +162,10 @@ const ExploreTree = (props) => {
 				false
 			);
 			setPrefixSymbols(newPrefixSymbols);
-			setTirp(tirp);
 			let centerIndex = tirp['symbols'].indexOf(centerSymbol);
 			setPrefixSymbol(centerIndex === 0 ? null : tirp['symbols'][centerIndex - 1]);
 			setIsClearPrefix(centerIndex === 0 ? true : false);
-		} else {
+		} else { // prevNext = prev (priority to prefix)
 			let centerIndex = tirp['symbols'].indexOf(centerSymbol);
 			let oldPath = path;
 			let centerIndexPath = oldPath.indexOf(centerSymbol);
@@ -189,21 +177,32 @@ const ExploreTree = (props) => {
 				oldPath[centerIndexPath + 1] = symbol;
 			}
 			setPath(oldPath);
-			let tirpsConnectedNext = symbolTirpsJson.current[centerSymbol]['next'][symbol]; // new next tirps
-			let originalPrefixSymbols = symbolTirpsJson.current[centerSymbol]['prefix'];
-			let newPrefixSymbols = HelperFunctions.getPrefixSymbolsConstrains(
-				symbol,
+			
+			// let tirpsConnectedNext = symbolTirpsJson.current[centerSymbol]['next'][symbol]; // new next tirps
+			// let originalPrefixSymbols = symbolTirpsJson.current[centerSymbol]['prefix'];
+			// let newPrefixSymbols = HelperFunctions.getPrefixSymbolsConstrains(
+			// 	symbol,
+			// 	centerSymbol,
+			// 	tirpsConnectedNext,
+			// 	originalPrefixSymbols
+			// );//calculating new prefix tirps according to the center symbol, the previous ones and the selected symbol
+			// setPrefixSymbols(newPrefixSymbols);
+			// let newMatchTirps = HelperFunctions.getPathTirps(
+			// 	[...oldPath, symbol],
+			// 	tirpsConnectedNext
+			// );
+			// setPathTirps(newMatchTirps);//setting all possible additional tirps to explore afterwards
+			
+			let tirpsConnectedNext = symbolTirpsJson.current[centerSymbol]['next'][symbol];
+			let newMatchTirps = HelperFunctions.getPathTirps(oldPath, tirpsConnectedNext);//update new tirps according to the new pressed symbol
+			setPathTirps(newMatchTirps);
+			let newPrefixSymbols = HelperFunctions.getSymbolsFromTirps(
+				newMatchTirps,
 				centerSymbol,
-				tirpsConnectedNext,
-				originalPrefixSymbols
-			);//calculating new prefix tirps according to the center symbol, the previous ones and the selected symbol
-			setPrefixSymbols(newPrefixSymbols);
-			let newMatchTirps = HelperFunctions.getPathTirps(
-				[prefixSymbol, centerSymbol, symbol],
-				tirpsConnectedNext
+				false
 			);
-			setPathTirps(newMatchTirps);//setting all possible additional tirps to explore afterwards
-			setTirp(tirp);
+			setPrefixSymbols(newPrefixSymbols);
+
 			setPrefixSymbol(centerIndex === 0 ? null : tirp['symbols'][centerIndex - 1]);
 			setIsClearPrefix(centerIndex === 0 ? true : false);
 			setNextSymbol(symbol);
