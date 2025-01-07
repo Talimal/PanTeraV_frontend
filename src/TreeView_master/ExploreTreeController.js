@@ -101,7 +101,31 @@ const ExploreTree = (props) => {
 			);
 			setIsClearNext(centerIndex === tirp['symbols'].length - 1 ? true : false);
 		} else {
+			let oldPath = path;
+			let centerIndexPath = oldPath.indexOf(centerSymbol);
+			if (centerIndexPath === 0) {
+				//if the center symbol used to be the first in the path, add the clicked symbol before it
+				oldPath = [symbol].concat(oldPath);
+			} else {
+				//just replace the old prefix symbol with the current clicked one
+				oldPath[centerIndexPath - 1] = symbol;
+			}
+			setPath(oldPath);
+			let tirpsConnectedPrefix = symbolTirpsJson.current[centerSymbol]['prefix'][symbol]; //tirps that connect center symbol and prefix symbol
+			let newMatchTirps = HelperFunctions.getPathTirps(oldPath, tirpsConnectedPrefix);
+			setPathTirps(newMatchTirps); //setting the new TIRPS according to the symbol that was pressed
+			let newNextSymbols = HelperFunctions.getSymbolsFromTirps(
+				newMatchTirps,
+				centerSymbol,
+				true
+			);
+			setNextSymbols(newNextSymbols); //set next symbols that come after the clicked symbol and center symbol only
 			setTirp(tirp);
+			let centerIndex = tirp['symbols'].indexOf(centerSymbol);
+			setNextSymbol(
+				centerIndex === tirp['symbols'].length - 1 ? null : tirp['symbols'][centerIndex + 1]
+			);
+			setIsClearNext(centerIndex === tirp['symbols'].length - 1 ? true : false);
 			setPrefixSymbol(symbol);
 		}
 	};
@@ -154,7 +178,34 @@ const ExploreTree = (props) => {
 			setPrefixSymbol(centerIndex === 0 ? null : tirp['symbols'][centerIndex - 1]);
 			setIsClearPrefix(centerIndex === 0 ? true : false);
 		} else {
+			let centerIndex = tirp['symbols'].indexOf(centerSymbol);
+			let oldPath = path;
+			let centerIndexPath = oldPath.indexOf(centerSymbol);
+			if (centerIndexPath === oldPath.length) {
+				//if the center symbol used to be the first in the path, add the clicked symbol before it
+				oldPath = oldPath.concat(symbol);
+			} else {
+				//just replace the old prefix symbol with the current clicked one
+				oldPath[centerIndexPath + 1] = symbol;
+			}
+			setPath(oldPath);
+			let tirpsConnectedNext = symbolTirpsJson.current[centerSymbol]['next'][symbol]; // new next tirps
+			let originalPrefixSymbols = symbolTirpsJson.current[centerSymbol]['prefix'];
+			let newPrefixSymbols = HelperFunctions.getPrefixSymbolsConstrains(
+				symbol,
+				centerSymbol,
+				tirpsConnectedNext,
+				originalPrefixSymbols
+			);//calculating new prefix tirps according to the center symbol, the previous ones and the selected symbol
+			setPrefixSymbols(newPrefixSymbols);
+			let newMatchTirps = HelperFunctions.getPathTirps(
+				[prefixSymbol, centerSymbol, symbol],
+				tirpsConnectedNext
+			);
+			setPathTirps(newMatchTirps);//setting all possible additional tirps to explore afterwards
 			setTirp(tirp);
+			setPrefixSymbol(centerIndex === 0 ? null : tirp['symbols'][centerIndex - 1]);
+			setIsClearPrefix(centerIndex === 0 ? true : false);
 			setNextSymbol(symbol);
 		}
 	};
