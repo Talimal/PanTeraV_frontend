@@ -62,7 +62,7 @@ const CenterSymbol = (props) => {
 				<CenterRow
 					title={'vs0'}
 					titleToShow={isPredictive ? 'V.S 0' : 'V.S'}
-					value={`${props.tirp['vertical_support_0'].toFixed(1)}%`}
+					value={`${(props.tirp['vertical_support_0']).toFixed(1)}%`}
 				/>
 				<CenterRow
 					title={'vs1'}
@@ -95,7 +95,7 @@ const CenterSymbol = (props) => {
 				<CenterRow
 					title={'entities0'}
 					titleToShow={isPredictive ? 'Entities 0' : 'Entities'}
-					value={Math.round(props.tirp['num_supporting_entities_0'])}
+					value={Math.round(Number(props.tirp['num_supporting_entities_0']))}
 				/>
 				<CenterRow
 					title={'entities1'}

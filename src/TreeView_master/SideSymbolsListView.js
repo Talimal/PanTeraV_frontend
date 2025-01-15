@@ -26,7 +26,6 @@ const SideSymbolsListView = ({
 	setSameSymbol
 }) => {
 	const isPredictive = type === '"BPTirps"';
-
 	const borderStyle =
 		(prevNext === 'prev' && isPrefix) || (prevNext === 'next' && isPrefix === false)
 			? '1px solid black'

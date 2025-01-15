@@ -11,7 +11,7 @@ const SideSymbolsListController = (props) => {
 	const [sameSymbol, setSameSymbol] = useState(true);
 
 	const [symbolFilter, setSymbolFilter] = useState('');
-
+	
 	let updatedSymbolList = props.symbolTirpsList;
 	if (props.mode === 2) {
 		updatedSymbolList = HelperFunctions.updateFinishedBy(
@@ -66,16 +66,19 @@ const SideSymbolsListController = (props) => {
 	const allTirps = HelperFunctions.castSymbolTirpsToTirpsArr(symbolTirpsList);
 	const filteredTirps = filterTirpsByName(allTirps, symbolFilter);
 	const cleanedTirps = filteredTirps.map((tirp) => {
-		const vs0 = tirp['vertical_support_0'];
 		const vs1 = tirp['vertical_support_1'];
-		const numEntities0 = 300;
+		let num_entities_0 = 0
+		for(let i=0; i<tirp['supporting_entities_properties_0']['Age Range'].length; i++){
+			num_entities_0 += Object.values(tirp['supporting_entities_properties_0']['Age Range'][i])[0];
+		}
+		const numEntities0 = Number(tirp['num_supporting_entities_0']);
 		const numEntities1 = localStorage.getItem('num_of_entities_class_1');
 		return {
 			...tirp,
 			score: HelperFunctions.TIRPScore(tirp, numEntities0, numEntities1),
-			vertical_support_0: (vs0 / numEntities0) * 100,
+			vertical_support_0: numEntities0 / 300 * 100,
 			vertical_support_1: (vs1 / numEntities1) * 100,
-			num_supporting_entities_0: vs0,
+			num_supporting_entities_0: numEntities0,
 			num_supporting_entities_1: vs1,
 			symbol: props.symbolToNames[tirp['connectedSymbol']],
 			relation: HelperFunctions.getIndexOfRelation(props.isPrefix, tirp, props.centerSymbol),
