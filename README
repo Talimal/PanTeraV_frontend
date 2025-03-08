@@ -13,8 +13,20 @@ This is the client side for PanTeraV project.
 In order to run the client, please follow these stages:
 * Make sure you have npm installed on your PC. 
 If not, please download it in the website: https://nodejs.org/en/download/package-manager.
-* Install using npm, all the packages in the package.json file.
-* run react client side by executing the command: "npm start".
+* Install using npm, all the packages in the package.json file.  
+You can install the packages using the command - "npm -i package.json"
+* run react client side by executing the command: "npm start" (from the same directory where package.json is).
+
+Before experiencing with the system, here is an explanation regarding all the files in the project:
+* src - a folder that contains all the code for PanTeraV's client side.  
+App.js is the main file, that connects to the backend and requests for data to present.  
+Then, all the TreeView screen (where the TIRPs and STIs are presented) is controlled by ExploreTreeController.  
+* TreeView_master is the main folder, that controls the transitions between TIRPs, branches in the enumeration tree and STIs visualizations.  
+* Every .js file is another component, of the main exploration screen, the majority of them are visualization components, like graphs, and custom visual views.  
+* TIRPsContent is a folder that contains small components, related to TIRPs presentation.  
+* DataStructures is a small folder, with a representation for RelationVector (temporal relations between every pair of STIs in a TIRP) and the TIRP structure.  
+* ServiceWorker.js defines the communication with the server's side.  
+
 
 A few features you can explore with using PanTeraV:
 1. The table in the center shows some default event (STI) from the dataset. Under its name, it shows the metrics of the 1-sized TIRP that contains only this STI.
