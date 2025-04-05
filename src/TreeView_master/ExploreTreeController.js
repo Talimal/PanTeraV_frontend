@@ -437,7 +437,7 @@ const ExploreTree = (props) => {
 		// });
 	};
 
-	const numEntities0 = 300;
+	const numEntities0 = 2038;
 	const numEntities1 = localStorage.getItem('num_of_entities_class_1');
 	const vs0 = originalTIRP['vertical_support_0'];
 	const vs1 = originalTIRP['vertical_support_1'];

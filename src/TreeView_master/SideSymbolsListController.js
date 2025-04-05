@@ -68,15 +68,17 @@ const SideSymbolsListController = (props) => {
 	const cleanedTirps = filteredTirps.map((tirp) => {
 		const vs1 = tirp['vertical_support_1'];
 		let num_entities_0 = 0
-		for(let i=0; i<tirp['supporting_entities_properties_0']['Age Range'].length; i++){
-			num_entities_0 += Object.values(tirp['supporting_entities_properties_0']['Age Range'][i])[0];
+		for(let i=0; i<tirp['supporting_entities_properties_0']['age_group'].length; i++){
+			num_entities_0 += Object.values(tirp['supporting_entities_properties_0']['age_group'][i])[0];
 		}
 		const numEntities0 = Number(tirp['num_supporting_entities_0']);
 		const numEntities1 = localStorage.getItem('num_of_entities_class_1');
 		return {
 			...tirp,
 			score: HelperFunctions.TIRPScore(tirp, numEntities0, numEntities1),
-			vertical_support_0: numEntities0 / 300 * 100,
+			// 300 entities = Falls, 2038 Diabetes
+			// vertical_support_0: numEntities0 / 300 * 100,
+			vertical_support_0: numEntities0 / 2038 * 100,
 			vertical_support_1: (vs1 / numEntities1) * 100,
 			num_supporting_entities_0: numEntities0,
 			num_supporting_entities_1: vs1,
